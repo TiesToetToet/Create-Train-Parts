@@ -41,12 +41,7 @@ public class CreateTrainPartsPonderPlugin implements PonderPlugin {
 //        helper.registerSharedText("behaviour_modify_value_panel", "This behaviour can be modified using the value panel");
 //        helper.registerSharedText("storage_on_contraption", "Inventories attached to the Contraption will pick up their drops automatically");
 //    }
-
-    @Override
-    public void onPonderLevelRestore(PonderLevel ponderLevel) {
-        PonderWorldBlockEntityFix.fixControllerBlockEntities(ponderLevel);
-    }
-
+//
 //    @Override
 //    public void indexExclusions(IndexExclusionHelper helper) {
 //        helper.excludeBlockVariants(ValveHandleBlock.class, AllBlocks.COPPER_VALVE_HANDLE.get());
