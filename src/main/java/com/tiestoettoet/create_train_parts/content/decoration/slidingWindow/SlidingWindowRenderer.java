@@ -104,7 +104,8 @@ public class SlidingWindowRenderer  extends SafeBlockEntityRenderer<SlidingWindo
             CTSpriteShiftEntry spriteShift = null;
             String type = "";
 
-            if (blockTexturePath == "glass_sliding_window") {
+            // use .equals() instead of == for string comparisons
+            if (blockTexturePath.equals("glass_sliding_window")) {
                 spriteShift = AllSpriteShifts.FRAMED_GLASS;
                 type = "glass";
             } else if (blockTexturePath.contains("andesite_sliding_window")) {
@@ -215,6 +216,8 @@ public class SlidingWindowRenderer  extends SafeBlockEntityRenderer<SlidingWindo
             PartialModel back = AllPartialModels.SLIDING_WINDOW_BACK.get(resourceLocationBack);
 //            System.out.println("Main model: " + resourceLocationMain);
 
+            // prevent crash if main is still null.
+            if (main == null) return;
             SuperByteBuffer partial_main = CachedBuffers.partial(main, blockState);
             SuperByteBuffer partial_up = CachedBuffers.partial(upModel, blockState);
             SuperByteBuffer partial_right = CachedBuffers.partial(rightModel, blockState);

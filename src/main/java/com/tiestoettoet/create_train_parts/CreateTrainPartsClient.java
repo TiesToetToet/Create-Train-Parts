@@ -59,6 +59,8 @@ public class CreateTrainPartsClient {
         modEventBus.addListener(CreateTrainPartsClient::clientInit);
 
         AllInstanceTypes.init();
+        // Initialize the partial models here so they are registered before the model baking phase.
+        AllPartialModels.init();
 
 //        AllCreateTrainPartsPonderScenes.register();
 
@@ -70,7 +72,6 @@ public class CreateTrainPartsClient {
         SuperByteBufferCache.getInstance().registerCompartment(CachedBuffers.PARTIAL);
 
         System.out.println("Create Train Parts Client Init");
-        AllPartialModels.init();
         PonderIndex.addPlugin(new CreateTrainPartsPonderPlugin());
     }
 }
