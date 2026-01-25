@@ -5,13 +5,16 @@ import com.simibubi.create.content.contraptions.Contraption;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import com.simibubi.create.content.contraptions.elevator.ElevatorColumn;
 import com.simibubi.create.content.contraptions.elevator.ElevatorContraption;
+import com.simibubi.create.content.contraptions.render.ContraptionMatrices;
 import com.simibubi.create.content.decoration.slidingDoor.DoorControl;
 import com.simibubi.create.content.decoration.slidingDoor.DoorControlBehaviour;
 import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import com.simibubi.create.content.trains.station.GlobalStation;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.simibubi.create.foundation.virtualWorld.VirtualRenderWorld;
 import net.createmod.catnip.animation.LerpedFloat;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
@@ -25,6 +28,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
@@ -34,8 +39,14 @@ import static net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING;
 public class SlidingWindowMovementBehaviour implements MovementBehaviour {
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
 
+    static class SlidingWindowAnimationData {
+        LerpedFloat animation = LerpedFloat.linear();
+    }
+
     @Override
-    public boolean mustTickWhileDisabled() { return true; }
+    public boolean mustTickWhileDisabled() {
+        return true;
+    }
 
     @Override
     public void tick(MovementContext context) {
@@ -49,15 +60,19 @@ public class SlidingWindowMovementBehaviour implements MovementBehaviour {
         if (!context.world.isClientSide())
             tickOpen(context, open);
 
-        Map<BlockPos, BlockEntity> tes = context.contraption.presentBlockEntities;
-        if (!(tes.get(context.localPos) instanceof SlidingWindowBlockEntity swbe)) {
-            return;
-        }
-        boolean wasSettled = swbe.animation.settled();
-        swbe.animation.chase(open ? 1 : 0, .15f, LerpedFloat.Chaser.LINEAR);
-        swbe.animation.tickChaser();
 
-        if (!wasSettled && swbe.animation.settled() && !open) {
+        SlidingWindowAnimationData swad;
+        if(!(context.temporaryData instanceof SlidingWindowAnimationData)) {
+            context.temporaryData = swad =  new SlidingWindowAnimationData();
+        } else {
+            swad = (SlidingWindowAnimationData) context.temporaryData;
+        }
+
+        boolean wasSettled = swad.animation.settled();
+        swad.animation.chase(open ? 1 : 0, .15f, LerpedFloat.Chaser.LINEAR);
+        swad.animation.tickChaser();
+
+        if (!wasSettled && swad.animation.settled() && !open) {
             context.world.playLocalSound(context.position.x, context.position.y, context.position.z,
                     SoundEvents.IRON_DOOR_CLOSE, SoundSource.BLOCKS, .125f, 1, false);
         }
@@ -109,7 +124,6 @@ public class SlidingWindowMovementBehaviour implements MovementBehaviour {
     }
 
 
-
     protected boolean shouldUpdate(MovementContext context, boolean shouldOpen) {
         if (context.firstMovement && shouldOpen)
             return false;
@@ -140,7 +154,7 @@ public class SlidingWindowMovementBehaviour implements MovementBehaviour {
             return false;
         }
 
-        if (context.temporaryData instanceof WeakReference<?> wr && wr.get()instanceof DoorControlBehaviour dcb)
+        if (context.temporaryData instanceof WeakReference<?> wr && wr.get() instanceof DoorControlBehaviour dcb)
             if (dcb.blockEntity != null && !dcb.blockEntity.isRemoved())
                 return shouldOpenAt(dcb, context);
 
@@ -217,5 +231,11 @@ public class SlidingWindowMovementBehaviour implements MovementBehaviour {
         Vec3 directionVec = Vec3.atLowerCornerOf(originalFacing.getNormal());
         directionVec = context.rotation.apply(directionVec);
         return Direction.getNearest(directionVec.x, directionVec.y, directionVec.z);
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void renderInContraption(MovementContext context, VirtualRenderWorld renderWorld, ContraptionMatrices matrices, MultiBufferSource buffer) {
+        SlidingWindowMovementBehaviourRenderer.renderInContraption(context, renderWorld, matrices, buffer);
     }
 }

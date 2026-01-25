@@ -1,8 +1,6 @@
-package com.tiestoettoet.create_train_parts.content.foundation.data;
+package com.tiestoettoet.create_train_parts.foundation.data;
 
 import com.simibubi.create.AllTags;
-import com.simibubi.create.api.behaviour.movement.MovementBehaviour;
-import com.simibubi.create.content.decoration.TrapdoorCTBehaviour;
 import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
 //import com.simibubi.create.foundation.block.connected.HorizontalCTBehaviour;
 import com.simibubi.create.foundation.data.AssetLookup;
@@ -23,17 +21,13 @@ import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSl
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepGenerator;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepMovementBehaviour;
-import com.tiestoettoet.create_train_parts.content.foundation.block.connected.HorizontalCTBehaviour;
+import com.tiestoettoet.create_train_parts.foundation.block.connected.HorizontalCTBehaviour;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.ArmExtenderBlock;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock;
 import com.tterrag.registrate.builders.BlockBuilder;
-import com.tterrag.registrate.providers.loot.RegistrateBlockLootTables;
 import com.tterrag.registrate.util.nullness.NonNullUnaryOperator;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.MapColor;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
@@ -43,7 +37,6 @@ import static com.simibubi.create.foundation.data.CreateRegistrate.casingConnect
 import static com.simibubi.create.foundation.data.CreateRegistrate.connectedTextures;
 import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
 import static com.simibubi.create.foundation.data.TagGen.axeOrPickaxe;
-import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 import static com.simibubi.create.foundation.data.TagGen.*;
 
 public class BuilderTransformers {

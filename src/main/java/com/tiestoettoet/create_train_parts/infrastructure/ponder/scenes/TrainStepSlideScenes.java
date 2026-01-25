@@ -6,7 +6,7 @@ import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSlideBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlockEntity;
-import com.tiestoettoet.create_train_parts.content.foundation.gui.AllIcons;
+import com.tiestoettoet.create_train_parts.foundation.gui.AllIcons;
 import com.tiestoettoet.create_train_parts.foundation.ponder.CreateTrainPartsSceneBuilder;
 import net.createmod.catnip.math.Pointing;
 import net.createmod.ponder.api.element.ElementLink;

@@ -1,4 +1,4 @@
-package com.tiestoettoet.create_train_parts.content.foundation.blockEntity.behaviour.scrollValue;
+package com.tiestoettoet.create_train_parts.foundation.blockEntity.behaviour.scrollValue;
 
 import java.util.List;
 import java.util.function.Function;

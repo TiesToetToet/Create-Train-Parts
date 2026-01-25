@@ -1,10 +1,8 @@
-package com.tiestoettoet.create_train_parts.content.foundation.gui;
+package com.tiestoettoet.create_train_parts.foundation.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.simibubi.create.Create;
 import com.tiestoettoet.create_train_parts.CreateTrainParts;
-import net.createmod.catnip.gui.element.DelegatedStencilElement;
 import net.createmod.catnip.gui.element.ScreenElement;
 import net.createmod.catnip.theme.Color;
 import net.minecraft.client.gui.GuiGraphics;

@@ -8,6 +8,7 @@ import com.simibubi.create.foundation.block.IHaveBigOutline;
 import com.tiestoettoet.create_train_parts.AllBlockEntityTypes;
 import com.tiestoettoet.create_train_parts.AllBlocks;
 
+import com.tiestoettoet.create_train_parts.content.decoration.slidingWindow.SlidingWindowBlockEntity;
 import com.tiestoettoet.create_train_parts.foundation.block.WrenchableHorizontalDirectionalBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.StringRepresentable;

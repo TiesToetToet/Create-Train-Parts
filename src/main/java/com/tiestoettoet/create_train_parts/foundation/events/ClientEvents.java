@@ -12,10 +12,14 @@ import net.createmod.catnip.render.SuperRenderTypeBuffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
+import com.tiestoettoet.create_train_parts.content.decoration.slidingWindow.SlidingWindowRangeDisplay;
+
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 
 @EventBusSubscriber(Dist.CLIENT)
@@ -59,6 +63,9 @@ public class ClientEvents {
         ms.popPose();
 
         ContraptionPlayerPassengerRotation.frame();
+//        ScrollOptionRenderer.tick();
+        SlidingWindowRangeDisplay.tick();
+
     }
 
     protected static boolean isGameActive() {

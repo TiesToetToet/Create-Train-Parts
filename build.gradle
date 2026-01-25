@@ -15,7 +15,7 @@ tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
 }
 
-version = "${mod_version}-${minecraft_version}"
+version = "${mod_version}-${minecraft_version}-${create_version}"
 group = mod_group_id
 
 repositories {
@@ -123,13 +123,14 @@ dependencies {
 
     implementation("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false }
 //    implementation "curse.maven:create-328085:6641610"
-    implementation("net.createmod.ponder:Ponder-NeoForge-${minecraft_version}:${ponder_version}")
+//    implementation("net.createmod.ponder:Ponder-NeoForge-${minecraft_version}:${ponder_version}")
+    implementation("net.createmod.ponder:ponder-neoforge:$ponder_version+mc$minecraft_version")
     compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${minecraft_version}:${flywheel_version}")
     runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}")
     implementation("com.tterrag.registrate:Registrate:${registrate_version}")
 
-    localRuntime "curse.maven:create-better-fps-1217518:6968199"
-    localRuntime "curse.maven:sodium-394468:6382651"
+//    localRuntime "curse.maven:create-better-fps-1217518:6968199"
+//    localRuntime "curse.maven:sodium-394468:6382651"
 
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository

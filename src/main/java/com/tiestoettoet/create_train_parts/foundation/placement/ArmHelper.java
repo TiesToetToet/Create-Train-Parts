@@ -1,4 +1,4 @@
-package com.tiestoettoet.create_train_parts.content.foundation.placement;
+package com.tiestoettoet.create_train_parts.foundation.placement;
 
 import com.simibubi.create.content.equipment.extendoGrip.ExtendoGripItem;
 import com.simibubi.create.infrastructure.config.AllConfigs;

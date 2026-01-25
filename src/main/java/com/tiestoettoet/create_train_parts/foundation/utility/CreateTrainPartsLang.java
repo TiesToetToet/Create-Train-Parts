@@ -1,4 +1,4 @@
-package com.tiestoettoet.create_train_parts.content.foundation.utility;
+package com.tiestoettoet.create_train_parts.foundation.utility;
 
 import java.util.ArrayList;
 import java.util.List;

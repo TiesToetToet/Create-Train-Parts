@@ -10,9 +10,9 @@ import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.INamedIc
 import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollOptionBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollValueBehaviour;
 import com.tiestoettoet.create_train_parts.AllBlocks;
-import com.tiestoettoet.create_train_parts.content.foundation.blockEntity.behaviour.scrollValue.BulkScrollOptionBehaviour;
-import com.tiestoettoet.create_train_parts.content.foundation.gui.AllIcons;
-import com.tiestoettoet.create_train_parts.content.foundation.utility.CreateTrainPartsLang;
+import com.tiestoettoet.create_train_parts.foundation.blockEntity.behaviour.scrollValue.BulkScrollOptionBehaviour;
+import com.tiestoettoet.create_train_parts.foundation.gui.AllIcons;
+import com.tiestoettoet.create_train_parts.foundation.utility.CreateTrainPartsLang;
 import net.createmod.catnip.animation.LerpedFloat;
 import net.createmod.catnip.data.Iterate;
 import net.createmod.catnip.lang.Lang;

@@ -15,7 +15,7 @@
         "--launchTarget",
         "forgeclientdev",
         "--version",
-        "21.1.203",
+        "21.1.206",
         "--assetIndex",
         "asset-index",
         "--assetsDir",
@@ -27,7 +27,7 @@
         "--fml.mcVersion",
         "1.21.1",
         "--fml.neoForgeVersion",
-        "21.1.203",
+        "21.1.206",
         "--fml.neoFormVersion",
         "20240808.144430"
       ],
@@ -90,7 +90,7 @@
         "--fml.mcVersion",
         "1.21.1",
         "--fml.neoForgeVersion",
-        "21.1.203",
+        "21.1.206",
         "--fml.neoFormVersion",
         "20240808.144430"
       ],
@@ -139,7 +139,7 @@
         "--fml.mcVersion",
         "1.21.1",
         "--fml.neoForgeVersion",
-        "21.1.203",
+        "21.1.206",
         "--fml.neoFormVersion",
         "20240808.144430"
       ],
@@ -185,7 +185,7 @@
         "--launchTarget",
         "forgejunitdev",
         "--version",
-        "21.1.203",
+        "21.1.206",
         "--assetIndex",
         "asset-index",
         "--assetsDir",
@@ -197,7 +197,7 @@
         "--fml.mcVersion",
         "1.21.1",
         "--fml.neoForgeVersion",
-        "21.1.203",
+        "21.1.206",
         "--fml.neoFormVersion",
         "20240808.144430"
       ],
@@ -248,7 +248,7 @@
         "--fml.mcVersion",
         "1.21.1",
         "--fml.neoForgeVersion",
-        "21.1.203",
+        "21.1.206",
         "--fml.neoFormVersion",
         "20240808.144430"
       ],

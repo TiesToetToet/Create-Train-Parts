@@ -1,4 +1,4 @@
-package com.tiestoettoet.create_train_parts.content.foundation.block.connected;
+package com.tiestoettoet.create_train_parts.foundation.block.connected;
 
 import com.simibubi.create.CreateClient;
 import com.simibubi.create.content.decoration.encasing.CasingConnectivity;

@@ -1,4 +1,4 @@
-package com.tiestoettoet.create_train_parts.content.foundation.mixin;
+package com.tiestoettoet.create_train_parts.foundation.mixin;
 
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllKeys;
@@ -11,7 +11,7 @@ import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollOp
 import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollValueBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollValueRenderer;
 import com.simibubi.create.foundation.utility.CreateLang;
-import com.tiestoettoet.create_train_parts.content.foundation.blockEntity.behaviour.scrollValue.BulkScrollOptionBehaviour;
+import com.tiestoettoet.create_train_parts.foundation.blockEntity.behaviour.scrollValue.BulkScrollOptionBehaviour;
 import net.createmod.catnip.outliner.Outliner;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -27,7 +27,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.ArrayList;
 import java.util.List;

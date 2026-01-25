@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.tiestoettoet.create_train_parts.content.foundation.mixin",
+  "package": "com.tiestoettoet.create_train_parts.foundation.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "BuilderTransformersMixin",
