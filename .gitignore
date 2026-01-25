@@ -5,7 +5,7 @@ bin
 .metadata
 .classpath
 .project
-
+.vscode
 # idea
 out
 *.ipr
