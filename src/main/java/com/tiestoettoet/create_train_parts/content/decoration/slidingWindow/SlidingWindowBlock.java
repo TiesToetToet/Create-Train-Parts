@@ -43,7 +43,8 @@ public class SlidingWindowBlock extends HorizontalDirectionalBlock
     public static final BooleanProperty POWERED = BooleanProperty.create("powered");
     public static final BooleanProperty VISIBLE = BooleanProperty.create("visible");
 
-    public static final EnumProperty<SlidingWindowBlockEntity.SelectionMode> MODE = EnumProperty.create("mode", SlidingWindowBlockEntity.SelectionMode.class);
+    public static final EnumProperty<SlidingWindowBlockEntity.SelectionMode> MODE = EnumProperty.create("mode",
+            SlidingWindowBlockEntity.SelectionMode.class);
 
     protected static final VoxelShape NORTH_OPEN_UP;
     protected static final VoxelShape NORTH_OPEN_DOWN;
@@ -80,21 +81,23 @@ public class SlidingWindowBlock extends HorizontalDirectionalBlock
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        SlidingWindowBlockEntity slidingWindowBlockEntity = (SlidingWindowBlockEntity) level.getBlockEntity(pos);
-        SlidingWindowBlockEntity.SelectionMode mode = slidingWindowBlockEntity != null
-                ? slidingWindowBlockEntity.getMode()
-                : SlidingWindowBlockEntity.SelectionMode.UP;
+        // Use MODE from blockstate directly - block entity may not exist (e.g., in
+        // contraptions)
+        SlidingWindowBlockEntity.SelectionMode mode = state.getValue(MODE);
         switch (state.getValue(FACING)) {
             case NORTH -> {
                 if (state.getValue(OPEN)) {
-                    switch(mode) {
+                    switch (mode) {
                         case UP -> {
                             return NORTH_OPEN_UP;
-                        } case DOWN -> {
+                        }
+                        case DOWN -> {
                             return NORTH_OPEN_DOWN;
-                        } case LEFT -> {
+                        }
+                        case LEFT -> {
                             return NORTH_OPEN_LEFT;
-                        } case RIGHT -> {
+                        }
+                        case RIGHT -> {
                             return NORTH_OPEN_RIGHT;
                         }
                     }
@@ -108,11 +111,14 @@ public class SlidingWindowBlock extends HorizontalDirectionalBlock
                     switch (mode) {
                         case UP -> {
                             return EAST_OPEN_UP;
-                        } case DOWN -> {
+                        }
+                        case DOWN -> {
                             return EAST_OPEN_DOWN;
-                        } case LEFT -> {
+                        }
+                        case LEFT -> {
                             return EAST_OPEN_LEFT;
-                        } case RIGHT -> {
+                        }
+                        case RIGHT -> {
                             return EAST_OPEN_RIGHT;
                         }
                     }
@@ -126,11 +132,14 @@ public class SlidingWindowBlock extends HorizontalDirectionalBlock
                     switch (mode) {
                         case UP -> {
                             return SOUTH_OPEN_UP;
-                        } case DOWN -> {
+                        }
+                        case DOWN -> {
                             return SOUTH_OPEN_DOWN;
-                        } case LEFT -> {
+                        }
+                        case LEFT -> {
                             return SOUTH_OPEN_LEFT;
-                        } case RIGHT -> {
+                        }
+                        case RIGHT -> {
                             return SOUTH_OPEN_RIGHT;
                         }
                     }
@@ -144,11 +153,14 @@ public class SlidingWindowBlock extends HorizontalDirectionalBlock
                     switch (mode) {
                         case UP -> {
                             return WEST_OPEN_UP;
-                        } case DOWN -> {
+                        }
+                        case DOWN -> {
                             return WEST_OPEN_DOWN;
-                        } case LEFT -> {
+                        }
+                        case LEFT -> {
                             return WEST_OPEN_LEFT;
-                        } case RIGHT -> {
+                        }
+                        case RIGHT -> {
                             return WEST_OPEN_RIGHT;
                         }
                     }
@@ -246,14 +258,14 @@ public class SlidingWindowBlock extends HorizontalDirectionalBlock
 
     public void toggle(BlockState state, Level level, BlockPos pos, @Nullable Player player,
             Boolean open, int flags) {
-//        state = state.cycle(OPEN);
-//        // level.setBlock(pos, blockstate, 2);
-//        if (open == null)
-//            open = state.cycle(OPEN).getValue(OPEN);
-//        // if (!open)
-//        // state = state.setValue(VISIBLE, true);
-//        Direction facing = state.getValue(FACING);
-//        BlockEntity blockEntity = level.getBlockEntity(pos);
+        // state = state.cycle(OPEN);
+        // // level.setBlock(pos, blockstate, 2);
+        // if (open == null)
+        // open = state.cycle(OPEN).getValue(OPEN);
+        // // if (!open)
+        // // state = state.setValue(VISIBLE, true);
+        // Direction facing = state.getValue(FACING);
+        // BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if (open == null) {
             open = !state.getValue(OPEN);
@@ -267,60 +279,80 @@ public class SlidingWindowBlock extends HorizontalDirectionalBlock
         level.setBlock(pos, state, flags);
         level.gameEvent(player, open ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
 
-//        SlidingWindowBlockEntity.SelectionMode mode = blockEntity instanceof SlidingWindowBlockEntity
-//                ? ((SlidingWindowBlockEntity) blockEntity).getMode() : SlidingWindowBlockEntity.SelectionMode.UP;
-//        if (mode == SlidingWindowBlockEntity.SelectionMode.UP || mode == SlidingWindowBlockEntity.SelectionMode.DOWN) {
-//            BlockState otherWindowLeftState = null;
-//            BlockState otherWindowRightState = null;
-//            BlockPos otherWindowLeft = null;
-//            BlockPos otherWindowRight = null;
-//
-//            // System.out.println("Toggle called with state: " + state + ", pos: " + pos +
-//            // ", player: " + player
-//            // + ", ignore: " + ignore + ", open: " + open + ", flags: " + flags);
-//            otherWindowLeftState = (BlockState) getNeighbors(level, pos).get("left").get("state");
-//            otherWindowRightState = (BlockState) getNeighbors(level, pos).get("right").get("state");
-//
-//            if (otherWindowLeftState.getBlock() instanceof SlidingWindowBlock
-//                    && otherWindowLeftState.getValue(FACING) == facing
-//                    && !ignore.equals("left") && mode == otherWindowLeftState.getValue(MODE)) {
-//                otherWindowLeftState = otherWindowLeftState.setValue(OPEN, open).setValue(POWERED, state.getValue(POWERED));
-//                otherWindowLeft = (BlockPos) getNeighbors(level, pos).get("left").get("pos");
-//                toggle(otherWindowLeftState, level, otherWindowLeft, player, "right", open, flags);
-//            }
-//            if (otherWindowRightState.getBlock() instanceof SlidingWindowBlock
-//                    && otherWindowRightState.getValue(FACING) == facing && !ignore.equals("right") && mode == otherWindowRightState.getValue(MODE)) {
-//                otherWindowRightState = otherWindowRightState.setValue(OPEN, open).setValue(POWERED,
-//                        state.getValue(POWERED));
-//                otherWindowRight = (BlockPos) getNeighbors(level, pos).get("right").get("pos");
-//                toggle(otherWindowRightState, level, otherWindowRight, player, "left", open, flags);
-//            }
-//        } else if (mode == SlidingWindowBlockEntity.SelectionMode.LEFT
-//                || mode == SlidingWindowBlockEntity.SelectionMode.RIGHT) {
-//            BlockState otherWindowUpState = null;
-//            BlockState otherWindowDownState = null;
-//            BlockPos otherWindowUp = null;
-//            BlockPos otherWindowDown = null;
-//            // System.out.println("Toggle called with state: " + state + ", pos: " + pos +
-//            // ", player: " + player
-//            // + ", ignore: " + ignore + ", open: " + open + ", flags: " + flags);
-//            otherWindowUpState = (BlockState) getNeighbors(level, pos).get("up").get("state");
-//            otherWindowDownState = (BlockState) getNeighbors(level, pos).get("down").get("state");
-//            if (otherWindowUpState.getBlock() instanceof SlidingWindowBlock
-//                    && otherWindowUpState.getValue(FACING) == facing
-//                    && !ignore.equals("up") && mode == otherWindowUpState.getValue(MODE)) {
-//                otherWindowUpState = otherWindowUpState.setValue(OPEN, open).setValue(POWERED, state.getValue(POWERED));
-//                otherWindowUp = (BlockPos) getNeighbors(level, pos).get("up").get("pos");
-//                toggle(otherWindowUpState, level, otherWindowUp, player, "down", open, flags);
-//            }
-//            if (otherWindowDownState.getBlock() instanceof SlidingWindowBlock
-//                    && otherWindowDownState.getValue(FACING) == facing && !ignore.equals("down") && mode == otherWindowDownState.getValue(MODE)) {
-//                otherWindowDownState = otherWindowDownState.setValue(OPEN, open).setValue(POWERED,
-//                        state.getValue(POWERED));
-//                otherWindowDown = (BlockPos) getNeighbors(level, pos).get("down").get("pos");
-//                toggle(otherWindowDownState, level, otherWindowDown, player, "up", open, flags);
-//            }
-//        }
+        // SlidingWindowBlockEntity.SelectionMode mode = blockEntity instanceof
+        // SlidingWindowBlockEntity
+        // ? ((SlidingWindowBlockEntity) blockEntity).getMode() :
+        // SlidingWindowBlockEntity.SelectionMode.UP;
+        // if (mode == SlidingWindowBlockEntity.SelectionMode.UP || mode ==
+        // SlidingWindowBlockEntity.SelectionMode.DOWN) {
+        // BlockState otherWindowLeftState = null;
+        // BlockState otherWindowRightState = null;
+        // BlockPos otherWindowLeft = null;
+        // BlockPos otherWindowRight = null;
+        //
+        // // System.out.println("Toggle called with state: " + state + ", pos: " + pos
+        // +
+        // // ", player: " + player
+        // // + ", ignore: " + ignore + ", open: " + open + ", flags: " + flags);
+        // otherWindowLeftState = (BlockState) getNeighbors(level,
+        // pos).get("left").get("state");
+        // otherWindowRightState = (BlockState) getNeighbors(level,
+        // pos).get("right").get("state");
+        //
+        // if (otherWindowLeftState.getBlock() instanceof SlidingWindowBlock
+        // && otherWindowLeftState.getValue(FACING) == facing
+        // && !ignore.equals("left") && mode == otherWindowLeftState.getValue(MODE)) {
+        // otherWindowLeftState = otherWindowLeftState.setValue(OPEN,
+        // open).setValue(POWERED, state.getValue(POWERED));
+        // otherWindowLeft = (BlockPos) getNeighbors(level, pos).get("left").get("pos");
+        // toggle(otherWindowLeftState, level, otherWindowLeft, player, "right", open,
+        // flags);
+        // }
+        // if (otherWindowRightState.getBlock() instanceof SlidingWindowBlock
+        // && otherWindowRightState.getValue(FACING) == facing &&
+        // !ignore.equals("right") && mode == otherWindowRightState.getValue(MODE)) {
+        // otherWindowRightState = otherWindowRightState.setValue(OPEN,
+        // open).setValue(POWERED,
+        // state.getValue(POWERED));
+        // otherWindowRight = (BlockPos) getNeighbors(level,
+        // pos).get("right").get("pos");
+        // toggle(otherWindowRightState, level, otherWindowRight, player, "left", open,
+        // flags);
+        // }
+        // } else if (mode == SlidingWindowBlockEntity.SelectionMode.LEFT
+        // || mode == SlidingWindowBlockEntity.SelectionMode.RIGHT) {
+        // BlockState otherWindowUpState = null;
+        // BlockState otherWindowDownState = null;
+        // BlockPos otherWindowUp = null;
+        // BlockPos otherWindowDown = null;
+        // // System.out.println("Toggle called with state: " + state + ", pos: " + pos
+        // +
+        // // ", player: " + player
+        // // + ", ignore: " + ignore + ", open: " + open + ", flags: " + flags);
+        // otherWindowUpState = (BlockState) getNeighbors(level,
+        // pos).get("up").get("state");
+        // otherWindowDownState = (BlockState) getNeighbors(level,
+        // pos).get("down").get("state");
+        // if (otherWindowUpState.getBlock() instanceof SlidingWindowBlock
+        // && otherWindowUpState.getValue(FACING) == facing
+        // && !ignore.equals("up") && mode == otherWindowUpState.getValue(MODE)) {
+        // otherWindowUpState = otherWindowUpState.setValue(OPEN,
+        // open).setValue(POWERED, state.getValue(POWERED));
+        // otherWindowUp = (BlockPos) getNeighbors(level, pos).get("up").get("pos");
+        // toggle(otherWindowUpState, level, otherWindowUp, player, "down", open,
+        // flags);
+        // }
+        // if (otherWindowDownState.getBlock() instanceof SlidingWindowBlock
+        // && otherWindowDownState.getValue(FACING) == facing && !ignore.equals("down")
+        // && mode == otherWindowDownState.getValue(MODE)) {
+        // otherWindowDownState = otherWindowDownState.setValue(OPEN,
+        // open).setValue(POWERED,
+        // state.getValue(POWERED));
+        // otherWindowDown = (BlockPos) getNeighbors(level, pos).get("down").get("pos");
+        // toggle(otherWindowDownState, level, otherWindowDown, player, "up", open,
+        // flags);
+        // }
+        // }
 
         List<Map<String, Object>> windows = getConnectedWindows(state, level, pos, player);
         for (Map<String, Object> window : windows) {
@@ -336,12 +368,13 @@ public class SlidingWindowBlock extends HorizontalDirectionalBlock
             level.gameEvent(player, open ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, windowPos);
         }
 
-//        if (state.getValue(OPEN))
-//            state = state.setValue(VISIBLE, false);
-//        // else
-//        // state = state.setValue(VISIBLE, true);
-//        level.setBlock(pos, state, flags);
-//        level.gameEvent(player, state.getValue(OPEN) ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
+        // if (state.getValue(OPEN))
+        // state = state.setValue(VISIBLE, false);
+        // // else
+        // // state = state.setValue(VISIBLE, true);
+        // level.setBlock(pos, state, flags);
+        // level.gameEvent(player, state.getValue(OPEN) ? GameEvent.BLOCK_OPEN :
+        // GameEvent.BLOCK_CLOSE, pos);
 
     }
 
@@ -359,7 +392,8 @@ public class SlidingWindowBlock extends HorizontalDirectionalBlock
 
     }
 
-    private List<Map<String, Object>> getConnectedWindows(BlockState state, Level level, BlockPos pos, @Nullable Player player) {
+    private List<Map<String, Object>> getConnectedWindows(BlockState state, Level level, BlockPos pos,
+            @Nullable Player player) {
         Queue<BlockPos> frontier = new LinkedList<>();
         List<Map<String, Object>> connectedWindows = new ArrayList<>();
         Set<BlockPos> visited = new HashSet<>();
@@ -402,19 +436,17 @@ public class SlidingWindowBlock extends HorizontalDirectionalBlock
                     continue;
 
                 BlockState neighborState = level.getBlockState(neighborPos);
-                if (
-                    !AllBlocks.GLASS_SLIDING_WINDOW.has(neighborState) &&
-                    !AllBlocks.ANDESITE_SLIDING_WINDOW.has(neighborState) &&
-                    !AllBlocks.BRASS_SLIDING_WINDOW.has(neighborState) &&
-                    !AllBlocks.COPPER_SLIDING_WINDOW.has(neighborState) &&
-                    !AllBlocks.TRAIN_SLIDING_WINDOW.has(neighborState)
-                )
+                if (!AllBlocks.GLASS_SLIDING_WINDOW.has(neighborState) &&
+                        !AllBlocks.ANDESITE_SLIDING_WINDOW.has(neighborState) &&
+                        !AllBlocks.BRASS_SLIDING_WINDOW.has(neighborState) &&
+                        !AllBlocks.COPPER_SLIDING_WINDOW.has(neighborState) &&
+                        !AllBlocks.TRAIN_SLIDING_WINDOW.has(neighborState))
                     continue;
 
                 frontier.add(neighborPos);
             }
         }
-//        System.out.println(connectedWindows);
+        // System.out.println(connectedWindows);
         return connectedWindows;
     }
 
@@ -436,80 +468,98 @@ public class SlidingWindowBlock extends HorizontalDirectionalBlock
             shouldOpen = false; // Close if not powered
         }
 
-
         toggle(state, level, pos, null, shouldOpen, 2);
 
         // TrainSlideType type = state.getValue(TYPE);
 
-//        BlockState leftState = level.getBlockState(pos.relative(state.getValue(FACING).getCounterClockWise()));
-//        BlockState rightState = level.getBlockState(pos.relative(state.getValue(FACING).getClockWise()));
-//        BlockEntity blockEntity = level.getBlockEntity(pos);
-//        SlidingWindowBlockEntity.SelectionMode mode = blockEntity instanceof SlidingWindowBlockEntity
-//                ? ((SlidingWindowBlockEntity) blockEntity).getMode()
-//                : SlidingWindowBlockEntity.SelectionMode.UP;
-//        if (mode == SlidingWindowBlockEntity.SelectionMode.UP || mode == SlidingWindowBlockEntity.SelectionMode.DOWN) {
-//            if (blockEntity instanceof SlidingWindowBlockEntity slidingWindowBlockEntity) {
-//                Map<String, Map<String, Object>> neighborStates = getNeighbors(level, pos);
-//                @Nullable
-//                BlockState oldLeftState = (BlockState) neighborStates.get("left").get("state");
-//                @Nullable
-//                BlockState oldRightState = (BlockState) neighborStates.get("right").get("state");
-//                if ((oldLeftState != null && leftState.getBlock() != oldLeftState.getBlock())
-//                        || (oldRightState != null && rightState.getBlock() != oldRightState.getBlock())) {
-//                    // System.out.println("Neighbor changed detected: Left State: " +
-//                    // leftState.getBlock() + ", Right State: " + rightState.getBlock() + ", Old
-//                    // Left State: " + oldLeftState.getBlock() + ", Old Right State: " +
-//                    // oldRightState.getBlock());
-//                    state = getState(state, pos, level, state.getValue(FACING), "neighborChanged");
-//                    state = state.setValue(POWERED, powered)
-//                            .setValue(OPEN, open);
-//
-//                    level.setBlock(pos, state, 2);
-//
-//                } else {
-//                    level.setBlock(pos, state, 2); // Update the block state without changing OPEN or POWERED
-//                }
-//            } else {
-//                level.setBlock(pos, state, 2); // Update the block state without changing OPEN or POWERED
-//            }
-//        } else if (mode == SlidingWindowBlockEntity.SelectionMode.LEFT || mode == SlidingWindowBlockEntity.SelectionMode.RIGHT) {
-//            if (blockEntity instanceof SlidingWindowBlockEntity slidingWindowBlockEntity) {
-//                Map<String, Map<String, Object>> neighborStates = getNeighbors(level, pos);
-//                @Nullable
-//                BlockState oldUpState = (BlockState) neighborStates.get("up").get("state");
-//                @Nullable
-//                BlockState oldDownState = (BlockState) neighborStates.get("down").get("state");
-//                if ((oldUpState != null && leftState.getBlock() != oldUpState.getBlock())
-//                        || (oldDownState != null && rightState.getBlock() != oldDownState.getBlock())) {
-//                    // System.out.println("Neighbor changed detected: Left State: " +
-//                    // leftState.getBlock() + ", Right State: " + rightState.getBlock() + ", Old
-//                    // Left State: " + oldLeftState.getBlock() + ", Old Right State: " +
-//                    // oldRightState.getBlock());
-//                    state = getState(state, pos, level, state.getValue(FACING), "neighborChanged");
-//                    state = state.setValue(POWERED, powered)
-//                            .setValue(OPEN, open);
-//
-//                    level.setBlock(pos, state, 2);
-//
-//                } else {
-//                    level.setBlock(pos, state, 2); // Update the block state without changing OPEN or POWERED
-//                }
-//            }
-//        }
-//
-//        if (isPowered != powered) {
-//            state = state.setValue(POWERED, isPowered);
-//            state = state.setValue(OPEN, !isPowered);
-//            toggle(state, level, pos, null, null, !isPowered, 2);
-//        } else {
-//            level.setBlock(pos, state, 2); // Update the block state without changing OPEN or POWERED
-//        }
+        // BlockState leftState =
+        // level.getBlockState(pos.relative(state.getValue(FACING).getCounterClockWise()));
+        // BlockState rightState =
+        // level.getBlockState(pos.relative(state.getValue(FACING).getClockWise()));
+        // BlockEntity blockEntity = level.getBlockEntity(pos);
+        // SlidingWindowBlockEntity.SelectionMode mode = blockEntity instanceof
+        // SlidingWindowBlockEntity
+        // ? ((SlidingWindowBlockEntity) blockEntity).getMode()
+        // : SlidingWindowBlockEntity.SelectionMode.UP;
+        // if (mode == SlidingWindowBlockEntity.SelectionMode.UP || mode ==
+        // SlidingWindowBlockEntity.SelectionMode.DOWN) {
+        // if (blockEntity instanceof SlidingWindowBlockEntity slidingWindowBlockEntity)
+        // {
+        // Map<String, Map<String, Object>> neighborStates = getNeighbors(level, pos);
+        // @Nullable
+        // BlockState oldLeftState = (BlockState)
+        // neighborStates.get("left").get("state");
+        // @Nullable
+        // BlockState oldRightState = (BlockState)
+        // neighborStates.get("right").get("state");
+        // if ((oldLeftState != null && leftState.getBlock() != oldLeftState.getBlock())
+        // || (oldRightState != null && rightState.getBlock() !=
+        // oldRightState.getBlock())) {
+        // // System.out.println("Neighbor changed detected: Left State: " +
+        // // leftState.getBlock() + ", Right State: " + rightState.getBlock() + ", Old
+        // // Left State: " + oldLeftState.getBlock() + ", Old Right State: " +
+        // // oldRightState.getBlock());
+        // state = getState(state, pos, level, state.getValue(FACING),
+        // "neighborChanged");
+        // state = state.setValue(POWERED, powered)
+        // .setValue(OPEN, open);
+        //
+        // level.setBlock(pos, state, 2);
+        //
+        // } else {
+        // level.setBlock(pos, state, 2); // Update the block state without changing
+        // OPEN or POWERED
+        // }
+        // } else {
+        // level.setBlock(pos, state, 2); // Update the block state without changing
+        // OPEN or POWERED
+        // }
+        // } else if (mode == SlidingWindowBlockEntity.SelectionMode.LEFT || mode ==
+        // SlidingWindowBlockEntity.SelectionMode.RIGHT) {
+        // if (blockEntity instanceof SlidingWindowBlockEntity slidingWindowBlockEntity)
+        // {
+        // Map<String, Map<String, Object>> neighborStates = getNeighbors(level, pos);
+        // @Nullable
+        // BlockState oldUpState = (BlockState) neighborStates.get("up").get("state");
+        // @Nullable
+        // BlockState oldDownState = (BlockState)
+        // neighborStates.get("down").get("state");
+        // if ((oldUpState != null && leftState.getBlock() != oldUpState.getBlock())
+        // || (oldDownState != null && rightState.getBlock() !=
+        // oldDownState.getBlock())) {
+        // // System.out.println("Neighbor changed detected: Left State: " +
+        // // leftState.getBlock() + ", Right State: " + rightState.getBlock() + ", Old
+        // // Left State: " + oldLeftState.getBlock() + ", Old Right State: " +
+        // // oldRightState.getBlock());
+        // state = getState(state, pos, level, state.getValue(FACING),
+        // "neighborChanged");
+        // state = state.setValue(POWERED, powered)
+        // .setValue(OPEN, open);
+        //
+        // level.setBlock(pos, state, 2);
+        //
+        // } else {
+        // level.setBlock(pos, state, 2); // Update the block state without changing
+        // OPEN or POWERED
+        // }
+        // }
+        // }
+        //
+        // if (isPowered != powered) {
+        // state = state.setValue(POWERED, isPowered);
+        // state = state.setValue(OPEN, !isPowered);
+        // toggle(state, level, pos, null, null, !isPowered, 2);
+        // } else {
+        // level.setBlock(pos, state, 2); // Update the block state without changing
+        // OPEN or POWERED
+        // }
 
         List<Map<String, Object>> windows = getConnectedWindows(state, level, pos, null);
         for (Map<String, Object> window : windows) {
             BlockState windowState = (BlockState) window.get("state");
             BlockPos windowPos = (BlockPos) window.get("pos");
-            if (windowState.getValue(FACING) == state.getValue(FACING) && SlidingWindowBlock.sameKind(state, windowState)) {
+            if (windowState.getValue(FACING) == state.getValue(FACING)
+                    && SlidingWindowBlock.sameKind(state, windowState)) {
                 boolean windowPowered = isWindowPowered(level, windowPos, windowState);
                 if (windowPowered != windowState.getValue(POWERED)) {
                     windowState = windowState.setValue(POWERED, windowPowered);
@@ -517,14 +567,15 @@ public class SlidingWindowBlock extends HorizontalDirectionalBlock
                     level.setBlock(windowPos, windowState, 2);
                     level.gameEvent(null, !windowPowered ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, windowPos);
                 } else {
-                    level.setBlock(windowPos, windowState, 2); // Update the block state without changing OPEN or POWERED
+                    level.setBlock(windowPos, windowState, 2); // Update the block state without changing OPEN or
+                                                               // POWERED
                 }
             }
         }
 
-//        state = state.setValue(POWERED, isPowered)
-//                .setValue(OPEN, !isPowered);
-//        level.setBlock(pos, state, 2);
+        // state = state.setValue(POWERED, isPowered)
+        // .setValue(OPEN, !isPowered);
+        // level.setBlock(pos, state, 2);
 
     }
 
@@ -607,8 +658,9 @@ public class SlidingWindowBlock extends HorizontalDirectionalBlock
 
     @Override
     public boolean skipRendering(BlockState state, BlockState other, Direction side) {
-//        if (isConnected(state, other, side))
-//            System.out.println("Skipping rendering for " + state + " and " + other + " on side " + side);
+        // if (isConnected(state, other, side))
+        // System.out.println("Skipping rendering for " + state + " and " + other + " on
+        // side " + side);
         return isConnected(state, other, side);
     }
 

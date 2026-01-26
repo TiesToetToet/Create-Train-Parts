@@ -55,15 +55,14 @@ public class SlidingWindowMovementBehaviour implements MovementBehaviour {
         if (structureBlockInfo == null)
             return;
         boolean open = SlidingWindowBlockEntity.isOpen(structureBlockInfo.state());
-//        System.out.println();
+        // System.out.println();
 
         if (!context.world.isClientSide())
             tickOpen(context, open);
 
-
         SlidingWindowAnimationData swad;
-        if(!(context.temporaryData instanceof SlidingWindowAnimationData)) {
-            context.temporaryData = swad =  new SlidingWindowAnimationData();
+        if (!(context.temporaryData instanceof SlidingWindowAnimationData)) {
+            context.temporaryData = swad = new SlidingWindowAnimationData();
         } else {
             swad = (SlidingWindowAnimationData) context.temporaryData;
         }
@@ -99,7 +98,8 @@ public class SlidingWindowMovementBehaviour implements MovementBehaviour {
         BlockPos inWorldWindow = BlockPos.containing(context.position)
                 .relative(facing);
         BlockState inWorldWindowState = context.world.getBlockState(inWorldWindow);
-        if (inWorldWindowState.getBlock() instanceof SlidingWindowBlock sb && inWorldWindowState.hasProperty(SlidingWindowBlock.OPEN))
+        if (inWorldWindowState.getBlock() instanceof SlidingWindowBlock sb
+                && inWorldWindowState.hasProperty(SlidingWindowBlock.OPEN))
             if (inWorldWindowState.hasProperty(FACING) && inWorldWindowState.getOptionalValue(FACING)
                     .orElse(Direction.UP)
                     .getAxis() == facing.getAxis())
@@ -109,20 +109,20 @@ public class SlidingWindowMovementBehaviour implements MovementBehaviour {
 
     private void toggleWindow(BlockPos pos, Contraption contraption, StructureTemplate.StructureBlockInfo info) {
         BlockState newState = info.state().cycle(SlidingWindowBlock.OPEN);
-//        toggleSlideRow(info.state(), pos, null, null, null, contraption);
-//        BlockState updatedState =
+        // toggleSlideRow(info.state(), pos, null, null, null, contraption);
+        // BlockState updatedState =
         contraption.entity.setBlock(pos, new StructureTemplate.StructureBlockInfo(info.pos(), newState, info.nbt()));
-
 
         info = contraption.getBlocks()
                 .get(pos.relative(info.state().getValue(FACING)));
         if (info != null && info.state().hasProperty(SlidingWindowBlock.OPEN)) {
             newState = info.state().cycle(SlidingWindowBlock.OPEN);
-            contraption.entity.setBlock(pos.relative(info.state().getValue(FACING)), new StructureTemplate.StructureBlockInfo(info.pos(), newState, info.nbt()));
-            contraption.invalidateColliders();
+            contraption.entity.setBlock(pos.relative(info.state().getValue(FACING)),
+                    new StructureTemplate.StructureBlockInfo(info.pos(), newState, info.nbt()));
         }
+        // Always invalidate colliders when toggling window state
+        contraption.invalidateColliders();
     }
-
 
     protected boolean shouldUpdate(MovementContext context, boolean shouldOpen) {
         if (context.firstMovement && shouldOpen)
@@ -160,7 +160,6 @@ public class SlidingWindowMovementBehaviour implements MovementBehaviour {
 
         context.temporaryData = null;
         DoorControlBehaviour doorControls = null;
-
 
         if (context.contraption.entity instanceof CarriageContraptionEntity cce)
             doorControls = getTrainStationSlideControl(cce, context);
@@ -235,7 +234,8 @@ public class SlidingWindowMovementBehaviour implements MovementBehaviour {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void renderInContraption(MovementContext context, VirtualRenderWorld renderWorld, ContraptionMatrices matrices, MultiBufferSource buffer) {
+    public void renderInContraption(MovementContext context, VirtualRenderWorld renderWorld,
+            ContraptionMatrices matrices, MultiBufferSource buffer) {
         SlidingWindowMovementBehaviourRenderer.renderInContraption(context, renderWorld, matrices, buffer);
     }
 }
