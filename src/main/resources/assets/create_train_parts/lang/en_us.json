@@ -47,12 +47,12 @@
   "create_train_parts.ponder.railway_crossing.text_1": "When using Crossing Gates with Signals, you can create a safe Railway Crossing",
 
   "create_train_parts.sliding_window.mode": "Sliding Window Mode",
-  "create.window.mode.up": "Move Up",
-  "create.window.mode.down": "Move Down",
-  "create.window.mode.left": "Move Left",
-  "create.window.mode.right": "Move Right",
+  "window.mode.up": "Move Up",
+  "window.mode.down": "Move Down",
+  "window.mode.left": "Move Left",
+  "window.mode.right": "Move Right",
   "create_train_parts.train_step.mode": "Slide mode",
-  "create.step.mode.slide": "Extend Slide",
-  "create.step.mode.no_slide": "Don't Extend Slide",
+  "step.mode.slide": "Extend Slide",
+  "step.mode.no_slide": "Don't Extend Slide",
   "itemGroup.create_train_parts.base": "Create Train Parts"
 }

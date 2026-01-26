@@ -1,0 +1,58 @@
+{
+  "block.create_train_parts.train_step_andesite": "安山台阶",
+  "block.create_train_parts.train_step_brass": "黄铜台阶",
+  "block.create_train_parts.train_step_copper": "铜台阶",
+  "block.create_train_parts.train_step_train": "列车台阶",
+  "block.create_train_parts.train_slide_andesite": "安山滑动台阶",
+  "block.create_train_parts.train_slide_brass": "黄铜滑动台阶",
+  "block.create_train_parts.train_slide_copper": "铜滑动台阶",
+  "block.create_train_parts.train_slide_train": "列车滑动台阶",
+  "block.create_train_parts.glass_sliding_window": "玻璃窗户",
+  "block.create_train_parts.andesite_sliding_window": "安山窗户",
+  "block.create_train_parts.brass_sliding_window": "黄铜窗户",
+  "block.create_train_parts.copper_sliding_window": "铜窗户",
+  "block.create_train_parts.train_sliding_window": "列车窗户",
+  "block.create_train_parts.crossing": "信号横杆",
+  "block.create_train_parts.arm_extender": "扩展条",
+
+  "create_train_parts.ponder.train_assembly.header": "列车台阶与滑动台阶",
+  "create_train_parts.ponder.train_assembly.text_1": "有时，列车与站台之间的缝隙过大，导致难以进入列车",
+  "create_train_parts.ponder.train_assembly.text_2": "使用列车台阶或滑动台阶来填充列车与站台之间的缝隙",
+  "create_train_parts.ponder.train_assembly.text_3": "台阶和滑动台阶会在列车到站时自动开启",
+  "create_train_parts.ponder.train_assembly.text_4": "然后在离开车站的时候关闭",
+
+  "create_train_parts.ponder.train_steps.header": "台阶的配置",
+  "create_train_parts.ponder.train_steps.text_1": "列车台阶一般使用“扩展滑动”模式开启",
+  "create_train_parts.ponder.train_steps.text_2": "但是如果在前面有另外一个方块，会导致穿模",
+  "create_train_parts.ponder.train_steps.text_3": "为了解决这个，配置台阶的滑动模式为非扩展滑动",
+  "create_train_parts.ponder.train_steps.text_4": "按住“Ctrl”键以更改全部互相连接的列车台阶",
+
+  "create_train_parts.ponder.window_modes.header": "窗户的配置",
+  "create_train_parts.ponder.window_modes.text_1": "滑动窗户一般是向上开启的",
+  "create_train_parts.ponder.window_modes.text_2": "但是你可以配置它朝其他方向开启",
+  "create_train_parts.ponder.window_modes.text_3": "连接的窗户同时使用同一种模式时，它们会同步开启",
+  "create_train_parts.ponder.window_modes.text_4": "按住“Ctrl”键以更改全部的列车窗户",
+
+  "create_train_parts.ponder.train_behaviour.header": "窗户在火车上的行为",
+  "create_train_parts.ponder.train_behaviour.text_1": "窗户可以设置为在到达列车站时开启左侧或者右侧",
+  "create_train_parts.ponder.train_behaviour.text_2": "也可以设置为仅手动开关",
+
+  "create_train_parts.ponder.crossing.header": "信号横杆",
+  "create_train_parts.ponder.crossing.text_1": "信号横杆需要足够的应力来开启",
+  "create_train_parts.ponder.crossing.text_2": "改变旋转方向以进行开关",
+  "create_train_parts.ponder.crossing.text_3": "如果你想延长信号横杆，只需要在横杆上放下扩展条",
+
+
+  "create_train_parts.ponder.railway_crossing.header": "信号横杆在铁路上的运用",
+  "create_train_parts.ponder.railway_crossing.text_1": "当信号横杆与型号机同时使用，你可以创建一个安全的铁路道口",
+
+  "create_train_parts.sliding_window.mode": "窗户滑动模式",
+  "window.mode.up": "上移",
+  "window.mode.down": "下移",
+  "window.mode.left": "左移",
+  "window.mode.right": "右移",
+  "create_train_parts.train_step.mode": "滑动模式",
+  "step.mode.slide": "扩展滑动",
+  "step.mode.no_slide": "非扩展滑动(仅生成向下一格的台阶)",
+  "itemGroup.create_train_parts.base": "机械动力:列车零件"
+}
