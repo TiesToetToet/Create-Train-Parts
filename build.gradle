@@ -56,6 +56,13 @@ legacyForge {
     // By default, the folder name of a run configuration is the name of the Gradle project containing it.
     // generateRunFolders = true
 
+    mods {
+        create_train_parts {
+            sourceSet(sourceSets.main)
+            // modSourceSet = sourceSets.test // Optional, defaults to main. This is used to include test sources in the mod jar for testing purposes.
+        }
+    }
+
     // This property enables access transformers for use in development.
     // They will be applied to the Minecraft artifact.
     // The access transformer file can be anywhere in the project.
