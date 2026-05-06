@@ -1,0 +1,57 @@
+{
+  "block.create_train_parts.train_step_andesite": "安山岩のステップ",
+  "block.create_train_parts.train_step_brass": "真鍮のステップ",
+  "block.create_train_parts.train_step_copper": "銅のステップ",
+  "block.create_train_parts.train_step_train": "鉄道用ステップ",
+  "block.create_train_parts.train_slide_andesite": "安山岩のスライド",
+  "block.create_train_parts.train_slide_brass": "真鍮のスライド",
+  "block.create_train_parts.train_slide_copper": "銅のスライド",
+  "block.create_train_parts.train_slide_train": "鉄道用スライド",
+  "block.create_train_parts.glass_sliding_window": "ガラスの窓",
+  "block.create_train_parts.andesite_sliding_window": "安山岩の窓",
+  "block.create_train_parts.brass_sliding_window": "真鍮の窓",
+  "block.create_train_parts.copper_sliding_window": "銅の窓",
+  "block.create_train_parts.train_sliding_window": "鉄道用窓",
+  "block.create_train_parts.crossing": "踏切ゲート",
+  "block.create_train_parts.arm_extender": "アームエクステンダー",
+
+  "create_train_parts.ponder.train_assembly.header": "列車用ステップとスライド",
+  "create_train_parts.ponder.train_assembly.text_1": "ホームと列車の距離が遠いせいで乗りづらい時があるかもしれません。",
+  "create_train_parts.ponder.train_assembly.text_2": "そんなときは、ステップかスライドを使用しましょう。",
+  "create_train_parts.ponder.train_assembly.text_3": "ステップとスライドは、列車が駅に到着したときに自動的に展開されます。",
+  "create_train_parts.ponder.train_assembly.text_4": "そして、列車が駅を発射すると同時に閉じます。",
+
+  "create_train_parts.ponder.train_steps.header": "設定モード",
+  "create_train_parts.ponder.train_steps.text_1": "鉄道用ステップは通常、「スライド」が同時に展開されます",
+  "create_train_parts.ponder.train_steps.text_2": "しかし、前方にブロックがあると干渉してしまいます。",
+  "create_train_parts.ponder.train_steps.text_3": "これを解決するには、ステップのスライドを展開しないように設定してください。",
+  "create_train_parts.ponder.train_steps.text_4": "Ctrlキーを押しながら操作すると、接続されているすべての列車用ステップの設定を変更します。",
+
+  "create_train_parts.ponder.window_modes.header": "設定モード",
+  "create_train_parts.ponder.window_modes.text_1": "スライド窓は通常上方向に開きます。",
+  "create_train_parts.ponder.window_modes.text_2": "しかし、別の方向に開くように設定することもできます。",
+  "create_train_parts.ponder.window_modes.text_3": "繋がった同じモードの窓同士は同時に開きます。",
+  "create_train_parts.ponder.window_modes.text_4": "Ctrlを押しながら操作すると、すべての窓の開き方が変わります。",
+
+  "create_train_parts.ponder.train_behaviour.header": "列車での窓の動作",
+  "create_train_parts.ponder.train_behaviour.text_1": "左開きまたは右開きに設定されている窓は、駅で自動的に開きます。",
+  "create_train_parts.ponder.train_behaviour.text_2": "上開きまたは下開きに設定されている窓は、手動でのみ開けることができます。",
+
+  "create_train_parts.ponder.crossing.header": "踏切ゲート",
+  "create_train_parts.ponder.crossing.text_1": "踏切ゲートの動作には回転力が必要です。",
+  "create_train_parts.ponder.crossing.text_2": "回転方向を変えることで、動作方向を変えることができます。",
+  "create_train_parts.ponder.crossing.text_3": "踏切ゲートを伸ばしたい場合は、アームエクステンダーを使用してください。",
+
+  "create_train_parts.ponder.railway_crossing.header": "踏切ゲート",
+  "create_train_parts.ponder.railway_crossing.text_1": "信号付き踏切ゲートを使用すると、安全な鉄道踏切を作成できます。",
+
+  "create_train_parts.sliding_window.mode": "窓のスライドモード",
+  "window.mode.up": "上開き",
+  "window.mode.down": "下開き",
+  "window.mode.left": "左開き",
+  "window.mode.right": "右開き",
+  "create_train_parts.train_step.mode": "スライドモード",
+  "step.mode.slide": "スライドを展開する",
+  "step.mode.no_slide": "スライドを展開しない",
+  "itemGroup.create_train_parts.base": "Create Train Parts"
+}
