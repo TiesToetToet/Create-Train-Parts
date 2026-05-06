@@ -1,0 +1,57 @@
+{
+  "block.create_train_parts.train_step_andesite": "Андезитовые ступени",
+  "block.create_train_parts.train_step_brass": "Латунные ступени",
+  "block.create_train_parts.train_step_copper": "Медные ступени",
+  "block.create_train_parts.train_step_train": "Ступени поезда",
+  "block.create_train_parts.train_slide_andesite": "Андезитовый трап",
+  "block.create_train_parts.train_slide_brass": "Латунный трап",
+  "block.create_train_parts.train_slide_copper": "Медный трап",
+  "block.create_train_parts.train_slide_train": "Трап поезда",
+  "block.create_train_parts.glass_sliding_window": "Стеклянное сдвижное окно",
+  "block.create_train_parts.andesite_sliding_window": "Андезитовое сдвижное окно",
+  "block.create_train_parts.brass_sliding_window": "Латунное сдвижное окно",
+  "block.create_train_parts.copper_sliding_window": "Медное сдвижное окно",
+  "block.create_train_parts.train_sliding_window": "Сдвижное окно поезда",
+  "block.create_train_parts.crossing": "Железнодорожный шлагбаум",
+  "block.create_train_parts.arm_extender": "Удлинитель шлагбаума",
+
+  "create_train_parts.ponder.train_assembly.header": "Ступени и трап поезда",
+  "create_train_parts.ponder.train_assembly.text_1": "Иногда поезд останавливается слишком далеко от платформы, чтобы войти.",
+  "create_train_parts.ponder.train_assembly.text_2": "Используйте ступени или трап поезда для удобной посадки.",
+  "create_train_parts.ponder.train_assembly.text_3": "Ступени и трапы автоматически раскладываются при прибытии на станцию.",
+  "create_train_parts.ponder.train_assembly.text_4": "И складываются, когда поезд отходит от станции.",
+
+  "create_train_parts.ponder.train_steps.header": "Настройка режимов",
+  "create_train_parts.ponder.train_steps.text_1": "По умолчанию ступени поезда выдвигаются вместе с «трапом».",
+  "create_train_parts.ponder.train_steps.text_2": "Но это проблема, если спереди есть блок.",
+  "create_train_parts.ponder.train_steps.text_3": "Чтобы решить это, настройте ступени не выдвигать трап.",
+  "create_train_parts.ponder.train_steps.text_4": "Удерживайте Ctrl, чтобы изменить все соединённые ступени поезда.",
+
+  "create_train_parts.ponder.window_modes.header": "Настройка режимов",
+  "create_train_parts.ponder.window_modes.text_1": "Сдвижные окна по умолчанию открываются вверх.",
+  "create_train_parts.ponder.window_modes.text_2": "Но можно настроить открывание в другом направлении.",
+  "create_train_parts.ponder.window_modes.text_3": "Соединённые окна с одинаковым режимом будут открываться вместе.",
+  "create_train_parts.ponder.window_modes.text_4": "Удерживайте Ctrl, чтобы изменить режим у всех окон.",
+
+  "create_train_parts.ponder.train_behaviour.header": "Поведение окон в поездах",
+  "create_train_parts.ponder.train_behaviour.text_1": "Окна с режимом «влево» или «вправо» открываются на станциях автоматически.",
+  "create_train_parts.ponder.train_behaviour.text_2": "Окна с режимом «вверх» или «вниз» можно открывать только вручную.",
+
+  "create_train_parts.ponder.crossing.header": "Железнодорожный шлагбаум",
+  "create_train_parts.ponder.crossing.text_1": "Шлагбауму требуется кинетическая энергия для работы.",
+  "create_train_parts.ponder.crossing.text_2": "Измените направление привода, чтобы сменить направление движения.",
+  "create_train_parts.ponder.crossing.text_3": "Чтобы удлинить шлагбаум, установите удлинители стрелы.",
+
+  "create_train_parts.ponder.railway_crossing.header": "Железнодорожный шлагбаум",
+  "create_train_parts.ponder.railway_crossing.text_1": "Используя шлагбаумы вместе со светофорами, можно создать безопасный переезд.",
+
+  "create_train_parts.sliding_window.mode": "Режим сдвижного окна",
+  "create.window.mode.up": "Двигать вверх",
+  "create.window.mode.down": "Двигать вниз",
+  "create.window.mode.left": "Двигать влево",
+  "create.window.mode.right": "Двигать вправо",
+  "create_train_parts.train_step.mode": "Режим ступеней",
+  "create.step.mode.slide": "Выдвигать трап",
+  "create.step.mode.no_slide": "Не выдвигать трап",
+  "itemGroup.create_train_parts.base": "Create: Поездные детали"
+}
