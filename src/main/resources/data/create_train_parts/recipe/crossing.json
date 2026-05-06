@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "create:andesite_casing"
+    },
+    "T": {
+      "item": "create:electron_tube"
+    },
+    "F": {
+      "tag": "minecraft:fences"
+    },
+    "S": {
+      "item": "create:iron_sheet"
+    }
+  },
+  "pattern": ["TC ", "TCF", " S "],
+  "result": {
+    "id": "create_train_parts:crossing",
+    "count": 1
+  }
+}

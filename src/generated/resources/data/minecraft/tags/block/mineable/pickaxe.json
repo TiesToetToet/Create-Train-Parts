@@ -1,0 +1,17 @@
+{
+  "values": [
+    "create_train_parts:train_step_andesite",
+    "create_train_parts:train_step_brass",
+    "create_train_parts:train_step_copper",
+    "create_train_parts:train_step_train",
+    "create_train_parts:train_slide_andesite",
+    "create_train_parts:train_slide_brass",
+    "create_train_parts:train_slide_copper",
+    "create_train_parts:train_slide_train",
+    "create_train_parts:andesite_sliding_window",
+    "create_train_parts:brass_sliding_window",
+    "create_train_parts:copper_sliding_window",
+    "create_train_parts:train_sliding_window",
+    "create_train_parts:glass_sliding_window"
+  ]
+}

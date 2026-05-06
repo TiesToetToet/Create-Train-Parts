@@ -1,0 +1,151 @@
+{
+    "credit": "Made with Blockbench",
+    "textures": {
+        "0": "create:block/brass_casing",
+        "particle": "create:block/brass_casing"
+    },
+    "elements": [
+        {
+            "from": [
+                0,
+                0,
+                15
+            ],
+            "to": [
+                16,
+                16,
+                16
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    1,
+                    0,
+                    14
+                ]
+            },
+            "faces": {
+                "west": {
+                    "uv": [
+                        0,
+                        0,
+                        1,
+                        16
+                    ],
+                    "texture": "#missing"
+                }
+            }
+        },
+        {
+            "from": [
+                0,
+                15,
+                0
+            ],
+            "to": [
+                16,
+                16,
+                15
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    1,
+                    14,
+                    0
+                ]
+            },
+            "faces": {
+                "west": {
+                    "uv": [
+                        0,
+                        0,
+                        15,
+                        1
+                    ],
+                    "texture": "#missing"
+                }
+            }
+        },
+        {
+            "from": [
+                0,
+                0,
+                14
+            ],
+            "to": [
+                16,
+                1,
+                15
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    1,
+                    0,
+                    13
+                ]
+            },
+            "faces": {
+                "west": {
+                    "uv": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "texture": "#missing"
+                }
+            }
+        }
+    ],
+    "groups": [
+        {
+            "name": "Block",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": [
+                0,
+                1,
+                2
+            ]
+        },
+        {
+            "name": "Top",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": []
+        },
+        {
+            "name": "Centre",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": []
+        },
+        {
+            "name": "Bottom",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": []
+        }
+    ]
+}

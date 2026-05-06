@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "create:framed_glass_trapdoor"
+    },
+    {
+      "item": "create:copper_casing"
+    }
+  ],
+  "result": {
+    "id": "create_train_parts:copper_sliding_window",
+    "count": 1
+  }
+}

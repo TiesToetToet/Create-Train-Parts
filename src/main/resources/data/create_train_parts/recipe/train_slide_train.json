@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "X": {
+      "item": "create_train_parts:train_step_train"
+    },
+    "#": {
+      "item": "create:railway_casing"
+    }
+  },
+  "pattern": [
+    "X#"
+  ],
+  "result": {
+    "id": "create_train_parts:train_slide_train",
+    "count": 1
+  }
+}

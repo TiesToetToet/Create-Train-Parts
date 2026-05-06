@@ -1,0 +1,57 @@
+{
+  "block.create_train_parts.train_step_andesite": "Andesite Steps",
+  "block.create_train_parts.train_step_brass": "Brass Steps",
+  "block.create_train_parts.train_step_copper": "Copper Steps",
+  "block.create_train_parts.train_step_train": "Train Steps",
+  "block.create_train_parts.train_slide_andesite": "Andesite Slide",
+  "block.create_train_parts.train_slide_brass": "Brass Slide",
+  "block.create_train_parts.train_slide_copper": "Copper Slide",
+  "block.create_train_parts.train_slide_train": "Train Slide",
+  "block.create_train_parts.glass_sliding_window": "Glass Window",
+  "block.create_train_parts.andesite_sliding_window": "Andesite Window",
+  "block.create_train_parts.brass_sliding_window": "Brass Window",
+  "block.create_train_parts.copper_sliding_window": "Copper Window",
+  "block.create_train_parts.train_sliding_window": "Train Window",
+  "block.create_train_parts.crossing": "Crossing Gate",
+  "block.create_train_parts.arm_extender": "Arm Extender",
+
+  "create_train_parts.ponder.train_assembly.header": "Train Step and Slide",
+  "create_train_parts.ponder.train_assembly.text_1": "Sometimes the Train is too far away from the Station to enter the Train",
+  "create_train_parts.ponder.train_assembly.text_2": "Use Train Steps or Train Slides for easier access",
+  "create_train_parts.ponder.train_assembly.text_3": "The Steps and Slides open automatically when it arrives at the station",
+  "create_train_parts.ponder.train_assembly.text_4": "And close when the Train leaves the Station",
+
+  "create_train_parts.ponder.train_steps.header": "Configuring modes",
+  "create_train_parts.ponder.train_steps.text_1": "The Train Step normally opens with a 'Slide'",
+  "create_train_parts.ponder.train_steps.text_2": "But this is a problem if there is a Block in front",
+  "create_train_parts.ponder.train_steps.text_3": "To solve this, configure the Step to not extend the Slide",
+  "create_train_parts.ponder.train_steps.text_4": "Hold control to modify all connected Train Steps",
+
+  "create_train_parts.ponder.window_modes.header": "Configuring modes",
+  "create_train_parts.ponder.window_modes.text_1": "Sliding Windows normally open upwards",
+  "create_train_parts.ponder.window_modes.text_2": "But you can configure it to open another Direction",
+  "create_train_parts.ponder.window_modes.text_3": "Connected Windows with the same Mode will open together",
+  "create_train_parts.ponder.window_modes.text_4": "Holding Control changes all Windows",
+
+  "create_train_parts.ponder.train_behaviour.header": "Window Behaviour on Trains",
+  "create_train_parts.ponder.train_behaviour.text_1": "Windows that are set to open Left or Right open automatically at Train Stations",
+  "create_train_parts.ponder.train_behaviour.text_2": "Windows that are set to open Up or Down can only be opened manually",
+
+  "create_train_parts.ponder.crossing.header": "Crossing Gate",
+  "create_train_parts.ponder.crossing.text_1": "Crossing Gates need kinetic power to operate",
+  "create_train_parts.ponder.crossing.text_2": "Reverse the power to change direction",
+  "create_train_parts.ponder.crossing.text_3": "If you want to extend the Crossing Gate, simply place down Arm Extenders",
+
+  "create_train_parts.ponder.railway_crossing.header": "Crossing Gate",
+  "create_train_parts.ponder.railway_crossing.text_1": "When using Crossing Gates with Signals, you can create a safe Railway Crossing",
+
+  "create_train_parts.sliding_window.mode": "Sliding Window Mode",
+  "window.mode.up": "Move Up",
+  "window.mode.down": "Move Down",
+  "window.mode.left": "Move Left",
+  "window.mode.right": "Move Right",
+  "create_train_parts.train_step.mode": "Slide mode",
+  "step.mode.slide": "Extend Slide",
+  "step.mode.no_slide": "Don't Extend Slide",
+  "itemGroup.create_train_parts.base": "Create Train Parts"
+}

@@ -1,0 +1,103 @@
+{
+    "credit": "Made with Blockbench",
+    "textures": {
+        "1": "create:block/railway_casing_side",
+        "2": "create:block/railway_casing"
+    },
+    "elements": [
+        {
+            "from": [
+                0,
+                0,
+                0
+            ],
+            "to": [
+                15,
+                5,
+                14
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    0,
+                    0,
+                    12
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        1,
+                        11,
+                        16,
+                        16
+                    ],
+                    "texture": "#1"
+                },
+                "south": {
+                    "uv": [
+                        16,
+                        11,
+                        1,
+                        16
+                    ],
+                    "texture": "#1"
+                },
+                "up": {
+                    "uv": [
+                        16,
+                        14,
+                        1,
+                        0
+                    ],
+                    "texture": "#1"
+                }
+            }
+        }
+    ],
+    "groups": [
+        {
+            "name": "Block",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": []
+        },
+        {
+            "name": "Top",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": []
+        },
+        {
+            "name": "Centre",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": []
+        },
+        {
+            "name": "Bottom",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": [
+                0
+            ]
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "X": {
+      "item": "create_train_parts:train_step_copper"
+    },
+    "#": {
+      "item": "create:copper_casing"
+    }
+  },
+  "pattern": [
+    "X#"
+  ],
+  "result": {
+    "id": "create_train_parts:train_slide_copper",
+    "count": 1
+  }
+}

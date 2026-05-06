@@ -5,6 +5,7 @@
   "mixins": [
     "BuilderTransformersMixin",
     "ContraptionMixin",
+    "DefaultSuperByteBufferMixin",
     "ScrollValueRendererMixin"
   ],
   "client": [],

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "create:framed_glass_trapdoor"
+    },
+    {
+      "item": "create:framed_glass"
+    }
+  ],
+  "result": {
+    "id": "create_train_parts:glass_sliding_window",
+    "count": 1
+  }
+}

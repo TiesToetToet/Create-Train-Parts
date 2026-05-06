@@ -1,0 +1,17 @@
+{
+    "variants": {
+      "facing=north": {
+        "model": "create_train_parts:block/train_slide_train/north"
+      },
+      "facing=east": {
+        "model": "create_train_parts:block/train_slide_train/east"
+      },
+      "facing=south": {
+        "model": "create_train_parts:block/train_slide_train/south"
+      },
+      "facing=west": {
+        "model": "create_train_parts:block/train_slide_train/west"
+      }
+    }
+  }
+  

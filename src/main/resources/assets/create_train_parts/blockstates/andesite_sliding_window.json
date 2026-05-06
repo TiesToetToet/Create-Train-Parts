@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "create_train_parts:block/sliding_windows/andesite" },
+    "facing=south": { "model": "create_train_parts:block/sliding_windows/andesite", "y": 180 },
+    "facing=east":  { "model": "create_train_parts:block/sliding_windows/andesite", "y": 90 },
+    "facing=west":  { "model": "create_train_parts:block/sliding_windows/andesite", "y": 270 }
+  }
+}

@@ -1,0 +1,22 @@
+{
+	"render_type": "minecraft:cutout_mipped",
+	"textures": {
+		"0": "create_train_parts:block/crossing/lights",
+		"particle": "create_train_parts:block/crossing/lights"
+	},
+	"elements": [
+		{
+			"name": "cube red",
+			"from": [-1, -2, -2],
+			"to": [1, 2, 2],
+			"faces": {
+				"north": {"uv": [2, 0, 3, 2], "texture": "#0"},
+				"east": {"uv": [2, 0, 4, 2], "texture": "#0"},
+				"south": {"uv": [2, 0, 3, 2], "texture": "#0"},
+				"west": {"uv": [2, 0, 4, 2], "texture": "#0"},
+				"up": {"uv": [2, 0, 3, 2], "texture": "#0"},
+				"down": {"uv": [2, 0, 3, 2], "texture": "#0"}
+			}
+		}
+	]
+}

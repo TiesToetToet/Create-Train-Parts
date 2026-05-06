@@ -1,0 +1,53 @@
+{
+    "credit": "Made with Blockbench",
+    "textures": {
+        "0": "create:block/railway_casing",
+        "1": "create:block/railway_casing_side",
+        "particle": "create:block/railway_casing"
+    },
+    "elements": [],
+    "groups": [
+        {
+            "name": "Block",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": []
+        },
+        {
+            "name": "Top",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": [
+                0
+            ]
+        },
+        {
+            "name": "Centre",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": []
+        },
+        {
+            "name": "Bottom",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": []
+        }
+    ]
+}
