@@ -13,11 +13,11 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -33,7 +33,7 @@ public class AllCreativeModeTabs {
     private static final DeferredRegister<CreativeModeTab> REGISTER = DeferredRegister
             .create(Registries.CREATIVE_MODE_TAB, CreateTrainParts.MOD_ID);
 
-    public static final RegistryObject<CreativeModeTab> BASE_CREATIVE_TAB = REGISTER.register("base",
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> BASE_CREATIVE_TAB = REGISTER.register("base",
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.create_train_parts.base"))
                     .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
@@ -41,6 +41,7 @@ public class AllCreativeModeTabs {
                     .displayItems(new RegistrateDisplayItemsGenerator(true, AllCreativeModeTabs.BASE_CREATIVE_TAB))
                     .build());
 
+    @ApiStatus.Internal
     public static void register(IEventBus modEventBus) {
         REGISTER.register(modEventBus);
     }
@@ -66,12 +67,12 @@ public class AllCreativeModeTabs {
         }
 
         private final boolean addItems;
-        private final RegistryObject<CreativeModeTab> tabFilter;
+        private final DeferredHolder<CreativeModeTab, CreativeModeTab> tabFilter;
 
         public RegistrateDisplayItemsGenerator(boolean addItems,
-            RegistryObject<CreativeModeTab> tabFilter) {
+                DeferredHolder<CreativeModeTab, CreativeModeTab> tabFilter) {
             this.addItems = addItems;
-            this.tabFilter = tabFilter;
+            this.tabFilter = null;
         }
 
         private static Predicate<Item> makeExclusionPredicate() {
@@ -128,7 +129,7 @@ public class AllCreativeModeTabs {
 
         private List<Item> collectBlocks(Predicate<Item> exclusionPredicate) {
             List<Item> items = new ReferenceArrayList<>();
-            for (RegistryEntry<Block> entry : CreateTrainParts.registrate().getAll(Registries.BLOCK)) {
+            for (RegistryEntry<Block, Block> entry : CreateTrainParts.registrate().getAll(Registries.BLOCK)) {
 //                if (!CreateRegistrate.isInCreativeTab(entry, tabFilter))
 ////                    System.out.println("Skipping block not in creative tab: " + entry.getId());
 //                    continue;

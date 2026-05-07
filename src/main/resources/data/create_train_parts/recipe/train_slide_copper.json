@@ -13,7 +13,7 @@
     "X#"
   ],
   "result": {
-    "item": "create_train_parts:train_slide_copper",
+    "id": "create_train_parts:train_slide_copper",
     "count": 1
   }
 }

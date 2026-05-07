@@ -24,7 +24,7 @@ public abstract class ContraptionMixin {
      * Modifies the captured block state to hide TrainStep, TrainSlide, and SlidingWindow blocks
      * similar to how Create handles SlidingDoorBlock.VISIBLE
      */
-    @Inject(method = "capture", at = @At("RETURN"), cancellable = true, remap = false)
+    @Inject(method = "capture", at = @At("RETURN"), cancellable = true)
     private void modifyCapturedState(Level world, BlockPos pos, CallbackInfoReturnable<Pair<StructureTemplate.StructureBlockInfo, BlockEntity>> cir) {
         Pair<StructureTemplate.StructureBlockInfo, BlockEntity> result = cir.getReturnValue();
         if (result == null) return;
@@ -60,7 +60,6 @@ public abstract class ContraptionMixin {
      */
     @ModifyExpressionValue(
         method = "addBlocksToWorld",
-        remap=false,
         at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/contraptions/StructureTransform;apply(Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/level/block/state/BlockState;")
     )
     private BlockState modifyStateOnDisassembly(BlockState state) {
@@ -83,7 +82,7 @@ public abstract class ContraptionMixin {
      * Prevents TrainStepBlock, TrainSlideBlock, and SlidingWindowBlock from being updated after movement
      * (same behavior as SlidingDoorBlock in Create)
      */
-    @Inject(method = "shouldUpdateAfterMovement", at = @At("HEAD"), cancellable = true, remap=false)
+    @Inject(method = "shouldUpdateAfterMovement", at = @At("HEAD"), cancellable = true)
     private void skipUpdateForTrainParts(StructureTemplate.StructureBlockInfo info, CallbackInfoReturnable<Boolean> cir) {
         if (info.state().getBlock() instanceof TrainStepBlock) {
             cir.setReturnValue(false);

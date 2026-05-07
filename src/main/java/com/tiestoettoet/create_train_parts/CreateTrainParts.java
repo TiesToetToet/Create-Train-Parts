@@ -5,7 +5,7 @@ import com.simibubi.create.Create;
 import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipModifier;
-//import com.tiestoettoet.create_train_parts.item.ModItems;
+import com.tiestoettoet.create_train_parts.item.ModItems;
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.providers.ProviderType;
@@ -16,20 +16,18 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 
 //import static com.tiestoettoet.create_train_parts.AllBlocks.REGISTRATE;
@@ -51,15 +49,14 @@ public class CreateTrainParts {
                                 .andThen(TooltipModifier.mapNull(KineticStats.create(item))));
     }
 
-    public CreateTrainParts() {
-        onCtor();
+    public CreateTrainParts(IEventBus modEventBus, ModContainer modContainer) {
+        onCtor(modEventBus, modContainer);
     }
 
-    public static void onCtor() {
+    public static void onCtor(IEventBus modEventBus, ModContainer modContainer) {
 
         ModLoadingContext modLoadingContext = ModLoadingContext.get();
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
+        // IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         // registrate =
 
         REGISTRATE.registerEventListeners(modEventBus);
@@ -73,11 +70,9 @@ public class CreateTrainParts {
         // modEventBus.addListener(CreateTrainParts::commonSetup);
         modEventBus.addListener(CreateTrainParts::onRegister);
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> CreateTrainPartsClient.onCtorClient(modEventBus, forgeEventBus));
+        // NeoForge.EVENT_BUS.register(this);
 
-        // MinecraftForge.EVENT_BUS.register(this);
-
-//        ModItems.register(modEventBus);
+        ModItems.register(modEventBus);
     }
 
     public static void onRegister(final RegisterEvent event) {

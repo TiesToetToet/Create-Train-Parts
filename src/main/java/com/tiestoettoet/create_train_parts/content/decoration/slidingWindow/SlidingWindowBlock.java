@@ -1,17 +1,14 @@
 package com.tiestoettoet.create_train_parts.content.decoration.slidingWindow;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.AllItems;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.block.IHaveBigOutline;
 import com.tiestoettoet.create_train_parts.AllBlockEntityTypes;
 import com.tiestoettoet.create_train_parts.AllBlocks;
-import com.tiestoettoet.create_train_parts.foundation.block.WrenchableHorizontalDirectionalBlock;
 import net.createmod.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +21,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,7 +37,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.BiConsumer;
 
-public class SlidingWindowBlock extends WrenchableHorizontalDirectionalBlock
+public class SlidingWindowBlock extends HorizontalDirectionalBlock
         implements IBE<SlidingWindowBlockEntity>, IHaveBigOutline, IWrenchable {
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
     public static final BooleanProperty POWERED = BooleanProperty.create("powered");
@@ -74,40 +70,17 @@ public class SlidingWindowBlock extends WrenchableHorizontalDirectionalBlock
 
     private final BlockSetType type = BlockSetType.OAK;
 
-
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return null;
+    }
 
     public SlidingWindowBlock(Properties properties) {
         super(properties);
     }
 
     @Override
-    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
-        return false;
-    }
-
-    @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
-                                               BlockHitResult hitResult) {
-        toggle(state, level, pos, player, null);
-        return InteractionResult.sidedSuccess(level.isClientSide);
-    }
-
-    @Override
-    protected InteractionResult use(
-            ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult
-    ) {
-        if (stack.getItem() == AllItems.WRENCH.asItem()) {
-            System.out.println("Wrench");
-            rotate(state, Rotation.CLOCKWISE_90);
-            return InteractionResult.FAIL;
-        }
-        else
-            toggle(state, level, pos, player, null);
-            return InteractionResult.sidedSuccess(level.isClientSide);
-    }
-
-    @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         // Use MODE from blockstate directly - block entity may not exist (e.g., in
         // contraptions)
         SlidingWindowBlockEntity.SelectionMode mode = state.getValue(MODE);
@@ -253,6 +226,30 @@ public class SlidingWindowBlock extends WrenchableHorizontalDirectionalBlock
         return stateForPlacement;
     }
 
+    @Override
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
+        return switch (pathComputationType) {
+            case LAND, AIR -> (Boolean) state.getValue(OPEN);
+            default -> false;
+        };
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+            BlockHitResult hitResult) {
+        toggle(state, level, pos, player, null);
+        return InteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    @Override
+    protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion,
+            BiConsumer<ItemStack, BlockPos> dropConsumer) {
+        if (explosion.canTriggerBlocks() && this.type.canOpenByWindCharge() && !(Boolean) state.getValue(POWERED)) {
+            this.toggle(state, level, pos, (Player) null, null);
+        }
+
+        super.onExplosionHit(state, level, pos, explosion, dropConsumer);
+    }
 
     public void toggle(BlockState state, Level level, BlockPos pos, @Nullable Player player,
             Boolean open) {
@@ -406,7 +403,6 @@ public class SlidingWindowBlock extends WrenchableHorizontalDirectionalBlock
         Direction.Axis axis = state.getValue(SlidingWindowBlock.FACING).getAxis();
         SlidingWindowBlockEntity.SelectionMode mode = state.getValue(SlidingWindowBlock.MODE);
 
-
         while (!frontier.isEmpty()) {
             BlockPos currentPos = frontier.poll();
             if (visited.contains(currentPos))
@@ -416,9 +412,6 @@ public class SlidingWindowBlock extends WrenchableHorizontalDirectionalBlock
             BlockState currentState = level.getBlockState(currentPos);
             if (!(currentState.getBlock() instanceof SlidingWindowBlock))
                 continue;
-
-//            System.out.println("Checking neighbor at " + currentPos + " with state: " + currentState);
-//            System.out.println("Current block state: " + state);
 
             if (!SlidingWindowBlock.sameKind(state, currentState))
                 continue;
@@ -458,7 +451,7 @@ public class SlidingWindowBlock extends WrenchableHorizontalDirectionalBlock
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos,
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos,
             boolean isMoving) {
         if (!(state.getBlock() instanceof SlidingWindowBlock))
             return;
@@ -707,7 +700,7 @@ public class SlidingWindowBlock extends WrenchableHorizontalDirectionalBlock
         builder.add(FACING, OPEN, POWERED, VISIBLE, MODE);
     }
 
-    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level,
+    protected BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level,
             BlockPos currentPos, BlockPos facingPos) {
 
         return super.updateShape(state, facing, facingState, level, currentPos, facingPos);

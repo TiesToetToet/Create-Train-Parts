@@ -54,7 +54,15 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
         sequencedAngleLimit = -1;
     }
 
+    @Override
+    protected void read(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {
+        lastException = AssemblyException.read(tag, registries);
+        super.read(tag, registries, clientPacket);
+        invalidateRenderBoundingBox();
 
+        if (tag.contains("ForceOpen"))
+            openObj = tag.getBoolean("ForceOpen");
+    }
 
     public void assemble() {
         System.out.println("CrossingBlockEntity.assemble() called");

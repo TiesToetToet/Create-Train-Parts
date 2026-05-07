@@ -21,13 +21,8 @@ import static com.simibubi.create.foundation.data.TagGen.axeOrPickaxe;
 @Mixin(BuilderTransformers.class)
 public class BuilderTransformersMixin {
 
-    /**
-     * Custom layered casing transformer with support for HorizontalCTBehaviour.
-     *
-     * @author Create-Train-Parts
-     * @reason Support for horizontal connected textures on casing blocks
-     */
-    @Overwrite(remap = false)
+    // Redirect the instantiation of HorizontalCTBehaviour in layeredCasing
+    @Overwrite
     public static <B extends CasingBlock> NonNullUnaryOperator<BlockBuilder<B, CreateRegistrate>> layeredCasing(
             Supplier<CTSpriteShiftEntry> ct, Supplier<CTSpriteShiftEntry> ct2) {
         return b -> b.initialProperties(SharedProperties::stone)

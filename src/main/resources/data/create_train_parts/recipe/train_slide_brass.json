@@ -3,17 +3,17 @@
   "category": "building",
   "key": {
     "X": {
-      "item": "create_train_parts:train_step_train"
+      "item": "create_train_parts:train_step_brass"
     },
     "#": {
-      "item": "create:railway_casing"
+      "item": "create:brass_casing"
     }
   },
   "pattern": [
     "X#"
   ],
   "result": {
-    "item": "create_train_parts:train_slide_train",
+    "id": "create_train_parts:train_slide_brass",
     "count": 1
   }
 }

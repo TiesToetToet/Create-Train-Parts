@@ -77,6 +77,12 @@ public class CrossingContraption extends Contraption {
         super.addBlock(level, pos, capture);
     }
 
+    @Override
+    public CompoundTag writeNBT(HolderLookup.Provider registries, boolean spawnPacket) {
+        CompoundTag tag = super.writeNBT(registries, spawnPacket);
+        tag.putInt("Facing", facing.get3DDataValue());
+        return tag;
+    }
 
     @Override
     public void readNBT(Level world, CompoundTag tag, boolean spawnData) {

@@ -6,12 +6,11 @@
       "item": "create:framed_glass_trapdoor"
     },
     {
-      "item": "create:railway_casing"
+      "item": "create:copper_casing"
     }
-
   ],
   "result": {
-    "item": "create_train_parts:train_sliding_window",
+    "id": "create_train_parts:copper_sliding_window",
     "count": 1
   }
 }

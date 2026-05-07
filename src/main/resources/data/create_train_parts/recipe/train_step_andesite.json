@@ -3,7 +3,7 @@
   "category": "building",
   "key": {
     "#": {
-      "item": "create:brass_casing"
+      "item": "create:andesite_casing"
     }
   },
   "pattern": [
@@ -12,7 +12,7 @@
     "###"
   ],
   "result": {
-    "item": "create_train_parts:train_step_brass",
+    "id": "create_train_parts:train_step_andesite",
     "count": 1
   }
 }

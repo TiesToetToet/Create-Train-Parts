@@ -74,7 +74,7 @@ public class CrossingBlock extends HorizontalKineticBlock
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         Boolean flipped = state.getValue(FLIPPED);
         Boolean open = state.getValue(OPEN);
@@ -113,7 +113,10 @@ public class CrossingBlock extends HorizontalKineticBlock
         return Shapes.block();
     }
 
-
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return null;
+    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -254,7 +257,7 @@ public class CrossingBlock extends HorizontalKineticBlock
     }
 
     @Override
-    public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
+    public BlockState playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
         boolean dropBlocks = player == null || !player.isCreative();
 
         // Find and destroy all connected arm extenders in all directions
@@ -266,7 +269,7 @@ public class CrossingBlock extends HorizontalKineticBlock
             }
         }
 
-        super.playerWillDestroy(worldIn, pos, state, player);
+        return super.playerWillDestroy(worldIn, pos, state, player);
     }
 
     @Override

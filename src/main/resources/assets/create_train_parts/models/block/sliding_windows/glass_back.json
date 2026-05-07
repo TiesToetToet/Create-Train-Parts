@@ -1,5 +1,5 @@
 {
-  "render_type": "minecraft:translucent",
+  "render_type": "minecraft:cutout_mipped",
   "credit": "Made with Blockbench",
   "textures": {
     "1": "create:block/palettes/framed_glass",

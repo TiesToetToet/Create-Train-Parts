@@ -38,7 +38,7 @@ public class TrainSlideRenderer extends SafeBlockEntityRenderer<TrainSlideBlockE
 
     @Override
     protected void renderSafe(TrainSlideBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer,
-            int light, int overlay) {
+                              int light, int overlay) {
 
         Level world = be.getLevel();
         if (world instanceof VirtualRenderWorld)
@@ -46,6 +46,7 @@ public class TrainSlideRenderer extends SafeBlockEntityRenderer<TrainSlideBlockE
 
         if (!be.shouldRenderSpecial(be.getBlockState()))
             return;
+
 
         renderTrainSlide(
                 be.getBlockState(),
@@ -55,7 +56,8 @@ public class TrainSlideRenderer extends SafeBlockEntityRenderer<TrainSlideBlockE
                 ms,
                 buffer,
                 light,
-                null);
+                null
+        );
     }
 
     public static void renderTrainSlide(
@@ -66,7 +68,8 @@ public class TrainSlideRenderer extends SafeBlockEntityRenderer<TrainSlideBlockE
             PoseStack ms,
             MultiBufferSource buffer,
             int light,
-            ContraptionMatrices matrices) {
+            ContraptionMatrices matrices
+    ) {
 
         if (!(state.getBlock() instanceof TrainSlideBlock))
             return;
@@ -133,6 +136,7 @@ public class TrainSlideRenderer extends SafeBlockEntityRenderer<TrainSlideBlockE
             ResourceLocation resourceLocation = CreateTrainParts.asResource(
                     blockTexturePath + "/" + facing.getSerializedName() + "_" + connectedState.getSerializedName()
                             + "_" + face.getSerializedName());
+
 
             PartialModel top = AllPartialModels.TRAIN_SLIDE_TOP.get(resourceLocation);
             PartialModel centre = AllPartialModels.TRAIN_SLIDE_CENTRE.get(resourceLocation);

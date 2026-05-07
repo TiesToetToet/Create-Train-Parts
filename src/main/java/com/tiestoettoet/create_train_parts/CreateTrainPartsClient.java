@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.simibubi.create.compat.Mods;
 import com.simibubi.create.compat.ftb.FTBIntegration;
-//import com.simibubi.create.compat.sodium.SodiumCompat;
+import com.simibubi.create.compat.sodium.SodiumCompat;
 import com.simibubi.create.content.contraptions.glue.SuperGlueSelectionHandler;
 import com.simibubi.create.content.decoration.encasing.CasingConnectivity;
 import com.simibubi.create.content.equipment.bell.SoulPulseEffectHandler;
@@ -42,16 +42,19 @@ import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = CreateTrainParts.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod(value = CreateTrainParts.MOD_ID, dist = Dist.CLIENT)
 public class CreateTrainPartsClient {
-    
-    public static void onCtorClient(IEventBus modEventBus, IEventBus forgeEventBus) {
+    public CreateTrainPartsClient(net.neoforged.bus.api.IEventBus modEventBus) {
+        onCtorClient(modEventBus);
+    }
+
+    public static void onCtorClient(net.neoforged.bus.api.IEventBus modEventBus) {
+        net.neoforged.bus.api.IEventBus neoEventBus = NeoForge.EVENT_BUS;
 
         modEventBus.addListener(CreateTrainPartsClient::clientInit);
 
@@ -59,7 +62,8 @@ public class CreateTrainPartsClient {
 
 //        AllCreateTrainPartsPonderScenes.register();
 
-        Mods.FTBLIBRARY.executeIfInstalled(() -> () -> FTBIntegration.init(modEventBus, forgeEventBus));
+        Mods.FTBLIBRARY.executeIfInstalled(() -> () -> FTBIntegration.init(modEventBus, neoEventBus));
+        Mods.SODIUM.executeIfInstalled(() -> () -> SodiumCompat.init(modEventBus, neoEventBus));
     }
 
     public static void clientInit(final FMLClientSetupEvent event) {

@@ -10,8 +10,8 @@ import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock
 import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 /**
  * Client-only class that provides block entity renderer factories.
