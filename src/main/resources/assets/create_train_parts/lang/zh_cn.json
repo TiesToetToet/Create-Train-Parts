@@ -1,0 +1,57 @@
+{
+  "block.create_train_parts.train_step_andesite": "安山列车台阶",
+  "block.create_train_parts.train_step_brass": "黄铜列车台阶",
+  "block.create_train_parts.train_step_copper": "铜列车台阶",
+  "block.create_train_parts.train_step_train": "列车台阶",
+  "block.create_train_parts.train_slide_andesite": "安山列车伸缩踏板",
+  "block.create_train_parts.train_slide_brass": "黄铜列车伸缩踏板",
+  "block.create_train_parts.train_slide_copper": "铜列车伸缩踏板",
+  "block.create_train_parts.train_slide_train": "列车伸缩踏板",
+  "block.create_train_parts.glass_sliding_window": "玻璃滑动窗",
+  "block.create_train_parts.andesite_sliding_window": "安山滑动窗",
+  "block.create_train_parts.brass_sliding_window": "黄铜滑动窗",
+  "block.create_train_parts.copper_sliding_window": "铜滑动窗",
+  "block.create_train_parts.train_sliding_window": "列车滑动窗",
+  "block.create_train_parts.crossing": "道口闸门",
+  "block.create_train_parts.arm_extender": "道闸延长杆",
+
+  "create_train_parts.ponder.train_assembly.header": "列车台阶与伸缩踏板",
+  "create_train_parts.ponder.train_assembly.text_1": "有时列车离站台太远，无法直接上车",
+  "create_train_parts.ponder.train_assembly.text_2": "使用列车台阶或列车伸缩踏板以方便上下车",
+  "create_train_parts.ponder.train_assembly.text_3": "列车到站时，台阶和伸缩踏板会自动展开",
+  "create_train_parts.ponder.train_assembly.text_4": "并在列车离站时收起",
+
+  "create_train_parts.ponder.train_steps.header": "配置模式",
+  "create_train_parts.ponder.train_steps.text_1": "列车台阶打开时通常额外伸出一小部分伸缩踏板",
+  "create_train_parts.ponder.train_steps.text_2": "但若前方有方块，这会导致方块重叠",
+  "create_train_parts.ponder.train_steps.text_3": "要解决此问题，可将台阶配置为不伸出伸缩踏板",
+  "create_train_parts.ponder.train_steps.text_4": "按住 Ctrl 以修改所有相连的列车台阶",
+
+  "create_train_parts.ponder.window_modes.header": "配置模式",
+  "create_train_parts.ponder.window_modes.text_1": "滑动窗通常向上开启",
+  "create_train_parts.ponder.window_modes.text_2": "但你也可以配置为向其他方向开启",
+  "create_train_parts.ponder.window_modes.text_3": "具有相同模式的相连窗户会一同开启",
+  "create_train_parts.ponder.window_modes.text_4": "按住 Ctrl 会更改所有相邻滑动窗",
+
+  "create_train_parts.ponder.train_behaviour.header": "列车上的窗户行为",
+  "create_train_parts.ponder.train_behaviour.text_1": "设置为向左或向右开启的窗户在列车到站时会自动打开",
+  "create_train_parts.ponder.train_behaviour.text_2": "设置为向上或向下开启的窗户只能手动打开",
+
+  "create_train_parts.ponder.crossing.header": "道口闸门",
+  "create_train_parts.ponder.crossing.text_1": "道口闸门需要应力才能运行",
+  "create_train_parts.ponder.crossing.text_2": "反转应力可以改变闸门的方向",
+  "create_train_parts.ponder.crossing.text_3": "如果你想延长道口闸门，只需放置道闸延长杆即可",
+
+  "create_train_parts.ponder.railway_crossing.header": "道口闸门",
+  "create_train_parts.ponder.railway_crossing.text_1": "将道口闸门与信号系统结合使用，你就可以建造一个安全的铁路道口",
+
+  "create_train_parts.sliding_window.mode": "滑动窗模式",
+  "window.mode.up": "向上移动",
+  "window.mode.down": "向下移动",
+  "window.mode.left": "向左移动",
+  "window.mode.right": "向右移动",
+  "create_train_parts.train_step.mode": "踏板伸缩模式",
+  "step.mode.slide": "伸出踏板",
+  "step.mode.no_slide": "不伸出踏板",
+  "itemGroup.create_train_parts.base": "机械动力：列车部件"
+}

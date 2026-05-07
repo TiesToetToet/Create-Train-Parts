@@ -280,6 +280,8 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
         ResourceLocation resLocationMain = CreateTrainParts
                 .asResource("sliding_windows/" + textureType.getType() + "_main");
         PartialModel modelMain = AllPartialModels.SLIDING_WINDOW.get(resLocationMain);
+        if (modelMain == null)
+            return;
         SuperByteBuffer partialMain = CachedBuffers.partial(modelMain, state);
 
         ResourceLocation resLocationBack = CreateTrainParts
