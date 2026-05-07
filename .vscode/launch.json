@@ -277,6 +277,102 @@
         "MOD_CLASSES": "Create-Train-Parts%%C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\bin\\main"
       },
       "shortenCommandLine": "argfile"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Client",
+      "presentation": {
+        "group": "Mod Development - Create-Train-Parts",
+        "order": 0
+      },
+      "projectName": "Create-Train-Parts",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\build\\moddev\\clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\build\\moddev\\clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dcreate_train_parts%%C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\run",
+      "env": {
+        "MOD_CLASSES": "create_train_parts%%C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\bin\\main"
+      },
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Data",
+      "presentation": {
+        "group": "Mod Development - Create-Train-Parts",
+        "order": 1
+      },
+      "projectName": "Create-Train-Parts",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\build\\moddev\\dataRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\build\\moddev\\dataRunVmArgs.txt",
+        "-Dfml.modFolders\u003dcreate_train_parts%%C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\run",
+      "env": {
+        "MOD_CLASSES": "create_train_parts%%C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\bin\\main"
+      },
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "GameTestServer",
+      "presentation": {
+        "group": "Mod Development - Create-Train-Parts",
+        "order": 2
+      },
+      "projectName": "Create-Train-Parts",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\build\\moddev\\gameTestServerRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\build\\moddev\\gameTestServerRunVmArgs.txt",
+        "-Dfml.modFolders\u003dcreate_train_parts%%C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\run\\gametest",
+      "env": {
+        "MOD_CLASSES": "create_train_parts%%C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\bin\\main"
+      },
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Server",
+      "presentation": {
+        "group": "Mod Development - Create-Train-Parts",
+        "order": 3
+      },
+      "projectName": "Create-Train-Parts",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\build\\moddev\\serverRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\build\\moddev\\serverRunVmArgs.txt",
+        "-Dfml.modFolders\u003dcreate_train_parts%%C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\run\\server",
+      "env": {
+        "MOD_CLASSES": "create_train_parts%%C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\bin\\main"
+      },
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
     }
   ]
 }

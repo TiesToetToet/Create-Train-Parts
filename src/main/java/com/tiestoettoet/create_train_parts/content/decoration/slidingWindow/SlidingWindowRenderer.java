@@ -48,15 +48,13 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
             PoseStack ms,
             MultiBufferSource buffer,
             int light,
-            int overlay
-    ) {
+            int overlay) {
         if (!be.shouldRenderSpecial(be.getBlockState()))
             return;
 
         Level world = be.getLevel();
         if (world instanceof VirtualRenderWorld)
             return;
-
 
         float animValue = be.animation.getValue(partialTicks);
         BlockState blockState = be.getBlockState();
@@ -70,13 +68,11 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
                 buffer,
                 ms,
                 light,
-                null
-        );
+                null);
     }
 
-
     public static void renderInContraption(MovementContext context, VirtualRenderWorld renderWorld,
-                                           ContraptionMatrices matrices, MultiBufferSource buffer) {
+            ContraptionMatrices matrices, MultiBufferSource buffer) {
 
         if (!(context.temporaryData instanceof SlidingWindowMovementBehaviour.SlidingWindowAnimationData swad))
             return;
@@ -93,8 +89,7 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
                 buffer,
                 ms,
                 light,
-                matrices
-        );
+                matrices);
     }
 
     enum Side {
@@ -154,12 +149,14 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
             return GLASS;
         }
     }
-    public record SlidingMotion(Vec3 moveOffset, Vec3 upOffset) {}
+
+    public record SlidingMotion(Vec3 moveOffset, Vec3 upOffset) {
+    }
+
     private static SlidingMotion computeSlidingMotion(
             SlidingWindowBlockEntity.SelectionMode mode,
             Direction facing,
-            float exponentialValue
-    ) {
+            float exponentialValue) {
         float animFirstQuarter = Mth.clamp(exponentialValue / 0.25f, 0f, 1f);
         float animSecondQuarter = Mth.clamp((exponentialValue - 0.25f) / 0.25f, 0f, 1f);
         float animThirdQuarter = Mth.clamp((exponentialValue - 0.5f) / 0.25f, 0f, 1f);
@@ -194,7 +191,8 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
             }
             case LEFT -> {
                 moveOffset = Vec3.atLowerCornerOf(facing.getOpposite().getNormal()).scale(movementMain)
-                        .add(Vec3.atLowerCornerOf(movementDirection.getCounterClockWise().getNormal()).scale(movementUp));
+                        .add(Vec3.atLowerCornerOf(movementDirection.getCounterClockWise().getNormal())
+                                .scale(movementUp));
                 upOffset = Vec3.ZERO;
             }
             case RIGHT -> {
@@ -218,7 +216,6 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
         return new Vec2(column / 8f, row / 8f);
     }
 
-
     public static void renderSlidingWindow(
             BlockState state,
             BlockPos pos,
@@ -228,14 +225,15 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
             MultiBufferSource buffer,
             PoseStack ms,
             int light,
-            ContraptionMatrices matrices
-    ) {
+            ContraptionMatrices matrices) {
         if (!(state.getBlock() instanceof SlidingWindowBlock))
             return;
 
         Map<Side, BlockState> blockStates = new HashMap<>();
-        blockStates.put(Side.RIGHT, world.getBlockState(pos.relative(state.getValue(SlidingWindowBlock.FACING).getClockWise())));
-        blockStates.put(Side.LEFT, world.getBlockState(pos.relative(state.getValue(SlidingWindowBlock.FACING).getCounterClockWise())));
+        blockStates.put(Side.RIGHT,
+                world.getBlockState(pos.relative(state.getValue(SlidingWindowBlock.FACING).getClockWise())));
+        blockStates.put(Side.LEFT,
+                world.getBlockState(pos.relative(state.getValue(SlidingWindowBlock.FACING).getCounterClockWise())));
         blockStates.put(Side.UP, world.getBlockState(pos.relative(Direction.UP)));
         blockStates.put(Side.DOWN, world.getBlockState(pos.relative(Direction.DOWN)));
 
@@ -245,12 +243,10 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
         for (Side side : Side.values()) {
             sidesActive.put(
                     side,
-                    !(
-                            blockStates.get(side).getBlock() instanceof SlidingWindowBlock
-                                    && blockStates.get(side).getValue(SlidingWindowBlock.FACING) == state.getValue(SlidingWindowBlock.FACING)
-                                    && mode == blockStates.get(side).getValue(SlidingWindowBlock.MODE)
-                    )
-            );
+                    !(blockStates.get(side).getBlock() instanceof SlidingWindowBlock
+                            && blockStates.get(side).getValue(SlidingWindowBlock.FACING) == state
+                                    .getValue(SlidingWindowBlock.FACING)
+                            && mode == blockStates.get(side).getValue(SlidingWindowBlock.MODE)));
         }
 
         Direction facing = state.getValue(SlidingWindowBlock.FACING);
@@ -262,32 +258,41 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
         };
 
         float exponentialValue = animValue * animValue;
-        VertexConsumer vb = buffer.getBuffer(RenderType.cutoutMipped());
         ResourceLocation blockTexture = BuiltInRegistries.BLOCK.getKey(state.getBlock());
 
         SlidingWindowTextureType textureType = SlidingWindowTextureType.fromBlockTexturePath(blockTexture.getPath());
+//        System.out.println("Rendering sliding window with texture type: " + textureType);
+        
+        // Use tripwire for glass to avoid blocking water rendering; use cutoutMipped for others
+        RenderType renderType = textureType == SlidingWindowTextureType.GLASS 
+            ? RenderType.tripwire() 
+            : RenderType.cutoutMipped();
+//        System.out.println("Using render type: " + renderType);
+        VertexConsumer vb = buffer.getBuffer(renderType);
 
         ConnectedTextureBehaviour ctBehaviour = new SlidingWindowCTBehaviour(textureType.getSpriteShift());
         CTType dataType = ctBehaviour.getDataType(renderWorld, pos, state, facing);
-
 
         SlidingMotion motion = computeSlidingMotion(mode, facing, exponentialValue);
         Vec3 moveOffset = motion.moveOffset();
         Vec3 upOffset = motion.upOffset();
 
-        ResourceLocation resLocationMain = CreateTrainParts.asResource("sliding_windows/" + textureType.getType() + "_main");
+        ResourceLocation resLocationMain = CreateTrainParts
+                .asResource("sliding_windows/" + textureType.getType() + "_main");
         PartialModel modelMain = AllPartialModels.SLIDING_WINDOW.get(resLocationMain);
         if (modelMain == null)
             return;
         SuperByteBuffer partialMain = CachedBuffers.partial(modelMain, state);
 
-        ResourceLocation resLocationBack = CreateTrainParts.asResource("sliding_windows/" + textureType.getType() + "_back");
+        ResourceLocation resLocationBack = CreateTrainParts
+                .asResource("sliding_windows/" + textureType.getType() + "_back");
         PartialModel modelBack = AllPartialModels.SLIDING_WINDOW_BACK.get(resLocationBack);
         SuperByteBuffer particalBack = CachedBuffers.partial(modelBack, state);
 
         Map<Side, ResourceLocation> resLocations = new HashMap<>();
         for (Side side : Side.values()) {
-            resLocations.put(side, CreateTrainParts.asResource("sliding_windows/" + textureType.getType() + "_" + side.toString()));
+            resLocations.put(side,
+                    CreateTrainParts.asResource("sliding_windows/" + textureType.getType() + "_" + side.toString()));
         }
         Map<Side, PartialModel> sideModels = new HashMap<>();
         sideModels.put(Side.UP, AllPartialModels.SLIDING_WINDOW_UP.get(resLocations.get(Side.UP)));
@@ -301,7 +306,6 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
             if (sidesActive.get(side) != null && sidesActive.get(side) == true)
                 partialSides.add(CachedBuffers.partial(sideModels.get(side), state));
         }
-
 
         for (SuperByteBuffer partialSide : partialSides) {
             if (world instanceof ContraptionWorld) {
@@ -327,9 +331,7 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
                 pos,
                 state,
                 facing.getOpposite(),
-                dataType.getContextRequirement()
-        );
-
+                dataType.getContextRequirement());
 
         Vec2 uv = getCTUV(dataType, ctContext);
         if (world instanceof ContraptionWorld) {
@@ -350,11 +352,9 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
                     .renderInto(ms, vb);
         }
 
-
         ctContext = ctBehaviour.buildContext(renderWorld, pos, state, facing, dataType.getContextRequirement());
 
-
-        uv = getCTUV(dataType,ctContext);
+        uv = getCTUV(dataType, ctContext);
         if (world instanceof ContraptionWorld) {
             particalBack
                     .transform(ms)
@@ -373,10 +373,6 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
                     .renderInto(ms, vb);
         }
 
-
     }
-
-
-
 
 }

@@ -29,8 +29,8 @@ import net.createmod.catnip.animation.LerpedFloat.Chaser;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import static net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING;
 
@@ -151,10 +151,11 @@ public class TrainSlideMovementBehaviour implements MovementBehaviour {
             return false;
         }
 
-        if (context.temporaryData instanceof TrainSlideAnimationData
-                && ((TrainSlideAnimationData) context.temporaryData).doorControl instanceof DoorControlBehaviour dcb)
-            if (dcb.blockEntity != null && !dcb.blockEntity.isRemoved())
+        if (context.temporaryData instanceof TrainSlideAnimationData) {
+            DoorControlBehaviour dcb = ((TrainSlideAnimationData) context.temporaryData).doorControl;
+            if (dcb != null && dcb.blockEntity != null && !dcb.blockEntity.isRemoved())
                 return shouldOpenAt(dcb, context);
+        }
 
         DoorControlBehaviour doorControls = null;
 

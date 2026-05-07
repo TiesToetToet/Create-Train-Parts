@@ -6,11 +6,11 @@
       "item": "create:framed_glass_trapdoor"
     },
     {
-      "item": "create:andesite_casing"
+      "item": "create:framed_glass"
     }
   ],
   "result": {
-    "id": "create_train_parts:andesite_sliding_window",
+    "item": "create_train_parts:glass_sliding_window",
     "count": 1
   }
 }

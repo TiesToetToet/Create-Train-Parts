@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class AllCreateTrainPartsPonderScenes {
     public static void register(PonderSceneRegistrationHelper<ResourceLocation> helper) {
-        PonderSceneRegistrationHelper<ItemProviderEntry<?, ?>> HELPER = helper.withKeyFunction(RegistryEntry::getId);
+        PonderSceneRegistrationHelper<ItemProviderEntry<?>> HELPER = helper.withKeyFunction(RegistryEntry::getId);
 
         HELPER.forComponents(AllBlocks.TRAIN_STEP_ANDESITE, AllBlocks.TRAIN_STEP_BRASS, AllBlocks.TRAIN_STEP_COPPER, AllBlocks.TRAIN_STEP_TRAIN)
                 .addStoryBoard("train_step/assembly", TrainStepSlideScenes::assembly)

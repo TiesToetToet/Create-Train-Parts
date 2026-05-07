@@ -33,8 +33,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.*;
 import java.util.function.Function;
@@ -66,15 +66,6 @@ public class SlidingWindowBlockEntity extends SmartBlockEntity implements IHaveG
                 .startWithValue(isOpen(getBlockState()) ? 1 : 0);
     }
 
-    @Override
-    protected void read(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {
-        lastException = AssemblyException.read(tag, registries);
-        super.read(tag, registries, clientPacket);
-        invalidateRenderBoundingBox();
-
-        if (tag.contains("ForceOpen"))
-            openObj = tag.getBoolean("ForceOpen");
-    }
 
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
@@ -184,7 +175,7 @@ public class SlidingWindowBlockEntity extends SmartBlockEntity implements IHaveG
         if (deferUpdate && !level.isClientSide()) {
             deferUpdate = false;
             BlockState blockState = getBlockState();
-            blockState.handleNeighborChanged(level, worldPosition, Blocks.AIR, worldPosition, false);
+            blockState.neighborChanged(level, worldPosition, Blocks.AIR, worldPosition, false);
         }
         super.tick();
         BlockState block = getBlockState();

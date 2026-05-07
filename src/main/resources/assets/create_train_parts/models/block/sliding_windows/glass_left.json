@@ -1,5 +1,5 @@
 {
-  "render_type": "minecraft:cutout_mipped",
+  "render_type": "minecraft:translucent",
   "format_version": "1.21.6",
   "credit": "Made with Blockbench",
   "textures": {

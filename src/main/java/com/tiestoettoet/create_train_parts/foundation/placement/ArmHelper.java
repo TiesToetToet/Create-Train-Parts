@@ -15,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.common.ForgeMod;
 
 import java.util.List;
 import java.util.function.Function;
@@ -62,8 +63,8 @@ public abstract class ArmHelper<T extends Comparable<T>> implements IPlacementHe
         for (Direction dir : directions) {
             int range = AllConfigs.server().equipment.placementAssistRange.get();
             if (player != null) {
-                AttributeInstance reach = player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
-                if (reach != null && reach.hasModifier(ExtendoGripItem.singleRangeAttributeModifier.id()))
+                AttributeInstance reach = player.getAttribute(ForgeMod.BLOCK_REACH.get());
+                if (reach != null && reach.hasModifier(ExtendoGripItem.singleRangeAttributeModifier))
                     range += 4;
             }
             int arms = attachedArms(world, pos, dir);

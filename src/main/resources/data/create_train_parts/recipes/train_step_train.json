@@ -3,7 +3,7 @@
   "category": "building",
   "key": {
     "#": {
-      "item": "create:brass_casing"
+      "item": "create:railway_casing"
     }
   },
   "pattern": [
@@ -12,7 +12,7 @@
     "###"
   ],
   "result": {
-    "id": "create_train_parts:train_step_brass",
+    "item": "create_train_parts:train_step_train",
     "count": 1
   }
 }

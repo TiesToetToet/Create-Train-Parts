@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="21" />
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <option name="defaultObfuscationEnv" value="searge" />
+        <option name="mappingTypes" value="tsrg" />
+        <option name="outRefMapFile" value="C:\Users\tiesh\Documents\Create-Train-Parts\build\mixin\create_train_parts.refmap.json" />
+        <option name="outTsrgFile" value="C:\Users\tiesh\Documents\Create-Train-Parts\build\mixin\create_train_parts.refmap.json.mappings.tsrg" />
+        <option name="pluginVersion" value="0.7" />
+        <option name="reobfTsrgFile" value="C:\Users\tiesh\Documents\Create-Train-Parts\build\moddev\artifacts\namedToIntermediate.tsrg" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.llamalad7/mixinextras-common/0.4.1/a7f425cc49de7f10d008a9a676f5f023ebac13bb/mixinextras-common-0.4.1.jar" />
+        </processorPath>
+        <module name="Create-Train-Parts.main" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="17" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Create-Train-Parts.main" options="-AreobfTsrgFile=C:\Users\tiesh\Documents\Create-Train-Parts\build\moddev\artifacts\namedToIntermediate.tsrg -AoutTsrgFile=C:\Users\tiesh\Documents\Create-Train-Parts\build\mixin\create_train_parts.refmap.json.mappings.tsrg -AoutRefMapFile=C:\Users\tiesh\Documents\Create-Train-Parts\build\mixin\create_train_parts.refmap.json -AmappingTypes=tsrg -ApluginVersion=0.7 -AdefaultObfuscationEnv=searge" />
+    </option>
   </component>
 </project>

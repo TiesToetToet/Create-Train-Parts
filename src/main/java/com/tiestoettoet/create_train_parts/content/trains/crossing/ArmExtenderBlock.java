@@ -3,6 +3,7 @@ package com.tiestoettoet.create_train_parts.content.trains.crossing;
 import com.mojang.serialization.MapCodec;
 import com.tiestoettoet.create_train_parts.AllBlocks;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
+import com.tiestoettoet.create_train_parts.foundation.block.WrenchableHorizontalDirectionalBlock;
 import com.tiestoettoet.create_train_parts.foundation.placement.ArmHelper;
 import net.createmod.catnip.placement.IPlacementHelper;
 import net.createmod.catnip.placement.PlacementHelpers;
@@ -10,7 +11,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +34,7 @@ import java.util.function.Predicate;
 
 import static com.simibubi.create.content.kinetics.base.HorizontalKineticBlock.HORIZONTAL_FACING;
 
-public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWrenchable {
+public class ArmExtenderBlock extends WrenchableHorizontalDirectionalBlock implements IWrenchable {
     private static final int placementHelperId = PlacementHelpers.register(PlacementHelper.get());
 
     public static final BooleanProperty FLIPPED = BooleanProperty.create("flipped");
@@ -45,13 +46,19 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
     }
 
     @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
+        return false;
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+            BlockHitResult hitResult) {
         return null;
     }
 
     @Override
-    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        return state;
+    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override
@@ -99,14 +106,14 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    public InteractionResult use(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hitResult) {
         IPlacementHelper placementHelper = PlacementHelpers.get(placementHelperId);
         if (placementHelper.matchesItem(stack) && !player.isShiftKeyDown())
             return placementHelper.getOffset(player, level, state, pos, hitResult).placeInWorld(level,
                     (BlockItem) stack.getItem(), player, hand, hitResult);
 
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.PASS;
     }
 
     public static boolean isArm(BlockState state) {
@@ -115,7 +122,7 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder.add(HORIZONTAL_FACING).add(FLIPPED).add(OPEN));
+        super.createBlockStateDefinition(builder.add(FLIPPED).add(OPEN));
     }
 
     @Override
@@ -128,11 +135,6 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
         // RenderShape.ENTITYBLOCK_ANIMATED;
-    }
-
-    @Override
-    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
-        return false;
     }
 
     // @Override

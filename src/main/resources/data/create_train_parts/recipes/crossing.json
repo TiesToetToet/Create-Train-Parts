@@ -17,7 +17,7 @@
   },
   "pattern": ["TC ", "TCF", " S "],
   "result": {
-    "id": "create_train_parts:crossing",
+    "item": "create_train_parts:crossing",
     "count": 1
   }
 }

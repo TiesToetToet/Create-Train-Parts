@@ -20,11 +20,6 @@ build
 # other
 eclipse
 run
-runs
-run-data
-
-repo
 
 # Files from Forge MDK
 forge*changelog.txt
-.idea/misc.xml

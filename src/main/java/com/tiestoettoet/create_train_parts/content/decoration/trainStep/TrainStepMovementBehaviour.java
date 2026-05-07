@@ -28,8 +28,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import static net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING;
 
@@ -138,9 +138,11 @@ public class TrainStepMovementBehaviour implements MovementBehaviour {
             return false;
         }
 
-        if (context.temporaryData instanceof TrainStepAnimationData wr && wr.doorControls instanceof DoorControlBehaviour dcb)
-            if (dcb.blockEntity != null && !dcb.blockEntity.isRemoved())
+        if (context.temporaryData instanceof TrainStepAnimationData wr) {
+            DoorControlBehaviour dcb = wr.doorControls;
+            if (dcb != null && dcb.blockEntity != null && !dcb.blockEntity.isRemoved())
                 return shouldOpenAt(dcb, context);
+        }
 
         DoorControlBehaviour doorControls = null;
 
