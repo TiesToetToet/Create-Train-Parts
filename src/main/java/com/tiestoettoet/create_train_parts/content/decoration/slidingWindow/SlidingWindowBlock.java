@@ -406,6 +406,7 @@ public class SlidingWindowBlock extends WrenchableHorizontalDirectionalBlock
         Direction.Axis axis = state.getValue(SlidingWindowBlock.FACING).getAxis();
         SlidingWindowBlockEntity.SelectionMode mode = state.getValue(SlidingWindowBlock.MODE);
 
+
         while (!frontier.isEmpty()) {
             BlockPos currentPos = frontier.poll();
             if (visited.contains(currentPos))
@@ -415,6 +416,9 @@ public class SlidingWindowBlock extends WrenchableHorizontalDirectionalBlock
             BlockState currentState = level.getBlockState(currentPos);
             if (!(currentState.getBlock() instanceof SlidingWindowBlock))
                 continue;
+
+//            System.out.println("Checking neighbor at " + currentPos + " with state: " + currentState);
+//            System.out.println("Current block state: " + state);
 
             if (!SlidingWindowBlock.sameKind(state, currentState))
                 continue;

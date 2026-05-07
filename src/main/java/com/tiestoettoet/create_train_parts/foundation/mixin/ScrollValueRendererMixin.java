@@ -34,7 +34,13 @@ import java.util.List;
 @Mixin(ScrollValueRenderer.class)
 public class ScrollValueRendererMixin {
 
-    @Overwrite
+    /**
+     * Custom tick implementation with support for BulkScrollOptionBehaviour.
+     *
+     * @author Create-Train-Parts
+     * @reason Support for bulk scrolling option behaviours
+     */
+    @Overwrite(remap = false)
     public static void tick() {
         Minecraft mc = Minecraft.getInstance();
         HitResult target = mc.hitResult;
@@ -93,7 +99,13 @@ public class ScrollValueRendererMixin {
         }
     }
 
-    @Overwrite
+    /**
+     * Custom addBox implementation for rendering scroll value behaviours with train parts support.
+     *
+     * @author Create-Train-Parts
+     * @reason Support for train-specific scroll value renderers
+     */
+    @Overwrite(remap = false)
     protected static void addBox(ClientLevel world, BlockPos pos, Direction face, ScrollValueBehaviour behaviour,
                                  boolean highlight) {
         AABB bb = new AABB(Vec3.ZERO, Vec3.ZERO).inflate(.5f)

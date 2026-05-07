@@ -8,7 +8,7 @@
   },
   "pattern": ["FF"],
   "result": {
-    "id": "create_train_parts:arm_extender",
+    "item": "create_train_parts:arm_extender",
     "count": 4
   }
 }

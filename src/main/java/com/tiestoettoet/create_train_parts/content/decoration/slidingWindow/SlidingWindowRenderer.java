@@ -261,13 +261,13 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
         ResourceLocation blockTexture = BuiltInRegistries.BLOCK.getKey(state.getBlock());
 
         SlidingWindowTextureType textureType = SlidingWindowTextureType.fromBlockTexturePath(blockTexture.getPath());
-        System.out.println("Rendering sliding window with texture type: " + textureType);
+//        System.out.println("Rendering sliding window with texture type: " + textureType);
         
         // Use tripwire for glass to avoid blocking water rendering; use cutoutMipped for others
         RenderType renderType = textureType == SlidingWindowTextureType.GLASS 
             ? RenderType.tripwire() 
             : RenderType.cutoutMipped();
-        System.out.println("Using render type: " + renderType);
+//        System.out.println("Using render type: " + renderType);
         VertexConsumer vb = buffer.getBuffer(renderType);
 
         ConnectedTextureBehaviour ctBehaviour = new SlidingWindowCTBehaviour(textureType.getSpriteShift());

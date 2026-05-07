@@ -19,12 +19,18 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 Provider<RegularFile> refmap
 mixin {
     refmap = add(sourceSets.main, "create_train_parts.refmap.json")
-//    config "create_train_parts.mixins.json"
+    config "create_train_parts.mixins.json"
 }
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 legacyForge {
     version = "$minecraft_version-$forge_version"
+
+    validateAccessTransformers = false
+
+    if (file("src/main/resources/META-INF/accesstransformer.cfg").exists()) {
+        accessTransformers.from "src/main/resources/META-INF/accesstransformer.cfg"
+    }
     // The mappings can be changed at any time and must be in the following format.
     // Channel:   Version:
     // official   MCVersion             Official field/method names from Mojang mapping files
@@ -171,6 +177,10 @@ dependencies {
 
     modCompileOnly("top.theillusivec4.curios:curios-forge:${curios_version}+${curios_minecraft_version}:api")
     modRuntimeOnly("top.theillusivec4.curios:curios-forge:${curios_version}+${curios_minecraft_version}")
+
+    if (!Boolean.getBoolean("idea.sync.active")) {
+        annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+    }
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
