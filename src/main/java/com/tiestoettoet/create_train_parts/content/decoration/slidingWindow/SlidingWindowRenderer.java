@@ -262,10 +262,16 @@ public class SlidingWindowRenderer extends SafeBlockEntityRenderer<SlidingWindow
         };
 
         float exponentialValue = animValue * animValue;
-        VertexConsumer vb = buffer.getBuffer(RenderType.cutoutMipped());
         ResourceLocation blockTexture = BuiltInRegistries.BLOCK.getKey(state.getBlock());
 
         SlidingWindowTextureType textureType = SlidingWindowTextureType.fromBlockTexturePath(blockTexture.getPath());
+
+        RenderType renderType = textureType == SlidingWindowTextureType.GLASS
+                ? RenderType.tripwire()
+                : RenderType.cutoutMipped();
+
+        VertexConsumer vb = buffer.getBuffer(renderType);
+
 
         ConnectedTextureBehaviour ctBehaviour = new SlidingWindowCTBehaviour(textureType.getSpriteShift());
         CTType dataType = ctBehaviour.getDataType(renderWorld, pos, state, facing);
