@@ -42,6 +42,11 @@
   "create_train_parts.ponder.crossing.text_2": "Reverse the power to change direction",
   "create_train_parts.ponder.crossing.text_3": "If you want to extend the Crossing Gate, simply place down Arm Extenders",
 
+  "create_train_parts.ponder.crossing_modes.header": "Crossing Modes",
+  "create_train_parts.ponder.crossing_modes.text_1": "In Normal mode, players can jump over the gate",
+  "create_train_parts.ponder.crossing_modes.text_2": "But this can be configured with a wrench",
+  "create_train_parts.ponder.crossing_modes.text_3": "The barrier is made of invisible collision blocks",
+
   "create_train_parts.ponder.railway_crossing.header": "Level Crossing Gate",
   "create_train_parts.ponder.railway_crossing.text_1": "When using Level Crossing Gates with Signals, you can create a safe Level Crossing",
 
@@ -53,5 +58,8 @@
   "create_train_parts.train_step.mode": "Slide mode",
   "step.mode.slide": "Extend Slide",
   "step.mode.no_slide": "Don't Extend Slide",
+  "create_train_parts.crossing.mode": "Crossing Mode",
+  "step.mode.no_barrier": "Normal",
+  "step.mode.barrier": "Barrier",
   "itemGroup.create_train_parts.base": "Create Train Parts"
 }
