@@ -16,6 +16,7 @@ import net.createmod.catnip.placement.PlacementHelpers;
 import net.createmod.catnip.placement.PlacementOffset;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Interaction;
 import net.minecraft.world.entity.player.Player;
@@ -50,27 +51,36 @@ public class CrossingBlock extends HorizontalKineticBlock
     public static final int placementHelperId = PlacementHelpers.register(new GantryShaftBlock.PlacementHelper());
     public static final BooleanProperty FLIPPED = BooleanProperty.create("flipped");
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
+    public static final BooleanProperty BARRIER = BooleanProperty.create("barrier");
 
     protected static final VoxelShape NORTH_OPEN;
     protected static final VoxelShape NORTH_OPEN_FLIPPED;
     protected static final VoxelShape NORTH_CLOSED;
+    protected static final VoxelShape NORTH_CLOSED_BARRIER;
     protected static final VoxelShape NORTH_CLOSED_FLIPPED;
+    protected static final VoxelShape NORTH_CLOSED_FLIPPED_BARRIER;
     protected static final VoxelShape SOUTH_OPEN;
     protected static final VoxelShape SOUTH_OPEN_FLIPPED;
     protected static final VoxelShape SOUTH_CLOSED;
+    protected static final VoxelShape SOUTH_CLOSED_BARRIER;
     protected static final VoxelShape SOUTH_CLOSED_FLIPPED;
+    protected static final VoxelShape SOUTH_CLOSED_FLIPPED_BARRIER;
     protected static final VoxelShape WEST_OPEN;
     protected static final VoxelShape WEST_OPEN_FLIPPED;
     protected static final VoxelShape WEST_CLOSED;
+    protected static final VoxelShape WEST_CLOSED_BARRIER;
     protected static final VoxelShape WEST_CLOSED_FLIPPED;
+    protected static final VoxelShape WEST_CLOSED_FLIPPED_BARRIER;
     protected static final VoxelShape EAST_OPEN;
     protected static final VoxelShape EAST_OPEN_FLIPPED;
     protected static final VoxelShape EAST_CLOSED;
+    protected static final VoxelShape EAST_CLOSED_BARRIER;
     protected static final VoxelShape EAST_CLOSED_FLIPPED;
+    protected static final VoxelShape EAST_CLOSED_FLIPPED_BARRIER;
 
     public CrossingBlock(Properties properties) {
         super(properties);
-        registerDefaultState(defaultBlockState().setValue(FLIPPED, false).setValue(OPEN, false));
+        registerDefaultState(defaultBlockState().setValue(FLIPPED, false).setValue(OPEN, false).setValue(BARRIER, false));
     }
 
     @Override
@@ -114,13 +124,44 @@ public class CrossingBlock extends HorizontalKineticBlock
     }
 
     @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        Boolean flipped = state.getValue(FLIPPED);
+        Boolean open = state.getValue(OPEN);
+        if (open) {
+            return getShape(state, level, pos, context);
+        }
+        Boolean barrier = state.getValue(BARRIER);
+        if (!barrier) {
+            return getShape(state, level, pos, context);
+        }
+        Direction direction = state.getValue(HORIZONTAL_FACING);
+        switch (direction) {
+            case NORTH -> {
+                return flipped ? NORTH_CLOSED_FLIPPED_BARRIER : NORTH_CLOSED_BARRIER;
+            }
+            case SOUTH -> {
+                return flipped ? SOUTH_CLOSED_FLIPPED_BARRIER : SOUTH_CLOSED_BARRIER;
+            }
+            case WEST -> {
+                return flipped ? WEST_CLOSED_FLIPPED_BARRIER : WEST_CLOSED_BARRIER;
+            }
+            case EAST -> {
+                return flipped ? EAST_CLOSED_FLIPPED_BARRIER : EAST_CLOSED_BARRIER;
+            }
+
+        }
+        return getShape(state, level, pos, context);
+    }
+
+    @Override
     protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return null;
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder.add(FLIPPED).add(OPEN));
+        super.createBlockStateDefinition(builder.add(FLIPPED).add(OPEN).add(BARRIER));
     }
 
     @Override
@@ -134,7 +175,7 @@ public class CrossingBlock extends HorizontalKineticBlock
 
         boolean flipped = false;
 
-        return state.setValue(HORIZONTAL_FACING, facing).setValue(FLIPPED, flipped).setValue(OPEN, false);
+        return state.setValue(HORIZONTAL_FACING, facing).setValue(FLIPPED, flipped).setValue(OPEN, false).setValue(BARRIER, false);
     }
 
     @Override
@@ -181,20 +222,20 @@ public class CrossingBlock extends HorizontalKineticBlock
         Direction newFacing = newState.getValue(HORIZONTAL_FACING);
         boolean newFlipped = newState.getValue(FLIPPED);
 
+
         // Check if only the flip state changed (not the facing direction)
         boolean onlyFlipped = oldFacing == newFacing && oldFlipped != newFlipped;
 
         if (onlyFlipped) {
             // If only flipped, just update the FLIPPED property of existing arm extenders
-            for (Direction direction : Direction.Plane.HORIZONTAL) {
-                BlockPos armPos = crossingPos.relative(direction);
-                while (world.getBlockState(armPos).getBlock() instanceof ArmExtenderBlock) {
-                    BlockState currentArmState = world.getBlockState(armPos);
-                    BlockState newArmState = currentArmState
-                            .setValue(ArmExtenderBlock.FLIPPED, newFlipped);
-                    world.setBlock(armPos, newArmState, 3);
-                    armPos = armPos.relative(direction);
-                }
+            Direction direction = oldFacing.getClockWise(); // Arms are always placed in the clockwise direction relative to facing
+            BlockPos armPos = crossingPos.relative(direction);
+            while (world.getBlockState(armPos).getBlock() instanceof ArmExtenderBlock) {
+                BlockState currentArmState = world.getBlockState(armPos);
+                BlockState newArmState = currentArmState
+                        .setValue(ArmExtenderBlock.FLIPPED, newFlipped);
+                world.setBlock(armPos, newArmState, 3);
+                armPos = armPos.relative(direction);
             }
         } else {
             // If facing direction changed, move the arms to the new direction
@@ -218,12 +259,11 @@ public class CrossingBlock extends HorizontalKineticBlock
             // Collect all arm extenders from all directions
             java.util.List<BlockPos> allArmPositions = new java.util.ArrayList<>();
 
-            for (Direction direction : Direction.Plane.HORIZONTAL) {
-                BlockPos armPos = crossingPos.relative(direction);
-                while (world.getBlockState(armPos).getBlock() instanceof ArmExtenderBlock) {
-                    allArmPositions.add(armPos);
-                    armPos = armPos.relative(direction);
-                }
+            Direction direction = oldFacing.getClockWise(); // Arms are always placed in the clockwise direction relative to facing
+            BlockPos armPos = crossingPos.relative(direction);
+            while (world.getBlockState(armPos).getBlock() instanceof ArmExtenderBlock) {
+                allArmPositions.add(armPos);
+                armPos = armPos.relative(direction);
             }
 
             // Remove all arm extenders from their old positions
@@ -237,7 +277,7 @@ public class CrossingBlock extends HorizontalKineticBlock
 
                 // Check if there's a block in the way and destroy it with drops
                 BlockState existingState = world.getBlockState(newPos);
-                if (!existingState.isAir() && !AllBlocks.ARM_EXTENDER.has(existingState)) {
+                if (!existingState.isAir()) {
                     world.destroyBlock(newPos, true); // true = drop items
                 }
 
@@ -480,6 +520,21 @@ public class CrossingBlock extends HorizontalKineticBlock
                 Shapes.join(Block.box(0, 6, 11, 16, 10, 13), Block.box(0, 10, 11, 4, 14, 13), BooleanOp.OR))
                 .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
+        NORTH_CLOSED_BARRIER = Stream.of(
+                Stream.of(
+                        Block.box(4, 0, 11, 12, 1, 12),
+                        Block.box(4, 0, 5, 5, 1, 11),
+                        Block.box(11, 0, 5, 12, 1, 11),
+                        Block.box(4, 0, 4, 12, 1, 5),
+                        Block.box(5, 1, 5, 11, 12, 11),
+                        Block.box(5, 12, 5, 11, 23, 11),
+                        Block.box(4, 12, 7, 5, 16, 9),
+                        Block.box(0, 17, 7, 4, 21, 9),
+                        Block.box(0, 12, 7, 4, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
+                Block.box(4, 17, 7, 5, 21, 9),
+                Shapes.join(Block.box(0, 6, 11, 16, 26, 13), Block.box(0, 10, 11, 4, 30, 13), BooleanOp.OR))
+                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+
         NORTH_CLOSED_FLIPPED = Stream.of(
                 Stream.of(
                         Block.box(4, 0, 11, 12, 1, 12),
@@ -493,6 +548,21 @@ public class CrossingBlock extends HorizontalKineticBlock
                         Block.box(0, 12, 7, 4, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
                 Block.box(4, 17, 7, 5, 21, 9),
                 Shapes.join(Block.box(0, 6, 3, 16, 10, 5), Block.box(0, 10, 3, 4, 14, 5), BooleanOp.OR))
+                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+
+        NORTH_CLOSED_FLIPPED_BARRIER = Stream.of(
+                Stream.of(
+                        Block.box(4, 0, 11, 12, 1, 12),
+                        Block.box(4, 0, 5, 5, 1, 11),
+                        Block.box(11, 0, 5, 12, 1, 11),
+                        Block.box(4, 0, 4, 12, 1, 5),
+                        Block.box(5, 1, 5, 11, 12, 11),
+                        Block.box(5, 12, 5, 11, 23, 11),
+                        Block.box(4, 12, 7, 5, 16, 9),
+                        Block.box(0, 17, 7, 4, 21, 9),
+                        Block.box(0, 12, 7, 4, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
+                Block.box(4, 17, 7, 5, 21, 9),
+                Shapes.join(Block.box(0, 6, 3, 16, 26, 5), Block.box(0, 10, 3, 4, 30, 5), BooleanOp.OR))
                 .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
         EAST_OPEN = Stream.of(
@@ -540,6 +610,21 @@ public class CrossingBlock extends HorizontalKineticBlock
                 Shapes.join(Block.box(3, 6, 0, 5, 10, 16), Block.box(3, 10, 0, 5, 14, 4), BooleanOp.OR))
                 .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
+        EAST_CLOSED_BARRIER = Stream.of(
+                Stream.of(
+                        Block.box(4, 0, 4, 5, 1, 12),
+                        Block.box(5, 0, 4, 11, 1, 5),
+                        Block.box(5, 0, 11, 11, 1, 12),
+                        Block.box(11, 0, 4, 12, 1, 12),
+                        Block.box(5, 1, 5, 11, 12, 11),
+                        Block.box(5, 12, 5, 11, 23, 11),
+                        Block.box(7, 12, 4, 9, 16, 5),
+                        Block.box(7, 17, 0, 9, 21, 4),
+                        Block.box(7, 12, 0, 9, 16, 4)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
+                Block.box(7, 17, 4, 9, 21, 5),
+                Shapes.join(Block.box(3, 6, 0, 5, 26, 16), Block.box(3, 10, 0, 5, 30, 4), BooleanOp.OR))
+                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+
         EAST_CLOSED_FLIPPED = Stream.of(
                 Stream.of(
                         Block.box(4, 0, 4, 5, 1, 12),
@@ -553,6 +638,21 @@ public class CrossingBlock extends HorizontalKineticBlock
                         Block.box(7, 12, 0, 9, 16, 4)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
                 Block.box(7, 17, 4, 9, 21, 5),
                 Shapes.join(Block.box(11, 6, 0, 13, 10, 16), Block.box(11, 10, 0, 13, 14, 4), BooleanOp.OR))
+                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+
+        EAST_CLOSED_FLIPPED_BARRIER = Stream.of(
+                Stream.of(
+                        Block.box(4, 0, 4, 5, 1, 12),
+                        Block.box(5, 0, 4, 11, 1, 5),
+                        Block.box(5, 0, 11, 11, 1, 12),
+                        Block.box(11, 0, 4, 12, 1, 12),
+                        Block.box(5, 1, 5, 11, 12, 11),
+                        Block.box(5, 12, 5, 11, 23, 11),
+                        Block.box(7, 12, 4, 9, 16, 5),
+                        Block.box(7, 17, 0, 9, 21, 4),
+                        Block.box(7, 12, 0, 9, 16, 4)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
+                Block.box(7, 17, 4, 9, 21, 5),
+                Shapes.join(Block.box(11, 6, 0, 13, 26, 16), Block.box(11, 10, 0, 13, 30, 4), BooleanOp.OR))
                 .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
         SOUTH_OPEN = Stream.of(
@@ -600,6 +700,21 @@ public class CrossingBlock extends HorizontalKineticBlock
                 Shapes.join(Block.box(0, 6, 3, 16, 10, 5), Block.box(12, 10, 3, 16, 14, 5), BooleanOp.OR))
                 .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
+        SOUTH_CLOSED_BARRIER = Stream.of(
+                Stream.of(
+                        Block.box(4, 0, 4, 12, 1, 5),
+                        Block.box(11, 0, 5, 12, 1, 11),
+                        Block.box(4, 0, 5, 5, 1, 11),
+                        Block.box(4, 0, 11, 12, 1, 12),
+                        Block.box(5, 1, 5, 11, 12, 11),
+                        Block.box(5, 12, 5, 11, 23, 11),
+                        Block.box(11, 12, 7, 12, 16, 9),
+                        Block.box(12, 17, 7, 16, 21, 9),
+                        Block.box(12, 12, 7, 16, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
+                Block.box(11, 17, 7, 12, 21, 9),
+                Shapes.join(Block.box(0, 6, 3, 16, 26, 5), Block.box(12, 10, 3, 16, 30, 5), BooleanOp.OR))
+                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+
         SOUTH_CLOSED_FLIPPED = Stream.of(
                 Stream.of(
                         Block.box(4, 0, 4, 12, 1, 5),
@@ -613,6 +728,21 @@ public class CrossingBlock extends HorizontalKineticBlock
                         Block.box(12, 12, 7, 16, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
                 Block.box(11, 17, 7, 12, 21, 9),
                 Shapes.join(Block.box(0, 6, 11, 16, 10, 13), Block.box(12, 10, 11, 16, 14, 13), BooleanOp.OR))
+                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+
+        SOUTH_CLOSED_FLIPPED_BARRIER = Stream.of(
+                Stream.of(
+                        Block.box(4, 0, 4, 12, 1, 5),
+                        Block.box(11, 0, 5, 12, 1, 11),
+                        Block.box(4, 0, 5, 5, 1, 11),
+                        Block.box(4, 0, 11, 12, 1, 12),
+                        Block.box(5, 1, 5, 11, 12, 11),
+                        Block.box(5, 12, 5, 11, 23, 11),
+                        Block.box(11, 12, 7, 12, 16, 9),
+                        Block.box(12, 17, 7, 16, 21, 9),
+                        Block.box(12, 12, 7, 16, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
+                Block.box(11, 17, 7, 12, 21, 9),
+                Shapes.join(Block.box(0, 6, 11, 16, 26, 13), Block.box(12, 10, 11, 16, 30, 13), BooleanOp.OR))
                 .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
         WEST_OPEN = Stream.of(
@@ -660,6 +790,21 @@ public class CrossingBlock extends HorizontalKineticBlock
                 Shapes.join(Block.box(11, 6, 0, 13, 10, 16), Block.box(11, 10, 12, 13, 14, 16), BooleanOp.OR))
                 .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
+        WEST_CLOSED_BARRIER = Stream.of(
+                Stream.of(
+                        Block.box(11, 0, 4, 12, 1, 12),
+                        Block.box(5, 0, 11, 11, 1, 12),
+                        Block.box(5, 0, 4, 11, 1, 5),
+                        Block.box(4, 0, 4, 5, 1, 12),
+                        Block.box(5, 1, 5, 11, 12, 11),
+                        Block.box(5, 12, 5, 11, 23, 11),
+                        Block.box(7, 12, 11, 9, 16, 12),
+                        Block.box(7, 17, 12, 9, 21, 16),
+                        Block.box(7, 12, 12, 9, 16, 16)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
+                Block.box(7, 17, 11, 9, 21, 12),
+                Shapes.join(Block.box(11, 6, 0, 13, 26, 16), Block.box(11, 10, 12, 13, 30, 16), BooleanOp.OR))
+                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+
         WEST_CLOSED_FLIPPED = Stream.of(
                 Stream.of(
                         Block.box(11, 0, 4, 12, 1, 12),
@@ -673,6 +818,21 @@ public class CrossingBlock extends HorizontalKineticBlock
                         Block.box(7, 12, 12, 9, 16, 16)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
                 Block.box(7, 17, 11, 9, 21, 12),
                 Shapes.join(Block.box(3, 6, 0, 5, 10, 16), Block.box(3, 10, 12, 5, 14, 16), BooleanOp.OR))
+                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+
+        WEST_CLOSED_FLIPPED_BARRIER = Stream.of(
+                Stream.of(
+                        Block.box(11, 0, 4, 12, 1, 12),
+                        Block.box(5, 0, 11, 11, 1, 12),
+                        Block.box(5, 0, 4, 11, 1, 5),
+                        Block.box(4, 0, 4, 5, 1, 12),
+                        Block.box(5, 1, 5, 11, 12, 11),
+                        Block.box(5, 12, 5, 11, 23, 11),
+                        Block.box(7, 12, 11, 9, 16, 12),
+                        Block.box(7, 17, 12, 9, 21, 16),
+                        Block.box(7, 12, 12, 9, 16, 16)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
+                Block.box(7, 17, 11, 9, 21, 12),
+                Shapes.join(Block.box(3, 6, 0, 5, 26, 16), Block.box(3, 10, 12, 5, 30, 16), BooleanOp.OR))
                 .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
     }
 

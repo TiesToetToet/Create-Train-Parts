@@ -35,6 +35,11 @@ public class AllIcons extends com.simibubi.create.foundation.gui.AllIcons implem
         I_CLOSE_SLIDE = next();
     ;
 
+    public static final AllIcons
+        I_CROSSING_NO_BARRIER = newRow(),
+        I_CROSSING_BARRIER = next();
+    ;
+
     public AllIcons(int x, int y) {
         super(x, y);
         iconX = x * 16;
