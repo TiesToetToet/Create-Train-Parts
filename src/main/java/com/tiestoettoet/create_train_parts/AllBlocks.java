@@ -73,7 +73,9 @@ public class AllBlocks {
 
     public static final BlockEntry<SlidingWindowBlock> GLASS_SLIDING_WINDOW = REGISTRATE.block("glass_sliding_window", SlidingWindowBlock::new)
             .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_BLUE)
-                    .sound(SoundType.GLASS))
+                    .sound(SoundType.GLASS)
+                    .noOcclusion()
+                    .dynamicShape())
             .transform(BuilderTransformers.slidingWindow("glass",
                     () -> com.simibubi.create.AllSpriteShifts.FRAMED_GLASS))
             .register();

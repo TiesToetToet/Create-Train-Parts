@@ -27,6 +27,7 @@ public class AllCreateTrainPartsPonderScenes {
 
         HELPER.forComponents(AllBlocks.CROSSING)
                 .addStoryBoard("crossing/crossing", CrossingScenes::crossing)
+                .addStoryBoard("crossing/crossing_modes", CrossingScenes::modes)
                 .addStoryBoard("crossing/railroad_crossing", CrossingScenes::railway_crossing);
     }
 

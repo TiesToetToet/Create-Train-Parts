@@ -37,7 +37,7 @@ public class AllCreativeModeTabs {
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.create_train_parts.base"))
                     .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
-                    .icon(() -> AllBlocks.TRAIN_STEP_ANDESITE.asStack())
+                    .icon(() -> AllBlocks.CROSSING.asStack())
                     .displayItems(new RegistrateDisplayItemsGenerator(true, AllCreativeModeTabs.BASE_CREATIVE_TAB))
                     .build());
 

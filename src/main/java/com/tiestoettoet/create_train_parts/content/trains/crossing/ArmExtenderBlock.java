@@ -3,6 +3,8 @@ package com.tiestoettoet.create_train_parts.content.trains.crossing;
 import com.mojang.serialization.MapCodec;
 import com.tiestoettoet.create_train_parts.AllBlocks;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
+import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
+import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepType;
 import com.tiestoettoet.create_train_parts.foundation.placement.ArmHelper;
 import net.createmod.catnip.placement.IPlacementHelper;
 import net.createmod.catnip.placement.PlacementHelpers;
@@ -27,6 +29,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.function.Predicate;
@@ -38,10 +41,11 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
 
     public static final BooleanProperty FLIPPED = BooleanProperty.create("flipped");
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
+    public static final BooleanProperty BARRIER = BooleanProperty.create("barrier");
 
     public ArmExtenderBlock(Properties properties) {
         super(properties);
-        registerDefaultState(defaultBlockState().setValue(FLIPPED, false).setValue(OPEN, false));
+        registerDefaultState(defaultBlockState().setValue(FLIPPED, false).setValue(OPEN, false).setValue(BARRIER, false));
     }
 
     @Override
@@ -86,6 +90,41 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
     }
 
     @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        Boolean barrier = state.getValue(BARRIER);
+        if (!barrier) {
+            return state.getShape(level, pos);
+        }
+        Direction facing = state.getValue(HORIZONTAL_FACING);
+        boolean flipped = state.getValue(FLIPPED);
+
+        // Base shape from JSON: arm extends from y=6 to y=10 (height 4), z=0 to z=16
+        // (full depth)
+        // Normal (not flipped): x=11 to x=13 (width 2)
+        // Flipped: x=3 to x=5 (width 2)
+
+        VoxelShape baseShape;
+        if (flipped) {
+            // Flipped version: x=3 to x=5
+            baseShape = Block.box(3, 6, 0, 5, 26, 16);
+        } else {
+            // Normal version: x=11 to x=13
+            baseShape = Block.box(11, 6, 0, 13, 26, 16);
+        }
+
+        // Rotate the shape based on the facing direction
+        // The JSON models are oriented for west facing (y=0), so we need to rotate
+        // accordingly
+        return switch (facing) {
+            case NORTH -> flipped ? Block.box(0, 6, 3, 16, 26, 5) : Block.box(0, 6, 11, 16, 26, 13);
+            case SOUTH -> flipped ? Block.box(0, 6, 11, 16, 26, 13) : Block.box(0, 6, 3, 16, 26, 5);
+            case EAST -> flipped ? Block.box(11, 6, 0, 13, 26, 16) : Block.box(3, 6, 0, 5, 26, 16);
+            case WEST -> flipped ? Block.box(3, 6, 0, 5, 26, 16) : Block.box(11, 6, 0, 13, 26, 16);
+            default -> baseShape;
+        };
+    }
+
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState state = super.getStateForPlacement(context);
         if (state == null) {
@@ -95,7 +134,24 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
         Direction facing = context.getHorizontalDirection(); // Get the horizontal direction the player is facing
         boolean flipped = false; // Default value for flipped
 
-        return state.setValue(HORIZONTAL_FACING, facing).setValue(FLIPPED, flipped).setValue(OPEN, true);
+        BlockPos pos = context.getClickedPos(); // Retrieve the BlockPos
+        Level level = context.getLevel();
+        // get neighbour block of where to place
+
+        boolean open = false;
+        BlockState rightState = level.getBlockState(pos.relative(facing.getCounterClockWise()));
+        BlockState leftState = level.getBlockState(pos.relative(facing.getClockWise()));
+
+        boolean barrier = false;
+
+        if (leftState.getBlock() instanceof ArmExtenderBlock && leftState.hasProperty(BARRIER) && leftState.getValue(BARRIER)) {
+            barrier = true;
+        }
+        if (rightState.getBlock() instanceof ArmExtenderBlock && rightState.hasProperty(BARRIER) && rightState.getValue(BARRIER)) {
+            barrier = true;
+        }
+
+        return state.setValue(HORIZONTAL_FACING, facing).setValue(FLIPPED, flipped).setValue(OPEN, true).setValue(BARRIER, barrier);
     }
 
     @Override
@@ -115,7 +171,7 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder.add(HORIZONTAL_FACING).add(FLIPPED).add(OPEN));
+        super.createBlockStateDefinition(builder.add(HORIZONTAL_FACING).add(FLIPPED).add(OPEN).add(BARRIER));
     }
 
     @Override
