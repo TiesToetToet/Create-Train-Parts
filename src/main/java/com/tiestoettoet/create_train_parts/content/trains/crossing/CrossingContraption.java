@@ -32,16 +32,16 @@ public class CrossingContraption extends Contraption {
 
     @Override
     public boolean assemble(Level world, BlockPos pos) throws AssemblyException {
-        System.out.println("CrossingContraption.assemble() called at " + pos);
+//        System.out.println("CrossingContraption.assemble() called at " + pos);
         anchor = pos;
 
         // Use the standard searchMovedStructure which will discover connected blocks
         // starting from the crossing block itself
         boolean searchResult = searchMovedStructure(world, pos, null);
-        System.out.println("searchMovedStructure result: " + searchResult + ", blocks found: " + blocks.size());
+//        System.out.println("searchMovedStructure result: " + searchResult + ", blocks found: " + blocks.size());
 
         if (!searchResult) {
-            System.out.println("Assembly failed: searchMovedStructure returned false");
+//            System.out.println("Assembly failed: searchMovedStructure returned false");
             return false;
         }
 
@@ -50,11 +50,11 @@ public class CrossingContraption extends Contraption {
         }
 
         if (blocks.isEmpty()) {
-            System.out.println("Assembly failed: no blocks found");
+//            System.out.println("Assembly failed: no blocks found");
             return false;
         }
 
-        System.out.println("Assembly successful with " + blocks.size() + " blocks");
+//        System.out.println("Assembly successful with " + blocks.size() + " blocks");
         return true;
     }
 
@@ -72,8 +72,8 @@ public class CrossingContraption extends Contraption {
 
     @Override
     public void addBlock(Level level, BlockPos pos, Pair<StructureTemplate.StructureBlockInfo, BlockEntity> capture) {
-        System.out.println("Adding block to contraption at " + pos + ": "
-                + capture.getLeft().state().getBlock().getClass().getSimpleName());
+//        System.out.println("Adding block to contraption at " + pos + ": "
+//                + capture.getLeft().state().getBlock().getClass().getSimpleName());
         super.addBlock(level, pos, capture);
     }
 
@@ -102,11 +102,11 @@ public class CrossingContraption extends Contraption {
             return super.moveBlock(world, forcedDirection, frontier, visited);
 
         BlockState state = world.getBlockState(pos);
-        System.out.println("Processing block at " + pos + ": " + state.getBlock().getClass().getSimpleName());
+//        System.out.println("Processing block at " + pos + ": " + state.getBlock().getClass().getSimpleName());
 
         // Special handling for CrossingBlock - collect connected arm extenders
         if (AllBlocks.CROSSING.has(state)) {
-            System.out.println("Found crossing block at " + pos);
+//            System.out.println("Found crossing block at " + pos);
             // Get the crossing block's properties
             boolean flipped = state.getValue(CrossingBlock.FLIPPED);
             Direction crossingFacing = state.getValue(HORIZONTAL_FACING);
@@ -121,17 +121,17 @@ public class CrossingContraption extends Contraption {
                 if (!visited.contains(armPos)) {
                     frontier.add(armPos);
                     armCount++;
-                    System.out.println("Added arm extender " + armCount + " at " + armPos);
+//                    System.out.println("Added arm extender " + armCount + " at " + armPos);
                 }
                 armPos = armPos.relative(armDirection);
             }
-            System.out.println("Total arms found: " + armCount);
+//            System.out.println("Total arms found: " + armCount);
         }
 
         // Special handling for ArmExtenderBlock - ensure they connect to adjacent arm
         // extenders
         if (state.getBlock() instanceof ArmExtenderBlock) {
-            System.out.println("Found arm extender at " + pos);
+//            System.out.println("Found arm extender at " + pos);
             boolean flipped = state.getValue(ArmExtenderBlock.FLIPPED);
             Direction armFacing = state.getValue(HORIZONTAL_FACING);
 
@@ -142,7 +142,7 @@ public class CrossingContraption extends Contraption {
             if (!visited.contains(nextArmPos)
                     && world.getBlockState(nextArmPos).getBlock() instanceof ArmExtenderBlock) {
                 frontier.add(nextArmPos);
-                System.out.println("Connected to next arm at " + nextArmPos);
+//                System.out.println("Connected to next arm at " + nextArmPos);
             }
 
             // Connect to the previous arm extender in the chain (but NOT back to crossing
@@ -151,7 +151,7 @@ public class CrossingContraption extends Contraption {
             if (!visited.contains(prevArmPos)
                     && world.getBlockState(prevArmPos).getBlock() instanceof ArmExtenderBlock) {
                 frontier.add(prevArmPos);
-                System.out.println("Connected to previous arm at " + prevArmPos);
+//                System.out.println("Connected to previous arm at " + prevArmPos);
             }
         }
 

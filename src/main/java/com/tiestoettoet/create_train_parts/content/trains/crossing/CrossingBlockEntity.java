@@ -78,22 +78,22 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
     }
 
     public void assemble() {
-        System.out.println("CrossingBlockEntity.assemble() called");
+//        System.out.println("CrossingBlockEntity.assemble() called");
         if (!(level.getBlockState(worldPosition)
                 .getBlock() instanceof CrossingBlock))
             return;
 
         Direction direction = getBlockState().getValue(HORIZONTAL_FACING);
         CrossingContraption contraption = new CrossingContraption(direction);
-        System.out.println("Created CrossingContraption with direction: " + direction);
+//        System.out.println("Created CrossingContraption with direction: " + direction);
         try {
             boolean assembleResult = contraption.assemble(level, worldPosition);
-            System.out.println("Contraption assemble result: " + assembleResult);
+//            System.out.println("Contraption assemble result: " + assembleResult);
             if (!assembleResult)
                 return;
             lastException = null;
         } catch (AssemblyException e) {
-            System.out.println("Assembly exception: " + e.getMessage());
+//            System.out.println("Assembly exception: " + e.getMessage());
             lastException = e;
             sendData();
             return;
@@ -119,14 +119,14 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
     }
 
     public void disassemble() {
-        System.out.println(
-                "Disassemble called - running: " + running + ", movedContraption: " + (movedContraption != null));
+//        System.out.println(
+//                "Disassemble called - running: " + running + ", movedContraption: " + (movedContraption != null));
         if (!running && movedContraption == null)
             return;
         angle = 0;
         sequencedAngleLimit = -1;
         if (movedContraption != null) {
-            System.out.println("Disassembling contraption");
+//            System.out.println("Disassembling contraption");
             movedContraption.disassemble();
             AllSoundEvents.CONTRAPTION_DISASSEMBLE.playOnServer(level, worldPosition);
         }
@@ -182,8 +182,8 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
                 // (animation.settled() && animation.getValue() > 0.9f);
 
                 if (animation.getValue() == 0) {
-                    System.out.println("Disassembling: speed=" + speed + ", shouldOpen=" + shouldOpen + ", animValue="
-                            + animation.getValue() + ", settled=" + animation.settled());
+//                    System.out.println("Disassembling: speed=" + speed + ", shouldOpen=" + shouldOpen + ", animValue="
+//                            + animation.getValue() + ", settled=" + animation.settled());
                     if (movedContraption != null)
                         movedContraption.getContraption()
                                 .stop(level);
@@ -199,8 +199,8 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
                         : (animation.settled() && animation.getValue() > 0.9f);
 
                 if (!isInClosedState) {
-                    System.out.println("Assembling: speed=" + speed + ", shouldOpen=" + shouldOpen + ", animValue="
-                            + animation.getValue() + ", settled=" + animation.settled());
+//                    System.out.println("Assembling: speed=" + speed + ", shouldOpen=" + shouldOpen + ", animValue="
+//                            + animation.getValue() + ", settled=" + animation.settled());
                     assemble();
                 }
             }

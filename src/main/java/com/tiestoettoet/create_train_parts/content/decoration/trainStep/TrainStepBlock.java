@@ -302,7 +302,7 @@ public class TrainStepBlock extends WrenchableHorizontalDirectionalBlock impleme
             ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult
     ) {
         if (stack.getItem() == AllItems.WRENCH.asItem()) {
-            System.out.println("Wrench");
+//            System.out.println("Wrench");
             rotate(state, Rotation.CLOCKWISE_90);
             return ItemInteractionResult.FAIL;
         }
