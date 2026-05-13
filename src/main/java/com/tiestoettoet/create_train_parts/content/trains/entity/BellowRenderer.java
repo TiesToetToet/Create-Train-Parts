@@ -12,6 +12,7 @@ import com.simibubi.create.content.trains.entity.Train;
 import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlock;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.animation.LerpedFloat;
+import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.math.AngleHelper;
 import net.createmod.catnip.render.CachedBuffers;
 import net.minecraft.client.Minecraft;
@@ -19,11 +20,13 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -33,6 +36,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.Map;
+
 import com.simibubi.create.content.contraptions.Contraption;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.level.block.Block;
@@ -71,17 +76,20 @@ public class BellowRenderer {
         }
     }
 
+    public record BellowInfo(Vec3 pos, BellowBlock block, Direction facing) {
+    }
+
     /**
      * Record to hold a pair of bellows that should be connected
      */
-    public record BellowPair(BlockPos pos1, BellowBlock bellow1, BlockPos pos2, BellowBlock bellow2, double distance) {
-        public Vec3 getPos1AsVec3() {
-            return Vec3.atCenterOf(pos1);
-        }
-
-        public Vec3 getPos2AsVec3() {
-            return Vec3.atCenterOf(pos2);
-        }
+    public record BellowPair(Vec3 pos1, BellowBlock bellow1, Vec3 pos2, BellowBlock bellow2, double distance) {
+//        public Vec3 getPos1AsVec3() {
+//            return Vec3.atCenterOf(pos1);
+//        }
+//
+//        public Vec3 getPos2AsVec3() {
+//            return Vec3.atCenterOf(pos2);
+//        }
     }
 
     public static void renderAll(PoseStack ms, MultiBufferSource buffer, Vec3 camera) {
@@ -95,45 +103,53 @@ public class BellowRenderer {
 
         for (Train train : trains) {
             List<Carriage> carriages = train.carriages;
-            for (int i = 0; i < carriages.size() - 1; i++) {
+            for (int i = 0; i < carriages.size(); i++) {
+                if (i >= carriages.size() - 1) {
+                    continue;
+                }
                 Carriage carriage = carriages.get(i);
                 CarriageContraptionEntity entity = carriage.getDimensional(level).entity.get();
                 Carriage carriage2 = carriages.get(i + 1);
-                CarriageContraptionEntity entity2 = carriage.getDimensional(level).entity.get();
+                CarriageContraptionEntity entity2 = carriage2.getDimensional(level).entity.get();
 
                 if (entity == null || entity2 == null)
                     continue;
 
                 CarriageBogey bogey1 = carriage.trailingBogey();
                 CarriageBogey bogey2 = carriage2.leadingBogey();
-                List<Map<BlockPos, BellowBlock>> bogey1Bellows = findBellows(bogey1.carriage);
-                List<Map<BlockPos, BellowBlock>> bogey2Bellows = findBellows(bogey2.carriage);
-                Vec3 anchor = bogey1.couplingAnchors.getSecond();
-                Vec3 anchor2 = bogey2.couplingAnchors.getFirst();
+                List<BellowInfo> bogey1Bellows = findBellows(bogey1.carriage);
+                List<BellowInfo> bogey2Bellows = findBellows(bogey2.carriage);
+//                Vec3 anchor = bogey1.couplingAnchors.getSecond();
+//                Vec3 anchor2 = bogey2.couplingAnchors.getFirst();
 
-                // Find the closest bellow pairs for rendering
-                List<BellowPair> bellowPairs = findClosestBellowPairs(bogey1Bellows, bogey2Bellows);
-
-                System.out.println("Bogey1 Bellows: " + bogey1Bellows + ", Bogey2 Bellows: " + bogey2Bellows);
-                System.out.println("Found " + bellowPairs.size() + " bellow pairs");
-
-                // Print each pair with distances
-                for (BellowPair pair : bellowPairs) {
-                    System.out.println("  Pair: " + pair.pos1 + " <-> " + pair.pos2 + " (distance: "
-                            + String.format("%.2f", pair.distance) + ")");
-                }
-
-                // Skip rendering if no bellow pairs found
-                if (bellowPairs.isEmpty()) {
+                // Find the closest bellow pair for rendering
+                BellowPair bellowPair = findClosestBellowPair(bogey1Bellows, bogey2Bellows);
+                if (bellowPair == null) {
                     continue;
                 }
 
-                // Now render bellows for each pair instead of using coupling anchors
-                for (BellowPair bellowPair : bellowPairs) {
-                    System.out.println("Rendering bellow between " + bellowPair.pos1 + " and " + bellowPair.pos2);
+                Vec3 anchor = bellowPair.pos1;
+                Vec3 anchor2 = bellowPair.pos2;
 
-                    // TODO: Use bellowPair positions for the bellow rendering logic below
+//                Vec3 bellow1 =
+
+//                System.out.println("Bogey1 Bellows: " + bogey1Bellows + ", Bogey2 Bellows: " + bogey2Bellows);
+//                System.out.println("Found " + (bellowPair == null ? 0 : 1) + " bellow pairs");
+
+//                if (bellowPair != null) {
+//                    System.out.println("  Pair: " + bellowPair.pos1 + " <-> " + bellowPair.pos2 + " (distance: "
+//                            + String.format("%.2f", bellowPair.distance) + ")");
+//                }
+
+                // Skip rendering if no bellow pair found
+                if (bellowPair == null) {
+                    continue;
                 }
+
+                // Now render bellows for the pair instead of using coupling anchors
+//                System.out.println("Rendering bellow between " + bellowPair.pos1 + " and " + bellowPair.pos2);
+
+                // TODO: Use bellowPair positions for the bellow rendering logic below
 
                 // System.out.println("Anchor1: " + anchor + ", Anchor2: " + anchor2);
 
@@ -205,6 +221,24 @@ public class BellowRenderer {
                     continue;
                 }
 
+                CarriageBogey carriageLeadingBogey = carriage.leadingBogey();
+                CarriageBogey carriage2TrailingBogey = carriage2.trailingBogey();
+                LerpedFloat carriageLeadingYaw = getBogeyYaw(carriageLeadingBogey);
+                LerpedFloat carriage2TrailingYaw = getBogeyYaw(carriage2TrailingBogey);
+                if (carriageLeadingYaw == null || carriage2TrailingYaw == null) {
+                    continue;
+                }
+
+                float carriageYaw1 = carriageLeadingBogey == bogey1
+                        ? carriageLeadingYaw.getValue()
+                        : (carriageLeadingYaw.getValue() + bogey1yaw.getValue()) / 2f;
+                float carriageYaw2 = carriage2TrailingBogey == bogey2
+                        ? bogey2yaw.getValue()
+                        : (bogey2yaw.getValue() + carriage2TrailingYaw.getValue()) / 2f;
+
+                //find bellow pair for this bogey (and the one behind) assuming a carriage can contain max 2 bellows 
+                
+
                 // System.out.println("Bogey types: " + bogeyType1 + ", " + bogeyType2);
 
                 int lightCoords = getPackedLightCoords(entity, partialTicks);
@@ -226,10 +260,9 @@ public class BellowRenderer {
                     // System.out.println(bogey1ctp);
                     // System.out.println(bogey1ctp.type);
 
-                    float margin = 3 / 16f;
-                    double couplingDistance = train.carriageSpacing.get(i) - 2 * margin
-                            - bogeyType1.getConnectorAnchorOffset(bogey1.isUpsideDown()).z
-                            - bogeyType2.getConnectorAnchorOffset(bogey2.isUpsideDown()).z;
+                    float gapFromAnchor = 2 / 16f;
+                    // distance between BellowPair
+                    double couplingDistance = bellowPair.distance;
 
                     // System.out.println("Coupling distance: " + couplingDistance);
                     int couplingSegments = (int) Math.round(couplingDistance * 10) + 1; // 4x more segments (4 * 4 = 16)
@@ -238,31 +271,29 @@ public class BellowRenderer {
 
                     // Convert yaw angle to direction vector and add controlDistance in that
                     // direction
-                    float yaw1Radians = (float) Math.toRadians(bogey1yaw.getValue());
-                    float yaw2Radians = (float) Math.toRadians(bogey2yaw.getValue());
 
-                    // Adjust start and end points to account for the margin offset
-                    float marginOffset = margin + 2 / 16f;
-                    Vec3 adjustedAnchor = anchor.add(
-                            Math.sin(yaw1Radians) * marginOffset,
-                            0,
-                            Math.cos(yaw1Radians) * marginOffset);
-                    Vec3 adjustedAnchor2 = anchor2.add(
-                            -Math.sin(yaw2Radians) * marginOffset,
-                            0,
-                            -Math.cos(yaw2Radians) * marginOffset);
+                    System.out.println("Yaw1: " + Math.toDegrees(Math.toRadians(carriageYaw1)) + ", Yaw2: " + Math.toDegrees(Math.toRadians(carriageYaw2)));
+                    float yaw1Radians = (float) Math.toRadians(carriageYaw1);
+                    float yaw2Radians = (float) Math.toRadians(carriageYaw2);
+
+                        Vec3 anchorDirection = anchor2.subtract(anchor).normalize();
+                            Vec3 adjustedAnchor = anchor.add(anchorDirection.scale(gapFromAnchor))
+                                .add(0, -20 / 16f, 0);
+                            Vec3 adjustedAnchor2 = anchor2.subtract(anchorDirection.scale(gapFromAnchor))
+                                .add(0, -20 / 16f, 0);
 
                     Vec3 control = adjustedAnchor.add(
-                            Math.sin(yaw1Radians) * controlDistance, // X component
+                            Math.sin(yaw1Radians) * 0.75 * controlDistance, // X component
                             0, // Y component (no vertical offset)
-                            Math.cos(yaw1Radians) * controlDistance // Z component
+                            Math.cos(yaw1Radians) * 0.75 * controlDistance // Z component
                     );
 
                     Vec3 control2 = adjustedAnchor2.add(
-                            -Math.sin(yaw2Radians) * controlDistance, // X component (negative for incoming direction)
+                            -Math.sin(yaw2Radians) * 0.75 * controlDistance, // X component (negative for incoming direction)
                             0, // Y component (no vertical offset)
-                            -Math.cos(yaw2Radians) * controlDistance // Z component (negative for incoming direction)
+                            -Math.cos(yaw2Radians) * 0.75 *  controlDistance // Z component (negative for incoming direction)
                     );
+
 
                     // Render segments along the cubic Bezier curve
                     for (int j = 0; j < couplingSegments; j++) {
@@ -274,6 +305,7 @@ public class BellowRenderer {
                         // Calculate tangent direction for rotation
                         Vec3 tangent = cubicBezierDerivative(adjustedAnchor, control, control2, adjustedAnchor2, t)
                                 .normalize();
+                        System.out.println("Bezier with points: " + adjustedAnchor + ", " + control + ", " + control2 + ", " + adjustedAnchor2);
 
                         // Calculate the distance to the next segment to determine proper scaling
                         float segmentStretch;
@@ -290,9 +322,11 @@ public class BellowRenderer {
                         }
 
                         // Calculate rotation from tangent
-                        float segmentYRot = AngleHelper.deg(Mth.atan2(tangent.z, tangent.x)) + 90;
+                        float segmentYRot = AngleHelper.deg(Mth.atan2(tangent.z, tangent.x)) - 90;
                         float segmentXRot = AngleHelper
-                                .deg(Math.atan2(tangent.y, Math.sqrt(tangent.x * tangent.x + tangent.z * tangent.z)));
+                            .deg(Math.atan2(tangent.y, Math.sqrt(tangent.x * tangent.x + tangent.z * tangent.z)));
+
+                        System.out.println("Segment " + j + " y rotation: " + segmentYRot);
 
                         ms.pushPose();
 
@@ -341,6 +375,26 @@ public class BellowRenderer {
         if (renderBoundingBoxes) {
             renderBoundingBoxes(ms, buffer, camera);
         }
+    }
+
+    public static float getRotationFromTangent(Vec3 vec) {
+        // Round x and z down to the nearest whole number
+        int x1 = (int) Math.floor(vec.x);
+        int z1 = (int) Math.floor(vec.z);
+
+        // Neighboring point (example: one block forward on X)
+        int x2 = x1 + 1;
+        int z2 = z1 + 1;
+
+        // Tangent / direction vector
+        double dx = x2 - x1;
+        double dz = z2 - z1;
+
+        // Rotation in radians
+        double angle = Math.atan2(dz, dx);
+
+        // Convert to degrees
+        return (float) Math.toDegrees(angle);
     }
 
     /**
@@ -472,7 +526,26 @@ public class BellowRenderer {
         return term1.add(term2).add(term3);
     }
 
-    private static List<Map<BlockPos, BellowBlock>> findBellows(Carriage carriage) {
+//    private static Vec3 getDisplacement(Carriage carriage) {
+//        CarriageContraptionEntity entity = carriage.anyAvailableEntity();
+//        if (entity == null)
+//            return Vec3.ZERO;
+//
+//        Contraption contraption = entity.getContraption();
+//        if (contraption == null)
+//            return Vec3.ZERO;
+//
+//        Couple<CarriageBogey> bogeys = carriage.bogeys();
+//        CarriageBogey leadingBogey = bogeys.getFirst();
+//
+//
+//
+//        return null;
+//
+//    }
+
+//    private static List<Map<BlockPos, BellowBlock>> findBellows(Carriage carriage) {
+    private static List<BellowInfo> findBellows(Carriage carriage) {
         CarriageContraptionEntity entity = carriage.anyAvailableEntity();
         if (entity == null)
             return new ArrayList<>();
@@ -482,7 +555,7 @@ public class BellowRenderer {
             return new ArrayList<>();
 
         Map<BlockPos, StructureBlockInfo> blocks = contraption.getBlocks();
-        List<Map<BlockPos, BellowBlock>> bellows = new ArrayList<>();
+        List<BellowInfo> bellows = new ArrayList<>();
 
         for (Map.Entry<BlockPos, StructureBlockInfo> entry : blocks.entrySet()) {
             StructureBlockInfo info = entry.getValue();
@@ -496,8 +569,8 @@ public class BellowRenderer {
                 // System.out.println("Found bellow at local " + localPos + " -> world " +
                 // worldPos);
                 BellowBlock bellowBlock = (BellowBlock) info.state().getBlock();
-                Map<BlockPos, BellowBlock> map = Map.of(worldPos, bellowBlock);
-                bellows.add(map);
+                Direction facing = info.state().getValue(HorizontalDirectionalBlock.FACING);
+                bellows.add(new BellowInfo(worldVec3, bellowBlock, facing));
             }
         }
         return bellows;
@@ -507,69 +580,59 @@ public class BellowRenderer {
      * Find the closest bellow pairs between two sets of bellows
      * This uses a greedy approach to pair up bellows by shortest distance
      */
-    private static List<BellowPair> findClosestBellowPairs(List<Map<BlockPos, BellowBlock>> bellows1,
-            List<Map<BlockPos, BellowBlock>> bellows2) {
-        List<BellowPair> pairs = new ArrayList<>();
-
+    private static BellowPair findClosestBellowPair(List<BellowInfo> bellows1,
+            List<BellowInfo> bellows2) {
         if (bellows1.isEmpty() || bellows2.isEmpty()) {
-            return pairs;
+            return null;
         }
 
-        // Convert to a more workable format
-        List<BlockPos> positions1 = new ArrayList<>();
-        List<BellowBlock> blocks1 = new ArrayList<>();
-        List<BlockPos> positions2 = new ArrayList<>();
-        List<BellowBlock> blocks2 = new ArrayList<>();
+        double minDistance = Double.MAX_VALUE;
+        int closestIndex1 = -1;
+        int closestIndex2 = -1;
 
-        for (Map<BlockPos, BellowBlock> map : bellows1) {
-            for (Map.Entry<BlockPos, BellowBlock> entry : map.entrySet()) {
-                positions1.add(entry.getKey());
-                blocks1.add(entry.getValue());
-            }
-        }
-
-        for (Map<BlockPos, BellowBlock> map : bellows2) {
-            for (Map.Entry<BlockPos, BellowBlock> entry : map.entrySet()) {
-                positions2.add(entry.getKey());
-                blocks2.add(entry.getValue());
-            }
-        }
-
-        // Create a copy of positions2 to track which ones are already used
-        List<Integer> availableIndices2 = new ArrayList<>();
-        for (int i = 0; i < positions2.size(); i++) {
-            availableIndices2.add(i);
-        }
-
-        // For each bellow in set 1, find the closest available bellow in set 2
-        for (int i = 0; i < positions1.size() && !availableIndices2.isEmpty(); i++) {
-            BlockPos pos1 = positions1.get(i);
-            BellowBlock block1 = blocks1.get(i);
-
-            double minDistance = Double.MAX_VALUE;
-            int closestIndex = -1;
-
-            // Find the closest available bellow in set 2
-            for (int j : availableIndices2) {
-                BlockPos pos2 = positions2.get(j);
-                double distance = pos1.distSqr(pos2);
+        for (int i = 0; i < bellows1.size(); i++) {
+            BellowInfo info1 = bellows1.get(i);
+            for (int j = 0; j < bellows2.size(); j++) {
+                BellowInfo info2 = bellows2.get(j);
+                if (!areFacingEachOther(info1.facing(), info2.facing())) {
+                    continue;
+                }
+                double distance = info1.pos().distanceToSqr(info2.pos());
 
                 if (distance < minDistance) {
                     minDistance = distance;
-                    closestIndex = j;
+                    closestIndex1 = i;
+                    closestIndex2 = j;
                 }
-            }
-
-            if (closestIndex != -1) {
-                BlockPos pos2 = positions2.get(closestIndex);
-                BellowBlock block2 = blocks2.get(closestIndex);
-
-                pairs.add(new BellowPair(pos1, block1, pos2, block2, Math.sqrt(minDistance)));
-                availableIndices2.remove(Integer.valueOf(closestIndex));
             }
         }
 
-        return pairs;
+        if (closestIndex1 == -1 || closestIndex2 == -1) {
+            return null;
+        }
+
+        BellowInfo info1 = bellows1.get(closestIndex1);
+        BellowInfo info2 = bellows2.get(closestIndex2);
+
+        return new BellowPair(info1.pos(), info1.block(), info2.pos(), info2.block(), Math.sqrt(minDistance));
+    }
+
+    private static boolean areFacingEachOther(Direction facing1, Direction facing2) {
+        return facing1 == facing2.getOpposite();
+    }
+
+    private static LerpedFloat getBogeyYaw(CarriageBogey bogey) {
+        for (Field f : bogey.getClass().getDeclaredFields()) {
+            try {
+                f.setAccessible(true);
+                if (f.getName().equals("yaw")) {
+                    return (LerpedFloat) f.get(bogey);
+                }
+            } catch (IllegalAccessException e) {
+                return null;
+            }
+        }
+        return null;
     }
 
 }
