@@ -48,7 +48,7 @@ import static com.tiestoettoet.create_train_parts.AllBlocks.BELLOW;
 public class BellowRenderer {
 
     private static final List<AABB> activeBellows = new ArrayList<>();
-    
+
     // Debug flag to control bounding box rendering
     public static boolean renderBoundingBoxes = true;
 
@@ -83,13 +83,13 @@ public class BellowRenderer {
      * Record to hold a pair of bellows that should be connected
      */
     public record BellowPair(Vec3 pos1, BellowBlock bellow1, Vec3 pos2, BellowBlock bellow2, double distance) {
-//        public Vec3 getPos1AsVec3() {
-//            return Vec3.atCenterOf(pos1);
-//        }
-//
-//        public Vec3 getPos2AsVec3() {
-//            return Vec3.atCenterOf(pos2);
-//        }
+        // public Vec3 getPos1AsVec3() {
+        // return Vec3.atCenterOf(pos1);
+        // }
+        //
+        // public Vec3 getPos2AsVec3() {
+        // return Vec3.atCenterOf(pos2);
+        // }
     }
 
     public static void renderAll(PoseStack ms, MultiBufferSource buffer, Vec3 camera) {
@@ -117,10 +117,10 @@ public class BellowRenderer {
 
                 CarriageBogey bogey1 = carriage.trailingBogey();
                 CarriageBogey bogey2 = carriage2.leadingBogey();
-                List<BellowInfo> bogey1Bellows = findBellows(bogey1.carriage);
-                List<BellowInfo> bogey2Bellows = findBellows(bogey2.carriage);
-//                Vec3 anchor = bogey1.couplingAnchors.getSecond();
-//                Vec3 anchor2 = bogey2.couplingAnchors.getFirst();
+                List<BellowInfo> bogey1Bellows = findBellows(bogey1.carriage, partialTicks);
+                List<BellowInfo> bogey2Bellows = findBellows(bogey2.carriage, partialTicks);
+                // Vec3 anchor = bogey1.couplingAnchors.getSecond();
+                // Vec3 anchor2 = bogey2.couplingAnchors.getFirst();
 
                 // Find the closest bellow pair for rendering
                 BellowPair bellowPair = findClosestBellowPair(bogey1Bellows, bogey2Bellows);
@@ -131,15 +131,18 @@ public class BellowRenderer {
                 Vec3 anchor = bellowPair.pos1;
                 Vec3 anchor2 = bellowPair.pos2;
 
-//                Vec3 bellow1 =
+                // Vec3 bellow1 =
 
-//                System.out.println("Bogey1 Bellows: " + bogey1Bellows + ", Bogey2 Bellows: " + bogey2Bellows);
-//                System.out.println("Found " + (bellowPair == null ? 0 : 1) + " bellow pairs");
+                // System.out.println("Bogey1 Bellows: " + bogey1Bellows + ", Bogey2 Bellows: "
+                // + bogey2Bellows);
+                // System.out.println("Found " + (bellowPair == null ? 0 : 1) + " bellow
+                // pairs");
 
-//                if (bellowPair != null) {
-//                    System.out.println("  Pair: " + bellowPair.pos1 + " <-> " + bellowPair.pos2 + " (distance: "
-//                            + String.format("%.2f", bellowPair.distance) + ")");
-//                }
+                // if (bellowPair != null) {
+                // System.out.println(" Pair: " + bellowPair.pos1 + " <-> " + bellowPair.pos2 +
+                // " (distance: "
+                // + String.format("%.2f", bellowPair.distance) + ")");
+                // }
 
                 // Skip rendering if no bellow pair found
                 if (bellowPair == null) {
@@ -147,7 +150,8 @@ public class BellowRenderer {
                 }
 
                 // Now render bellows for the pair instead of using coupling anchors
-//                System.out.println("Rendering bellow between " + bellowPair.pos1 + " and " + bellowPair.pos2);
+                // System.out.println("Rendering bellow between " + bellowPair.pos1 + " and " +
+                // bellowPair.pos2);
 
                 // TODO: Use bellowPair positions for the bellow rendering logic below
 
@@ -230,14 +234,14 @@ public class BellowRenderer {
                 }
 
                 float carriageYaw1 = carriageLeadingBogey == bogey1
-                        ? carriageLeadingYaw.getValue()
-                        : (carriageLeadingYaw.getValue() + bogey1yaw.getValue()) / 2f;
+                        ? carriageLeadingYaw.getValue(partialTicks)
+                        : (carriageLeadingYaw.getValue(partialTicks) + bogey1yaw.getValue(partialTicks)) / 2f;
                 float carriageYaw2 = carriage2TrailingBogey == bogey2
-                        ? bogey2yaw.getValue()
-                        : (bogey2yaw.getValue() + carriage2TrailingYaw.getValue()) / 2f;
+                        ? bogey2yaw.getValue(partialTicks)
+                        : (bogey2yaw.getValue(partialTicks) + carriage2TrailingYaw.getValue(partialTicks)) / 2f;
 
-                //find bellow pair for this bogey (and the one behind) assuming a carriage can contain max 2 bellows 
-                
+                // find bellow pair for this bogey (and the one behind) assuming a carriage can
+                // contain max 2 bellows
 
                 // System.out.println("Bogey types: " + bogeyType1 + ", " + bogeyType2);
 
@@ -272,15 +276,14 @@ public class BellowRenderer {
                     // Convert yaw angle to direction vector and add controlDistance in that
                     // direction
 
-                    System.out.println("Yaw1: " + Math.toDegrees(Math.toRadians(carriageYaw1)) + ", Yaw2: " + Math.toDegrees(Math.toRadians(carriageYaw2)));
                     float yaw1Radians = (float) Math.toRadians(carriageYaw1);
                     float yaw2Radians = (float) Math.toRadians(carriageYaw2);
 
-                        Vec3 anchorDirection = anchor2.subtract(anchor).normalize();
-                            Vec3 adjustedAnchor = anchor.add(anchorDirection.scale(gapFromAnchor))
-                                .add(0, -20 / 16f, 0);
-                            Vec3 adjustedAnchor2 = anchor2.subtract(anchorDirection.scale(gapFromAnchor))
-                                .add(0, -20 / 16f, 0);
+                    Vec3 anchorDirection = anchor2.subtract(anchor).normalize();
+                    Vec3 adjustedAnchor = anchor.add(anchorDirection.scale(gapFromAnchor))
+                            .add(0, -20 / 16f, 0);
+                    Vec3 adjustedAnchor2 = anchor2.subtract(anchorDirection.scale(gapFromAnchor))
+                            .add(0, -20 / 16f, 0);
 
                     Vec3 control = adjustedAnchor.add(
                             Math.sin(yaw1Radians) * 0.75 * controlDistance, // X component
@@ -289,11 +292,12 @@ public class BellowRenderer {
                     );
 
                     Vec3 control2 = adjustedAnchor2.add(
-                            -Math.sin(yaw2Radians) * 0.75 * controlDistance, // X component (negative for incoming direction)
+                            -Math.sin(yaw2Radians) * 0.75 * controlDistance, // X component (negative for incoming
+                                                                             // direction)
                             0, // Y component (no vertical offset)
-                            -Math.cos(yaw2Radians) * 0.75 *  controlDistance // Z component (negative for incoming direction)
+                            -Math.cos(yaw2Radians) * 0.75 * controlDistance // Z component (negative for incoming
+                                                                            // direction)
                     );
-
 
                     // Render segments along the cubic Bezier curve
                     for (int j = 0; j < couplingSegments; j++) {
@@ -305,7 +309,6 @@ public class BellowRenderer {
                         // Calculate tangent direction for rotation
                         Vec3 tangent = cubicBezierDerivative(adjustedAnchor, control, control2, adjustedAnchor2, t)
                                 .normalize();
-                        System.out.println("Bezier with points: " + adjustedAnchor + ", " + control + ", " + control2 + ", " + adjustedAnchor2);
 
                         // Calculate the distance to the next segment to determine proper scaling
                         float segmentStretch;
@@ -324,13 +327,13 @@ public class BellowRenderer {
                         // Calculate rotation from tangent
                         float segmentYRot = AngleHelper.deg(Mth.atan2(tangent.z, tangent.x)) - 90;
                         float segmentXRot = AngleHelper
-                            .deg(Math.atan2(tangent.y, Math.sqrt(tangent.x * tangent.x + tangent.z * tangent.z)));
-
-                        System.out.println("Segment " + j + " y rotation: " + segmentYRot);
+                                .deg(Math.atan2(tangent.y, Math.sqrt(tangent.x * tangent.x + tangent.z * tangent.z)));
 
                         ms.pushPose();
 
-                        AABB bellowBottom = new AABB(curvePosition.x - anchor.x + 8, curvePosition.y - anchor.y - 2.5, curvePosition.z - anchor.z - 2, curvePosition.x - anchor.x - 8, curvePosition.y - anchor.y + 26.5, curvePosition.z - anchor.z + 2);
+                        AABB bellowBottom = new AABB(curvePosition.x - anchor.x + 8, curvePosition.y - anchor.y - 2.5,
+                                curvePosition.z - anchor.z - 2, curvePosition.x - anchor.x - 8,
+                                curvePosition.y - anchor.y + 26.5, curvePosition.z - anchor.z + 2);
 
                         activeBellows.add(bellowBottom);
 
@@ -407,7 +410,7 @@ public class BellowRenderer {
 
         // Use a simpler approach with filled quads that have transparency
         VertexConsumer renderer = buffer.getBuffer(RenderType.debugFilledBox());
-        
+
         for (AABB boundingBox : activeBellows) {
             renderTransparentBox(ms, renderer, boundingBox, camera, 1.0f, 0.0f, 0.0f, 0.3f); // Semi-transparent red
         }
@@ -416,15 +419,15 @@ public class BellowRenderer {
     /**
      * Render a semi-transparent box for a given AABB
      */
-    private static void renderTransparentBox(PoseStack ms, VertexConsumer vertexConsumer, AABB aabb, Vec3 camera, 
-                                           float red, float green, float blue, float alpha) {
+    private static void renderTransparentBox(PoseStack ms, VertexConsumer vertexConsumer, AABB aabb, Vec3 camera,
+            float red, float green, float blue, float alpha) {
         ms.pushPose();
-        
+
         // Translate relative to camera
         ms.translate(-camera.x, -camera.y, -camera.z);
-        
+
         Matrix4f matrix = ms.last().pose();
-        
+
         // Define the 8 corners of the box
         float minX = (float) aabb.minX;
         float minY = (float) aabb.minY;
@@ -432,38 +435,38 @@ public class BellowRenderer {
         float maxX = (float) aabb.maxX;
         float maxY = (float) aabb.maxY;
         float maxZ = (float) aabb.maxZ;
-        
+
         // Render the 6 faces of the box
         // Bottom face (Y = minY)
-        addQuad(matrix, vertexConsumer, 
+        addQuad(matrix, vertexConsumer,
                 minX, minY, minZ, maxX, minY, minZ, maxX, minY, maxZ, minX, minY, maxZ,
                 red, green, blue, alpha);
-        
+
         // Top face (Y = maxY)
-        addQuad(matrix, vertexConsumer, 
+        addQuad(matrix, vertexConsumer,
                 minX, maxY, maxZ, maxX, maxY, maxZ, maxX, maxY, minZ, minX, maxY, minZ,
                 red, green, blue, alpha);
-        
+
         // North face (Z = minZ)
-        addQuad(matrix, vertexConsumer, 
+        addQuad(matrix, vertexConsumer,
                 minX, minY, minZ, minX, maxY, minZ, maxX, maxY, minZ, maxX, minY, minZ,
                 red, green, blue, alpha);
-        
+
         // South face (Z = maxZ)
-        addQuad(matrix, vertexConsumer, 
+        addQuad(matrix, vertexConsumer,
                 maxX, minY, maxZ, maxX, maxY, maxZ, minX, maxY, maxZ, minX, minY, maxZ,
                 red, green, blue, alpha);
-        
+
         // West face (X = minX)
-        addQuad(matrix, vertexConsumer, 
+        addQuad(matrix, vertexConsumer,
                 minX, minY, maxZ, minX, maxY, maxZ, minX, maxY, minZ, minX, minY, minZ,
                 red, green, blue, alpha);
-        
+
         // East face (X = maxX)
-        addQuad(matrix, vertexConsumer, 
+        addQuad(matrix, vertexConsumer,
                 maxX, minY, minZ, maxX, maxY, minZ, maxX, maxY, maxZ, maxX, minY, maxZ,
                 red, green, blue, alpha);
-        
+
         ms.popPose();
     }
 
@@ -471,9 +474,9 @@ public class BellowRenderer {
      * Helper method to add a quad (4 vertices forming a face)
      */
     private static void addQuad(Matrix4f matrix, VertexConsumer vertexConsumer,
-                               float x1, float y1, float z1, float x2, float y2, float z2,
-                               float x3, float y3, float z3, float x4, float y4, float z4,
-                               float red, float green, float blue, float alpha) {
+            float x1, float y1, float z1, float x2, float y2, float z2,
+            float x3, float y3, float z3, float x4, float y4, float z4,
+            float red, float green, float blue, float alpha) {
         vertexConsumer.addVertex(matrix, x1, y1, z1).setColor(red, green, blue, alpha);
         vertexConsumer.addVertex(matrix, x2, y2, z2).setColor(red, green, blue, alpha);
         vertexConsumer.addVertex(matrix, x3, y3, z3).setColor(red, green, blue, alpha);
@@ -526,26 +529,27 @@ public class BellowRenderer {
         return term1.add(term2).add(term3);
     }
 
-//    private static Vec3 getDisplacement(Carriage carriage) {
-//        CarriageContraptionEntity entity = carriage.anyAvailableEntity();
-//        if (entity == null)
-//            return Vec3.ZERO;
-//
-//        Contraption contraption = entity.getContraption();
-//        if (contraption == null)
-//            return Vec3.ZERO;
-//
-//        Couple<CarriageBogey> bogeys = carriage.bogeys();
-//        CarriageBogey leadingBogey = bogeys.getFirst();
-//
-//
-//
-//        return null;
-//
-//    }
+    // private static Vec3 getDisplacement(Carriage carriage) {
+    // CarriageContraptionEntity entity = carriage.anyAvailableEntity();
+    // if (entity == null)
+    // return Vec3.ZERO;
+    //
+    // Contraption contraption = entity.getContraption();
+    // if (contraption == null)
+    // return Vec3.ZERO;
+    //
+    // Couple<CarriageBogey> bogeys = carriage.bogeys();
+    // CarriageBogey leadingBogey = bogeys.getFirst();
+    //
+    //
+    //
+    // return null;
+    //
+    // }
 
-//    private static List<Map<BlockPos, BellowBlock>> findBellows(Carriage carriage) {
-    private static List<BellowInfo> findBellows(Carriage carriage) {
+    // private static List<Map<BlockPos, BellowBlock>> findBellows(Carriage
+    // carriage) {
+    private static List<BellowInfo> findBellows(Carriage carriage, float partialTicks) {
         CarriageContraptionEntity entity = carriage.anyAvailableEntity();
         if (entity == null)
             return new ArrayList<>();
@@ -556,6 +560,9 @@ public class BellowRenderer {
 
         Map<BlockPos, StructureBlockInfo> blocks = contraption.getBlocks();
         List<BellowInfo> bellows = new ArrayList<>();
+        Vec3 anchor = entity.getAnchorVec();
+        Vec3 prevAnchor = entity.getPrevAnchorVec();
+        Vec3 anchorLerp = prevAnchor.lerp(anchor, partialTicks);
 
         for (Map.Entry<BlockPos, StructureBlockInfo> entry : blocks.entrySet()) {
             StructureBlockInfo info = entry.getValue();
@@ -563,7 +570,8 @@ public class BellowRenderer {
                 BlockPos localPos = entry.getKey(); // This is local position in contraption
 
                 // Convert local position to world position
-                Vec3 worldVec3 = entity.toGlobalVector(localPos.getCenter(), AnimationTickHolder.getPartialTicks());
+                Vec3 worldVec3 = entity.toGlobalVector(localPos.getCenter(), partialTicks)
+                        .add(anchorLerp.subtract(anchor));
                 BlockPos worldPos = BlockPos.containing(worldVec3);
 
                 // System.out.println("Found bellow at local " + localPos + " -> world " +
