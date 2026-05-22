@@ -12,7 +12,6 @@ import com.simibubi.create.content.trains.entity.Train;
 import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlock;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.animation.LerpedFloat;
-import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.math.AngleHelper;
 import net.createmod.catnip.render.CachedBuffers;
 import net.minecraft.client.Minecraft;
@@ -28,7 +27,6 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.lang.reflect.Field;
@@ -40,41 +38,12 @@ import java.util.Map;
 
 import com.simibubi.create.content.contraptions.Contraption;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
-import net.minecraft.world.level.block.Block;
-import org.joml.Matrix4f;
 
 import static com.tiestoettoet.create_train_parts.AllBlocks.BELLOW;
 
 public class BellowRenderer {
 
-    private static final List<AABB> activeBellows = new ArrayList<>();
-
-    // Debug flag to control bounding box rendering
-    public static boolean renderBoundingBoxes = true;
-
-    /**
-     * Get all active bellow bounding boxes for collision detection or debugging
-     */
-    public static List<AABB> getActiveBellowCollisions() {
-        return new ArrayList<>(activeBellows);
-    }
-
-    /**
-     * Record to hold both position and block information
-     */
-    public record BlockInfo(Vec3 worldPos, StructureBlockInfo blockInfo) {
-        public BlockState getBlockState() {
-            return blockInfo.state();
-        }
-
-        public Block getBlock() {
-            return blockInfo.state().getBlock();
-        }
-
-        public BlockPos getLocalPos() {
-            return blockInfo.pos();
-        }
-    }
+    private static long lastBoxLogTick = -1L;
 
     public record BellowInfo(Vec3 pos, BellowBlock block, Direction facing) {
     }
@@ -98,8 +67,11 @@ public class BellowRenderer {
         BlockState air = Blocks.AIR.defaultBlockState();
         float partialTicks = AnimationTickHolder.getPartialTicks();
         Level level = Minecraft.getInstance().level;
-
-        activeBellows.clear();
+        long gameTime = level == null ? -1L : level.getGameTime();
+        boolean logBoxes = gameTime != lastBoxLogTick;
+        if (logBoxes) {
+            lastBoxLogTick = gameTime;
+        }
 
         for (Train train : trains) {
             List<Carriage> carriages = train.carriages;
@@ -145,15 +117,10 @@ public class BellowRenderer {
                 // }
 
                 // Skip rendering if no bellow pair found
-                if (bellowPair == null) {
-                    continue;
-                }
 
                 // Now render bellows for the pair instead of using coupling anchors
                 // System.out.println("Rendering bellow between " + bellowPair.pos1 + " and " +
                 // bellowPair.pos2);
-
-                // TODO: Use bellowPair positions for the bellow rendering logic below
 
                 // System.out.println("Anchor1: " + anchor + ", Anchor2: " + anchor2);
 
@@ -162,8 +129,6 @@ public class BellowRenderer {
                 if (!anchor.closerThan(camera, 64))
                     continue;
 
-                AbstractBogeyBlock<?> bogeyType1 = null;
-                AbstractBogeyBlock<?> bogeyType2 = null;
                 LerpedFloat bogey1yaw = null;
                 LerpedFloat bogey2yaw = null;
                 LerpedFloat bogey1pitch = null;
@@ -172,11 +137,6 @@ public class BellowRenderer {
                 for (Field f : bogey1.getClass().getDeclaredFields()) {
                     try {
                         f.setAccessible(true);
-                        if (f.getName().equals("type")) {
-                            Object value = f.get(bogey1);
-                            bogeyType1 = (AbstractBogeyBlock<?>) value;
-                            // System.out.println("Type field: " + value);
-                        }
                         if (f.getName().equals("yaw")) {
                             Object value = f.get(bogey1);
                             bogey1yaw = (LerpedFloat) value;
@@ -194,11 +154,6 @@ public class BellowRenderer {
                 for (Field f : bogey2.getClass().getDeclaredFields()) {
                     try {
                         f.setAccessible(true);
-                        if (f.getName().equals("type")) {
-                            Object value = f.get(bogey2);
-                            bogeyType2 = (AbstractBogeyBlock<?>) value;
-                            // System.out.println("Type field: " + value);
-                        }
                         if (f.getName().equals("yaw")) {
                             Object value = f.get(bogey2);
                             bogey2yaw = (LerpedFloat) value;
@@ -212,10 +167,6 @@ public class BellowRenderer {
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
-                }
-
-                if (bogeyType1 == null || bogeyType2 == null) {
-                    continue;
                 }
 
                 if (bogey1yaw == null || bogey2yaw == null) {
@@ -331,12 +282,6 @@ public class BellowRenderer {
 
                         ms.pushPose();
 
-                        AABB bellowBottom = new AABB(curvePosition.x - anchor.x + 8, curvePosition.y - anchor.y - 2.5,
-                                curvePosition.z - anchor.z - 2, curvePosition.x - anchor.x - 8,
-                                curvePosition.y - anchor.y + 26.5, curvePosition.z - anchor.z + 2);
-
-                        activeBellows.add(bellowBottom);
-
                         // Translate to the curve position
                         ms.translate(
                                 curvePosition.x - anchor.x,
@@ -350,6 +295,10 @@ public class BellowRenderer {
                                 .translate(0, 1, 0)
                                 .light(lightCoords)
                                 .renderInto(ms, vb);
+
+                        // if (logBoxes) {
+                        // logSegmentBoxes(j, curvePosition, segmentYRot, segmentXRot);
+                        // }
 
                         ms.popPose();
                     }
@@ -374,113 +323,6 @@ public class BellowRenderer {
             }
         }
 
-        // Render bounding boxes for debugging
-        if (renderBoundingBoxes) {
-            renderBoundingBoxes(ms, buffer, camera);
-        }
-    }
-
-    public static float getRotationFromTangent(Vec3 vec) {
-        // Round x and z down to the nearest whole number
-        int x1 = (int) Math.floor(vec.x);
-        int z1 = (int) Math.floor(vec.z);
-
-        // Neighboring point (example: one block forward on X)
-        int x2 = x1 + 1;
-        int z2 = z1 + 1;
-
-        // Tangent / direction vector
-        double dx = x2 - x1;
-        double dz = z2 - z1;
-
-        // Rotation in radians
-        double angle = Math.atan2(dz, dx);
-
-        // Convert to degrees
-        return (float) Math.toDegrees(angle);
-    }
-
-    /**
-     * Render all active bellow bounding boxes as wireframes for debugging
-     */
-    private static void renderBoundingBoxes(PoseStack ms, MultiBufferSource buffer, Vec3 camera) {
-        if (activeBellows.isEmpty()) {
-            return;
-        }
-
-        // Use a simpler approach with filled quads that have transparency
-        VertexConsumer renderer = buffer.getBuffer(RenderType.debugFilledBox());
-
-        for (AABB boundingBox : activeBellows) {
-            renderTransparentBox(ms, renderer, boundingBox, camera, 1.0f, 0.0f, 0.0f, 0.3f); // Semi-transparent red
-        }
-    }
-
-    /**
-     * Render a semi-transparent box for a given AABB
-     */
-    private static void renderTransparentBox(PoseStack ms, VertexConsumer vertexConsumer, AABB aabb, Vec3 camera,
-            float red, float green, float blue, float alpha) {
-        ms.pushPose();
-
-        // Translate relative to camera
-        ms.translate(-camera.x, -camera.y, -camera.z);
-
-        Matrix4f matrix = ms.last().pose();
-
-        // Define the 8 corners of the box
-        float minX = (float) aabb.minX;
-        float minY = (float) aabb.minY;
-        float minZ = (float) aabb.minZ;
-        float maxX = (float) aabb.maxX;
-        float maxY = (float) aabb.maxY;
-        float maxZ = (float) aabb.maxZ;
-
-        // Render the 6 faces of the box
-        // Bottom face (Y = minY)
-        addQuad(matrix, vertexConsumer,
-                minX, minY, minZ, maxX, minY, minZ, maxX, minY, maxZ, minX, minY, maxZ,
-                red, green, blue, alpha);
-
-        // Top face (Y = maxY)
-        addQuad(matrix, vertexConsumer,
-                minX, maxY, maxZ, maxX, maxY, maxZ, maxX, maxY, minZ, minX, maxY, minZ,
-                red, green, blue, alpha);
-
-        // North face (Z = minZ)
-        addQuad(matrix, vertexConsumer,
-                minX, minY, minZ, minX, maxY, minZ, maxX, maxY, minZ, maxX, minY, minZ,
-                red, green, blue, alpha);
-
-        // South face (Z = maxZ)
-        addQuad(matrix, vertexConsumer,
-                maxX, minY, maxZ, maxX, maxY, maxZ, minX, maxY, maxZ, minX, minY, maxZ,
-                red, green, blue, alpha);
-
-        // West face (X = minX)
-        addQuad(matrix, vertexConsumer,
-                minX, minY, maxZ, minX, maxY, maxZ, minX, maxY, minZ, minX, minY, minZ,
-                red, green, blue, alpha);
-
-        // East face (X = maxX)
-        addQuad(matrix, vertexConsumer,
-                maxX, minY, minZ, maxX, maxY, minZ, maxX, maxY, maxZ, maxX, minY, maxZ,
-                red, green, blue, alpha);
-
-        ms.popPose();
-    }
-
-    /**
-     * Helper method to add a quad (4 vertices forming a face)
-     */
-    private static void addQuad(Matrix4f matrix, VertexConsumer vertexConsumer,
-            float x1, float y1, float z1, float x2, float y2, float z2,
-            float x3, float y3, float z3, float x4, float y4, float z4,
-            float red, float green, float blue, float alpha) {
-        vertexConsumer.addVertex(matrix, x1, y1, z1).setColor(red, green, blue, alpha);
-        vertexConsumer.addVertex(matrix, x2, y2, z2).setColor(red, green, blue, alpha);
-        vertexConsumer.addVertex(matrix, x3, y3, z3).setColor(red, green, blue, alpha);
-        vertexConsumer.addVertex(matrix, x4, y4, z4).setColor(red, green, blue, alpha);
     }
 
     public static int getPackedLightCoords(Entity pEntity, float pPartialTicks) {
@@ -641,6 +483,35 @@ public class BellowRenderer {
             }
         }
         return null;
+    }
+
+    private static void logSegmentBoxes(int segmentIndex, Vec3 segmentPosition, float segmentYRot,
+            float segmentXRot) {
+        logBox(segmentIndex, "Box1", segmentPosition, segmentYRot, segmentXRot, 8, -3.5, -2, -8, -3.5, 2);
+        logBox(segmentIndex, "Box2", segmentPosition, segmentYRot, segmentXRot, 8, -3.5, 2, 8, 28.5, -2);
+        logBox(segmentIndex, "Box3", segmentPosition, segmentYRot, segmentXRot, 8, 28.5, -2, -8, 28.5, 2);
+        logBox(segmentIndex, "Box4", segmentPosition, segmentYRot, segmentXRot, -8, -3.5, 2, -8, 28.5, -2);
+    }
+
+    private static void logBox(int segmentIndex, String label, Vec3 segmentPosition, float segmentYRot,
+            float segmentXRot, double x1, double y1, double z1, double x2, double y2, double z2) {
+        Vec3 world1 = transformLocalToWorld(new Vec3(x1 / 16.0, y1 / 16.0, z1 / 16.0), segmentYRot, segmentXRot)
+                .add(segmentPosition);
+        Vec3 world2 = transformLocalToWorld(new Vec3(x2 / 16.0, y2 / 16.0, z2 / 16.0), segmentYRot, segmentXRot)
+                .add(segmentPosition);
+
+        System.out.println("Bellow segment " + segmentIndex + " " + label
+                + " p1=" + formatVec(world1) + " p2=" + formatVec(world2));
+    }
+
+    private static Vec3 transformLocalToWorld(Vec3 local, float segmentYRot, float segmentXRot) {
+        float yRot = (float) Math.toRadians(-segmentYRot);
+        float xRot = (float) Math.toRadians(segmentXRot);
+        return local.yRot(yRot).xRot(xRot);
+    }
+
+    private static String formatVec(Vec3 vec) {
+        return String.format("(%.3f, %.3f, %.3f)", vec.x, vec.y, vec.z);
     }
 
 }

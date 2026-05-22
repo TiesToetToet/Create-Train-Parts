@@ -21,6 +21,8 @@ import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSl
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepGenerator;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepMovementBehaviour;
+import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlock;
+import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowMovementBehaviour;
 import com.tiestoettoet.create_train_parts.foundation.block.connected.HorizontalCTBehaviour;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.ArmExtenderBlock;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock;
@@ -121,6 +123,17 @@ public class BuilderTransformers {
 //                .addLayer(() -> RenderType::cutoutMipped)
                 .item()
                 .model(AssetLookup.customBlockItemModel("crossing", "arm_item"))
+                .build();
+    }
+
+    public static <B extends BellowBlock, P>NonNullUnaryOperator<BlockBuilder<B, P>> bellow() {
+        return b -> b.initialProperties(SharedProperties::softMetal)
+                .properties(p -> p.mapColor(MapColor.COLOR_GRAY))
+                .properties(p -> p.sound(SoundType.NETHERITE_BLOCK))
+                .transform(pickaxeOnly())
+                .onRegister(movementBehaviour(new BellowMovementBehaviour()))
+                .item()
+                .model(AssetLookup.customBlockItemModel("bellow", "item"))
                 .build();
     }
 

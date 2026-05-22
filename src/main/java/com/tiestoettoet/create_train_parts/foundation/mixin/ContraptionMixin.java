@@ -6,6 +6,7 @@ import com.simibubi.create.content.decoration.slidingDoor.SlidingDoorBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.slidingWindow.SlidingWindowBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSlideBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
+import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -21,18 +22,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class ContraptionMixin {
 
     /**
-     * Modifies the captured block state to hide TrainStep, TrainSlide, and SlidingWindow blocks
+     * Modifies the captured block state to hide TrainStep, TrainSlide, and
+     * SlidingWindow blocks
      * similar to how Create handles SlidingDoorBlock.VISIBLE
      */
     @Inject(method = "capture", at = @At("RETURN"), cancellable = true)
-    private void modifyCapturedState(Level world, BlockPos pos, CallbackInfoReturnable<Pair<StructureTemplate.StructureBlockInfo, BlockEntity>> cir) {
+    private void modifyCapturedState(Level world, BlockPos pos,
+            CallbackInfoReturnable<Pair<StructureTemplate.StructureBlockInfo, BlockEntity>> cir) {
         Pair<StructureTemplate.StructureBlockInfo, BlockEntity> result = cir.getReturnValue();
-        if (result == null) return;
-        
+        if (result == null)
+            return;
+
         StructureTemplate.StructureBlockInfo info = result.getLeft();
         BlockState state = info.state();
         boolean modified = false;
-        
+
         if (state.hasProperty(TrainStepBlock.VISIBLE)) {
             state = state.setValue(TrainStepBlock.VISIBLE, false);
             modified = true;
@@ -45,23 +49,25 @@ public abstract class ContraptionMixin {
             state = state.setValue(SlidingWindowBlock.VISIBLE, false);
             modified = true;
         }
-        
+        if (state.hasProperty(BellowBlock.VISIBLE)) {
+            state = state.setValue(BellowBlock.VISIBLE, false);
+            modified = true;
+        }
+
         if (modified) {
             cir.setReturnValue(Pair.of(
-                new StructureTemplate.StructureBlockInfo(info.pos(), state, info.nbt()),
-                result.getRight()
-            ));
+                    new StructureTemplate.StructureBlockInfo(info.pos(), state, info.nbt()),
+                    result.getRight()));
         }
     }
 
     /**
-     * Modifies the block state when placing blocks back into the world during disassembly.
-     * Sets VISIBLE based on OPEN state and resets POWERED, similar to SlidingDoorBlock handling.
+     * Modifies the block state when placing blocks back into the world during
+     * disassembly.
+     * Sets VISIBLE based on OPEN state and resets POWERED, similar to
+     * SlidingDoorBlock handling.
      */
-    @ModifyExpressionValue(
-        method = "addBlocksToWorld",
-        at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/contraptions/StructureTransform;apply(Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/level/block/state/BlockState;")
-    )
+    @ModifyExpressionValue(method = "addBlocksToWorld", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/contraptions/StructureTransform;apply(Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/level/block/state/BlockState;"))
     private BlockState modifyStateOnDisassembly(BlockState state) {
         if (state.hasProperty(TrainStepBlock.VISIBLE)) {
             state = state.setValue(TrainStepBlock.VISIBLE, !state.getValue(TrainStepBlock.OPEN))
@@ -75,15 +81,20 @@ public abstract class ContraptionMixin {
             state = state.setValue(SlidingWindowBlock.VISIBLE, !state.getValue(SlidingWindowBlock.OPEN))
                     .setValue(SlidingWindowBlock.POWERED, false);
         }
+        if (state.hasProperty(BellowBlock.VISIBLE)) {
+            state = state.setValue(BellowBlock.VISIBLE, true);
+        }
         return state;
     }
 
     /**
-     * Prevents TrainStepBlock, TrainSlideBlock, and SlidingWindowBlock from being updated after movement
+     * Prevents TrainStepBlock, TrainSlideBlock, and SlidingWindowBlock from being
+     * updated after movement
      * (same behavior as SlidingDoorBlock in Create)
      */
     @Inject(method = "shouldUpdateAfterMovement", at = @At("HEAD"), cancellable = true)
-    private void skipUpdateForTrainParts(StructureTemplate.StructureBlockInfo info, CallbackInfoReturnable<Boolean> cir) {
+    private void skipUpdateForTrainParts(StructureTemplate.StructureBlockInfo info,
+            CallbackInfoReturnable<Boolean> cir) {
         if (info.state().getBlock() instanceof TrainStepBlock) {
             cir.setReturnValue(false);
         }
@@ -91,6 +102,9 @@ public abstract class ContraptionMixin {
             cir.setReturnValue(false);
         }
         if (info.state().getBlock() instanceof SlidingWindowBlock) {
+            cir.setReturnValue(false);
+        }
+        if (info.state().getBlock() instanceof BellowBlock) {
             cir.setReturnValue(false);
         }
     }
