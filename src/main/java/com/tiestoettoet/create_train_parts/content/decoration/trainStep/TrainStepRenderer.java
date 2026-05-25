@@ -515,6 +515,11 @@ public class TrainStepRenderer extends SafeBlockEntityRenderer<TrainStepBlockEnt
                 PartialModel slide = AllPartialModels.TRAIN_STEP_SLIDE.get(resourceLocation);
                 PartialModel pivot = AllPartialModels.TRAIN_STEP_PIVOT.get(resourceLocation);
 
+                if (block == null || slide == null || pivot == null || move == null || flap == null)
+                    continue;
+                if (block.get() == null || slide.get() == null || pivot.get() == null || move.get() == null || flap.get() == null)
+                    continue;
+
                 SuperByteBuffer partial_block = CachedBuffers.partial(block, state);
                 CTSpriteShiftEntry spriteShift = null;
                 if (blockTexturePath.equals("train_step_andesite")) {
