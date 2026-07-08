@@ -25,6 +25,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -32,14 +33,17 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.lwjgl.system.CallbackI;
 
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -52,6 +56,7 @@ public class CrossingBlock extends HorizontalKineticBlock
     public static final BooleanProperty FLIPPED = BooleanProperty.create("flipped");
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
     public static final BooleanProperty BARRIER = BooleanProperty.create("barrier");
+    public static final BooleanProperty CONNECTED = BooleanProperty.create("connected");
 
     protected static final VoxelShape NORTH_OPEN;
     protected static final VoxelShape NORTH_OPEN_FLIPPED;
@@ -80,83 +85,94 @@ public class CrossingBlock extends HorizontalKineticBlock
 
     public CrossingBlock(Properties properties) {
         super(properties);
-        registerDefaultState(defaultBlockState().setValue(FLIPPED, false).setValue(OPEN, false).setValue(BARRIER, false));
+        registerDefaultState(defaultBlockState().setValue(FLIPPED, false).setValue(OPEN, false).setValue(BARRIER, false).setValue(CONNECTED, false));
     }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        Boolean flipped = state.getValue(FLIPPED);
-        Boolean open = state.getValue(OPEN);
-        Direction direction = state.getValue(HORIZONTAL_FACING);
-        switch (direction) {
-            case NORTH -> {
-                if (open) {
-                    return flipped ? NORTH_OPEN_FLIPPED : NORTH_OPEN;
-                } else {
-                    return flipped ? NORTH_CLOSED_FLIPPED : NORTH_CLOSED;
-                }
-            }
-            case SOUTH -> {
-                if (open) {
-                    return flipped ? SOUTH_OPEN_FLIPPED : SOUTH_OPEN;
-                } else {
-                    return flipped ? SOUTH_CLOSED_FLIPPED : SOUTH_CLOSED;
-                }
-            }
-            case WEST -> {
-                if (open) {
-                    return flipped ? WEST_OPEN_FLIPPED : WEST_OPEN;
-                } else {
-                    return flipped ? WEST_CLOSED_FLIPPED : WEST_CLOSED;
-                }
-            }
-            case EAST -> {
-                if (open) {
-                    return flipped ? EAST_OPEN_FLIPPED : EAST_OPEN;
-                } else {
-                    return flipped ? EAST_CLOSED_FLIPPED : EAST_CLOSED;
-                }
-            }
-
-        }
-        return Shapes.block();
+//        Boolean flipped = state.getValue(FLIPPED);
+//        Boolean open = state.getValue(OPEN);
+//        Direction direction = state.getValue(HORIZONTAL_FACING);
+//        switch (direction) {
+//            case NORTH -> {
+//                if (open) {
+//                    return flipped ? NORTH_OPEN_FLIPPED : NORTH_OPEN;
+//                } else {
+//                    return flipped ? NORTH_CLOSED_FLIPPED : NORTH_CLOSED;
+//                }
+//            }
+//            case SOUTH -> {
+//                if (open) {
+//                    return flipped ? SOUTH_OPEN_FLIPPED : SOUTH_OPEN;
+//                } else {
+//                    return flipped ? SOUTH_CLOSED_FLIPPED : SOUTH_CLOSED;
+//                }
+//            }
+//            case WEST -> {
+//                if (open) {
+//                    return flipped ? WEST_OPEN_FLIPPED : WEST_OPEN;
+//                } else {
+//                    return flipped ? WEST_CLOSED_FLIPPED : WEST_CLOSED;
+//                }
+//            }
+//            case EAST -> {
+//                if (open) {
+//                    return flipped ? EAST_OPEN_FLIPPED : EAST_OPEN;
+//                } else {
+//                    return flipped ? EAST_CLOSED_FLIPPED : EAST_CLOSED;
+//                }
+//            }
+//
+//        }
+//        return Shapes.block();
+        VoxelShape poleShape = pole();
+        VoxelShape baseShape = base(state);
+        VoxelShape lightsShape = lights(state);
+        VoxelShape armShape = arm(state);
+        return Shapes.join(poleShape, Shapes.join(baseShape, Shapes.join(lightsShape, armShape, BooleanOp.OR), BooleanOp.OR), BooleanOp.OR);
     }
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        Boolean flipped = state.getValue(FLIPPED);
-        Boolean open = state.getValue(OPEN);
-        if (open) {
-            return getShape(state, level, pos, context);
-        }
-        Boolean barrier = state.getValue(BARRIER);
-        if (!barrier) {
-            return getShape(state, level, pos, context);
-        }
-        Direction direction = state.getValue(HORIZONTAL_FACING);
-        switch (direction) {
-            case NORTH -> {
-                return flipped ? NORTH_CLOSED_FLIPPED_BARRIER : NORTH_CLOSED_BARRIER;
-            }
-            case SOUTH -> {
-                return flipped ? SOUTH_CLOSED_FLIPPED_BARRIER : SOUTH_CLOSED_BARRIER;
-            }
-            case WEST -> {
-                return flipped ? WEST_CLOSED_FLIPPED_BARRIER : WEST_CLOSED_BARRIER;
-            }
-            case EAST -> {
-                return flipped ? EAST_CLOSED_FLIPPED_BARRIER : EAST_CLOSED_BARRIER;
-            }
-
-        }
-        return getShape(state, level, pos, context);
+//        Boolean flipped = state.getValue(FLIPPED);
+//        Boolean open = state.getValue(OPEN);
+//        if (open) {
+//            return getShape(state, level, pos, context);
+//        }
+//        Boolean barrier = state.getValue(BARRIER);
+//        if (!barrier) {
+//            return getShape(state, level, pos, context);
+//        }
+//        Direction direction = state.getValue(HORIZONTAL_FACING);
+//        switch (direction) {
+//            case NORTH -> {
+//                return flipped ? NORTH_CLOSED_FLIPPED_BARRIER : NORTH_CLOSED_BARRIER;
+//            }
+//            case SOUTH -> {
+//                return flipped ? SOUTH_CLOSED_FLIPPED_BARRIER : SOUTH_CLOSED_BARRIER;
+//            }
+//            case WEST -> {
+//                return flipped ? WEST_CLOSED_FLIPPED_BARRIER : WEST_CLOSED_BARRIER;
+//            }
+//            case EAST -> {
+//                return flipped ? EAST_CLOSED_FLIPPED_BARRIER : EAST_CLOSED_BARRIER;
+//            }
+//
+//        }
+//        return getShape(state, level, pos, context);
+        VoxelShape poleShape = pole();
+        VoxelShape baseShape = base(state);
+        VoxelShape lightsShape = lights(state);
+        VoxelShape armShape = arm(state);
+        VoxelShape barrierShape = barrier(state);
+        return Shapes.join(poleShape, Shapes.join(baseShape, Shapes.join(lightsShape, Shapes.join(armShape, barrierShape, BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR);
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder.add(FLIPPED).add(OPEN).add(BARRIER));
+        super.createBlockStateDefinition(builder.add(FLIPPED).add(OPEN).add(BARRIER).add(CONNECTED));
     }
 
     @Override
@@ -170,7 +186,20 @@ public class CrossingBlock extends HorizontalKineticBlock
 
         boolean flipped = false;
 
-        return state.setValue(HORIZONTAL_FACING, facing).setValue(FLIPPED, flipped).setValue(OPEN, false).setValue(BARRIER, false);
+        BlockState below = context.getLevel().getBlockState(context.getClickedPos().below());
+        boolean connected = below.getBlock() instanceof PoleBlock;
+
+        return state.setValue(HORIZONTAL_FACING, facing).setValue(FLIPPED, flipped).setValue(OPEN, false).setValue(BARRIER, false).setValue(CONNECTED, connected);
+    }
+
+    @Override
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighbourState, LevelAccessor world,
+                                  BlockPos pos, BlockPos neighbourPos) {
+        if (direction == Direction.DOWN) {
+            boolean connected = neighbourState.getBlock() instanceof PoleBlock;
+            return state.setValue(CONNECTED, connected);
+        }
+        return state;
     }
 
     @Override
@@ -211,7 +240,7 @@ public class CrossingBlock extends HorizontalKineticBlock
     }
 
     private void updateConnectedArmExtenders(Level world, BlockPos crossingPos, BlockState oldState,
-            BlockState newState) {
+                                             BlockState newState) {
         Direction oldFacing = oldState.getValue(HORIZONTAL_FACING);
         boolean oldFlipped = oldState.getValue(FLIPPED);
         Direction newFacing = newState.getValue(HORIZONTAL_FACING);
@@ -428,7 +457,7 @@ public class CrossingBlock extends HorizontalKineticBlock
 
         @Override
         public PlacementOffset getOffset(Player player, Level world, BlockState state, BlockPos pos,
-                BlockHitResult ray) {
+                                         BlockHitResult ray) {
 
             Direction offsetDirection = ray.getLocation().subtract(Vec3.atCenterOf(pos)).y < 0 ? Direction.DOWN
                     : Direction.UP;
@@ -467,6 +496,109 @@ public class CrossingBlock extends HorizontalKineticBlock
     @Override
     public BlockEntityType<? extends CrossingBlockEntity> getBlockEntityType() {
         return AllBlockEntityTypes.CROSSING.get();
+    }
+
+    private static VoxelShape pole() {
+        return Block.box(5, 1, 5, 11, 23, 11);
+    }
+
+    private static VoxelShape base(BlockState state) {
+        boolean connected = state.getValue(CONNECTED);
+        if (connected) {
+            return Stream.of(
+                    Block.box(5, 0, 5, 6, 1, 11),
+                    Block.box(6, 0, 10, 10, 1, 11),
+                    Block.box(6, 0, 5, 10, 1, 6),
+                    Block.box(10, 0, 5, 11, 1, 11)
+            ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+        } else {
+            return Stream.of(
+                    Block.box(4, 0, 4, 5, 1, 12),
+                    Block.box(5, 0, 11, 11, 1, 12),
+                    Block.box(5, 0, 4, 11, 1, 5),
+                    Block.box(11, 0, 4, 12, 1, 12)
+            ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+        }
+    }
+
+    private static VoxelShape lights(BlockState state) {
+        Direction facing = state.getValue(HORIZONTAL_FACING);
+        if (facing == Direction.NORTH) {
+            return Shapes.join(Block.box(0, 12, 7, 5, 16, 9), Block.box(0, 17, 7, 5, 21, 9), BooleanOp.OR);
+        } else if (facing == Direction.SOUTH) {
+            return Shapes.join(Block.box(11, 12, 7, 16, 16, 9), Block.box(11, 17, 7, 16, 21, 9), BooleanOp.OR);
+        } else if (facing == Direction.WEST) {
+            return Shapes.join(Block.box(7, 12, 11, 9, 16, 16), Block.box(7, 17, 11, 9, 21, 16), BooleanOp.OR);
+        } else if (facing == Direction.EAST) {
+            return Shapes.join(Block.box(7, 12, 0, 9, 16, 5), Block.box(7, 17, 0, 9, 21, 5), BooleanOp.OR);
+        }
+        return Shapes.empty();
+    }
+
+    private static VoxelShape arm(BlockState state) {
+        boolean open = state.getValue(OPEN);
+        boolean flipped = state.getValue(FLIPPED);
+        Direction facing = state.getValue(HORIZONTAL_FACING);
+        Direction effectiveFacing = flipped ? facing.getOpposite() : facing;
+        if (open) {
+            switch (effectiveFacing) {
+                case NORTH -> {
+                    return Shapes.join(Block.box(6, 0, 11, 10, 16, 13), Block.box(2, 0, 11, 6, 4, 13), BooleanOp.OR);
+                }
+                case SOUTH -> {
+                    return Shapes.join(Block.box(6, 0, 3, 10, 16, 5), Block.box(10, 0, 3, 14, 4, 5), BooleanOp.OR);
+                }
+                case EAST -> {
+                    return Shapes.join(Block.box(3, 0, 6, 5, 16, 10), Block.box(3, 0, 2, 5, 4, 6), BooleanOp.OR);
+                }
+                case WEST -> {
+                    return Shapes.join(Block.box(11, 0, 6, 13, 16, 10), Block.box(11, 0, 10, 13, 4, 14), BooleanOp.OR);
+                }
+            }
+        } else {
+            switch (effectiveFacing) {
+                case NORTH -> {
+                    return Shapes.join(Block.box(0, 6, 11, 16, 10, 13), Block.box(0, 10, 11, 4, 14, 13), BooleanOp.OR);
+                }
+                case SOUTH -> {
+                    return Shapes.join(Block.box(0, 6, 3, 16, 10, 5), Block.box(12, 10, 3, 16, 14, 5), BooleanOp.OR);
+                }
+                case EAST -> {
+                    return Shapes.join(Block.box(3, 6, 0, 5, 10, 16), Block.box(3, 10, 0, 5, 14, 4), BooleanOp.OR);
+                }
+                case WEST -> {
+                    return Shapes.join(Block.box(11, 6, 0, 13, 10, 16), Block.box(11, 10, 12, 13, 14, 16), BooleanOp.OR)
+                    ;
+                }
+            }
+        }
+        return Shapes.empty();
+    }
+
+    private static VoxelShape barrier(BlockState state) {
+        boolean barrier = state.getValue(BARRIER);
+        boolean open = state.getValue(OPEN);
+        if (!barrier || open) {
+            return Shapes.empty();
+        }
+        Direction facing = state.getValue(HORIZONTAL_FACING);
+        Direction effectiveFacing = state.getValue(FLIPPED) ? facing.getOpposite() : facing;
+        switch (effectiveFacing) {
+            case NORTH -> {
+                return Shapes.join(Block.box(0, 6, 11, 16, 26, 13), Block.box(0, 10, 11, 4, 30, 13), BooleanOp.OR);
+            }
+            case SOUTH -> {
+                return Shapes.join(Block.box(0, 6, 3, 16, 26, 5), Block.box(12, 10, 3, 16, 30, 5), BooleanOp.OR);
+            }
+            case EAST -> {
+                return Shapes.join(Block.box(3, 6, 0, 5, 26, 16), Block.box(3, 10, 0, 5, 30, 4), BooleanOp.OR);
+            }
+            case WEST -> {
+                return Shapes.join(Block.box(11, 6, 0, 13, 26, 16), Block.box(11, 10, 12, 13, 30, 16), BooleanOp.OR)
+                ;
+            }
+        }
+        return Shapes.empty();
     }
 
     static {
