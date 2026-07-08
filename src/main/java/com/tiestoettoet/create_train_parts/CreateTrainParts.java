@@ -5,7 +5,8 @@ import com.simibubi.create.Create;
 import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipModifier;
-//import com.tiestoettoet.create_train_parts.item.ModItems;
+import com.tiestoettoet.create_train_parts.infrastructure.data.CreateTrainPartsDataGen;
+
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.providers.ProviderType;
@@ -18,6 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModContainer;
@@ -39,7 +41,7 @@ import org.slf4j.Logger;
 public class CreateTrainParts {
 
     public static final String MOD_ID = "create_train_parts";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
     private static CreateRegistrate registrate;
 
     private static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MOD_ID);
@@ -72,6 +74,9 @@ public class CreateTrainParts {
 
         // modEventBus.addListener(CreateTrainParts::commonSetup);
         modEventBus.addListener(CreateTrainParts::onRegister);
+        modEventBus.addListener(EventPriority.HIGHEST, CreateTrainPartsDataGen::gatherDataHighPriority);
+        modEventBus.addListener(EventPriority.LOWEST, CreateTrainPartsDataGen::gatherData);
+
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> CreateTrainPartsClient.onCtorClient(modEventBus, forgeEventBus));
 

@@ -38,10 +38,9 @@ public class TrainSlideGenerator extends SpecialBlockStateGen {
 
         String path = "block/train_slide_" + type;
 
-//        return prov.models()
-//                .getExistingFile(prov.modLoc(path + "/" + "steps_" + (open ? "open" : "closed") + "_" + (connected.getSerializedName().equals("none") ? "" : connected.getSerializedName()) + "_" + facing.getSerializedName()));
-        return prov.models()
-                .getExistingFile(prov.modLoc(path + "/" + "slide"));
+        return new ModelFile.UncheckedModelFile(
+                prov.modLoc(path + "/" + facing.getName())
+        );
     }
 
 

@@ -1,0 +1,484 @@
+{
+  "variants": {
+    "facing=east,mode=down,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=down,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=down,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=down,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=down,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=down,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=down,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=down,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=left,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=left,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=left,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=left,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=left,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=left,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=left,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=left,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=right,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=right,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=right,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=right,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=right,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=right,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=right,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=right,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=up,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=up,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=up,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=up,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=up,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=up,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=up,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=east,mode=up,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 90
+    },
+    "facing=north,mode=down,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=down,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=down,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=down,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=down,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=down,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=down,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=down,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=left,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=left,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=left,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=left,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=left,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=left,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=left,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=left,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=right,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=right,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=right,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=right,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=right,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=right,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=right,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=right,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=up,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=up,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=up,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=up,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=up,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=up,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=up,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=north,mode=up,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper"
+    },
+    "facing=south,mode=down,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=down,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=down,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=down,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=down,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=down,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=down,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=down,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=left,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=left,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=left,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=left,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=left,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=left,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=left,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=left,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=right,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=right,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=right,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=right,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=right,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=right,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=right,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=right,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=up,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=up,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=up,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=up,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=up,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=up,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=up,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=south,mode=up,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 180
+    },
+    "facing=west,mode=down,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=down,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=down,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=down,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=down,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=down,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=down,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=down,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=left,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=left,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=left,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=left,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=left,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=left,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=left,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=left,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=right,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=right,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=right,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=right,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=right,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=right,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=right,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=right,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=up,open=false,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=up,open=false,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=up,open=false,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=up,open=false,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=up,open=true,powered=false,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=up,open=true,powered=false,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=up,open=true,powered=true,visible=false": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    },
+    "facing=west,mode=up,open=true,powered=true,visible=true": {
+      "model": "create_train_parts:block/sliding_windows/copper",
+      "y": 270
+    }
+  }
+}

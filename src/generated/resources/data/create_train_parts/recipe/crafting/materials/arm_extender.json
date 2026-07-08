@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": {
+      "tag": "minecraft:fences"
+    }
+  },
+  "pattern": [
+    "FF"
+  ],
+  "result": {
+<<<<<<<< HEAD:src/main/resources/data/create_train_parts/recipes/arm_extender.json
+    "item": "create_train_parts:arm_extender",
+    "count": 4
+========
+    "count": 4,
+    "id": "create_train_parts:arm_extender"
+>>>>>>>> 5db8daf (Add data gen, model script and NeoForge runs):src/generated/resources/data/create_train_parts/recipe/crafting/materials/arm_extender.json
+  }
+}

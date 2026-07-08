@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "create:brass_casing"
+    },
+    "X": {
+      "item": "create_train_parts:train_step_brass"
+    }
+  },
+  "pattern": [
+    "X#"
+  ],
+  "result": {
+<<<<<<<< HEAD:src/main/resources/data/create_train_parts/recipes/train_slide_brass.json
+    "item": "create_train_parts:train_slide_brass",
+    "count": 1
+========
+    "count": 1,
+    "id": "create_train_parts:train_slide_brass"
+>>>>>>>> 5db8daf (Add data gen, model script and NeoForge runs):src/generated/resources/data/create_train_parts/recipe/crafting/materials/train_slide_brass.json
+  }
+}

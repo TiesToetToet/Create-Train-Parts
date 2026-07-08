@@ -320,9 +320,7 @@
         "-Dfml.modFolders\u003dcreate_train_parts%%C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\bin\\main"
       ],
       "cwd": "${workspaceFolder}\\run",
-      "env": {
-        "MOD_CLASSES": "create_train_parts%%C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\bin\\main"
-      },
+      "env": {},
       "console": "internalConsole",
       "shortenCommandLine": "none"
     },
@@ -343,10 +341,8 @@
         "@C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\build\\moddev\\gameTestServerRunVmArgs.txt",
         "-Dfml.modFolders\u003dcreate_train_parts%%C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\bin\\main"
       ],
-      "cwd": "${workspaceFolder}\\run\\gametest",
-      "env": {
-        "MOD_CLASSES": "create_train_parts%%C:\\Users\\tiesh\\Documents\\Create-Train-Parts\\bin\\main"
-      },
+      "cwd": "${workspaceFolder}\\run",
+      "env": {},
       "console": "internalConsole",
       "shortenCommandLine": "none"
     },

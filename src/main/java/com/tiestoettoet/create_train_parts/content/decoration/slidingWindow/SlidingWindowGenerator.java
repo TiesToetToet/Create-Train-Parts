@@ -21,7 +21,13 @@ public class SlidingWindowGenerator extends SpecialBlockStateGen {
 
     @Override
     protected int getYRotation(BlockState state) {
-        return 0;
+        return switch (state.getValue(SlidingWindowBlock.FACING)) {
+            case NORTH -> 0;
+            case EAST  -> 90;
+            case SOUTH -> 180;
+            case WEST  -> 270;
+            default -> 0;
+        };
     }
 
     @Override
@@ -30,10 +36,9 @@ public class SlidingWindowGenerator extends SpecialBlockStateGen {
 
         String path = "block/sliding_windows";
 
-//        return prov.models()
-//                .getExistingFile(prov.modLoc(path + "/" + "steps_" + (open ? "open" : "closed") + "_" + (connected.getSerializedName().equals("none") ? "" : connected.getSerializedName()) + "_" + facing.getSerializedName()));
-        return prov.models()
-                .getExistingFile(prov.modLoc(path + "/" + type));
+        return new ModelFile.UncheckedModelFile(
+                prov.modLoc(path + "/" + type)
+        );
     }
 
 

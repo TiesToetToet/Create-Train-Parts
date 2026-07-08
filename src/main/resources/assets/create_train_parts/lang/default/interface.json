@@ -1,0 +1,16 @@
+{
+  "itemGroup.create_train_parts.base": "Create Train Parts",
+
+  "create_train_parts.sliding_window.mode": "Sliding Window Mode",
+  "window.mode.up": "Move Up",
+  "window.mode.down": "Move Down",
+  "window.mode.left": "Move Left",
+  "window.mode.right": "Move Right",
+  "create_train_parts.train_step.mode": "Slide mode",
+  "step.mode.slide": "Extend Slide",
+  "step.mode.no_slide": "Don't Extend Slide",
+  "create_train_parts.crossing.mode": "Crossing Mode",
+  "step.mode.no_barrier": "Normal",
+  "step.mode.barrier": "Barrier"
+
+}

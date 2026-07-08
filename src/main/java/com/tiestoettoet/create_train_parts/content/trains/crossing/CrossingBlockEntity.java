@@ -242,11 +242,15 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
 
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-        barrierMode = new ScrollOptionBehaviour<>(CrossingBarrierMode.class,
-                CreateTrainPartsLang.translateDirect("crossing.mode"), this, getBarrierModeSlot());
-        barrierMode.withCallback($ -> onBarrierModeChanged());
-        behaviours.add(barrierMode);
-        barrierMode.requiresWrench();
+        BlockState state = getBlockState();
+        boolean visible = !state.getValue(OPEN);
+        if (visible) {
+            barrierMode = new ScrollOptionBehaviour<>(CrossingBarrierMode.class,
+                    CreateTrainPartsLang.translateDirect("crossing.mode"), this, getBarrierModeSlot());
+            barrierMode.withCallback($ -> onBarrierModeChanged());
+            behaviours.add(barrierMode);
+            barrierMode.requiresWrench();
+        }
     }
 
     private void onBarrierModeChanged() {
@@ -283,7 +287,11 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
     private class CrossingValueBoxTransform extends CenteredSideValueBoxTransform {
 
         public CrossingValueBoxTransform() {
-            super((state, d) -> d == state.getValue(HORIZONTAL_FACING) || d == state.getValue(HORIZONTAL_FACING).getOpposite() || d == state.getValue(HORIZONTAL_FACING).getClockWise());
+            super((state, d) ->
+                    !state.getValue(OPEN) &&
+                            (d == state.getValue(HORIZONTAL_FACING)
+                                    || d == state.getValue(HORIZONTAL_FACING).getOpposite()
+                                    || d == state.getValue(HORIZONTAL_FACING).getClockWise()));
         }
 
         @Override

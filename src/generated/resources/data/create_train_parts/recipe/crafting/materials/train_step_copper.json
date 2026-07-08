@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "create:copper_casing"
+    },
+    "X": {
+      "tag": "minecraft:stairs"
+    }
+  },
+  "pattern": [
+    "X#"
+  ],
+  "result": {
+<<<<<<<< HEAD:src/main/resources/data/create_train_parts/recipes/train_step_copper.json
+    "item": "create_train_parts:train_step_copper",
+    "count": 1
+========
+    "count": 1,
+    "id": "create_train_parts:train_step_copper"
+>>>>>>>> 5db8daf (Add data gen, model script and NeoForge runs):src/generated/resources/data/create_train_parts/recipe/crafting/materials/train_step_copper.json
+  }
+}

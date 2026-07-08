@@ -3,12 +3,9 @@ package com.tiestoettoet.create_train_parts.content.trains.crossing;
 import com.mojang.serialization.MapCodec;
 import com.tiestoettoet.create_train_parts.AllBlocks;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
-<<<<<<< HEAD
 import com.tiestoettoet.create_train_parts.foundation.block.WrenchableHorizontalDirectionalBlock;
-=======
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepType;
->>>>>>> 27ae21c (Add crossing barrier mode and arm barrier)
 import com.tiestoettoet.create_train_parts.foundation.placement.ArmHelper;
 import net.createmod.catnip.placement.IPlacementHelper;
 import net.createmod.catnip.placement.PlacementHelpers;
