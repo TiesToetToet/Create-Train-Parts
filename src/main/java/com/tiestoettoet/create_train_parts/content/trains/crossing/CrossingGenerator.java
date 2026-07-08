@@ -28,10 +28,11 @@ public class CrossingGenerator extends SpecialBlockStateGen {
     @Override
     public <T extends Block> ModelFile getModel(DataGenContext<Block, T> ctx, RegistrateBlockstateProvider prov, BlockState state) {
         boolean flipped = state.getValue(CrossingBlock.FLIPPED);
+        boolean connected = state.getValue(CrossingBlock.CONNECTED);
         if (flipped) {
-            return prov.models().getExistingFile(prov.modLoc("block/crossing/block_flipped"));
+            return prov.models().getExistingFile(prov.modLoc("block/crossing/block_flipped" + (connected ? "_connected" : "")));
         } else {
-            return prov.models().getExistingFile(prov.modLoc("block/crossing/block"));
+            return prov.models().getExistingFile(prov.modLoc("block/crossing/block" + (connected ? "_connected" : "")));
         }
     }
 //    {

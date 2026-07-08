@@ -1,10 +1,11 @@
-// 1.21.1	2026-07-08T17:07:04.7025799	Registrate Provider for create_train_parts [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.21.1	2026-07-08T22:41:29.6271906	Registrate Provider for create_train_parts [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 7d16ece5e56745a5c2d970d22be43cd48f15cb04 assets/create_train_parts/blockstates/andesite_sliding_window.json
 6b52b5dd6388e15abe8fdcfd0b0ca3bc27f914b0 assets/create_train_parts/blockstates/arm_extender.json
 afdb0dcac8071facce91510ebe22e863b6af0587 assets/create_train_parts/blockstates/brass_sliding_window.json
 e9b900bcd19374e328027a547e8fe4d5ec9fa5c9 assets/create_train_parts/blockstates/copper_sliding_window.json
-05572824d7aa3aa83b1dcff17be289c9a93116f3 assets/create_train_parts/blockstates/crossing.json
+e085568947f54bbe89924cf1ccbce3103be3bc70 assets/create_train_parts/blockstates/crossing.json
 500b55a245a13e84c8ba1469d2fae71d625d661b assets/create_train_parts/blockstates/glass_sliding_window.json
+65147f5ec2038ab6df21bc06ad8260b7b8c679f6 assets/create_train_parts/blockstates/pole.json
 e454bf1799e73139f4646cf1e9cf6c77d2357bdd assets/create_train_parts/blockstates/train_slide_andesite.json
 74b602852970ee8217a27001d7eed117e2986774 assets/create_train_parts/blockstates/train_slide_brass.json
 f0c4c2375d1050132846799f754371e470658cbb assets/create_train_parts/blockstates/train_slide_copper.json
@@ -14,10 +15,11 @@ d2bd6f92d2bb338a86c300130616796f1be2cdfc assets/create_train_parts/blockstates/t
 21d51a42af91dec05871758ad584e6221d370d9d assets/create_train_parts/blockstates/train_step_brass.json
 debff808f6d4c96b064bbe2259c7a4e5ac93a2aa assets/create_train_parts/blockstates/train_step_copper.json
 30725a10dcdbf7d90e08b69aa561563e4cb5ccca assets/create_train_parts/blockstates/train_step_train.json
-23b657ba1f02bd627a3498d9e79793d8f5be3a4c assets/create_train_parts/lang/en_ud.json
-326c79c3cb13e3a8a01f810a83b2558ca0ad7d4e assets/create_train_parts/lang/en_us.json
+ea981b3616c80228581215a4ff0be1567cae2dc2 assets/create_train_parts/lang/en_ud.json
+8ceba3dc265110fd04dbb2fde34c3df67affc9ff assets/create_train_parts/lang/en_us.json
 39b80d89f9313d80c75c6c7129f77f2af7296364 assets/create_train_parts/models/item/arm_extender.json
 883bb28d86a0b7050e065d15581d21771a463eb7 assets/create_train_parts/models/item/crossing.json
+153f692b5b5573feb1da2139972ffd12fcc486b5 assets/create_train_parts/models/item/pole.json
 65a3ea89df9bc452d72a06ea99f25d55a2a165d8 data/create/tags/item/contraption_controlled.json
 b9273b82807823b2028e5fe9488a2f501a1a97ec data/create_train_parts/loot_table/blocks/andesite_sliding_window.json
 c61b0833f9ce19843265bd03b8e337f59b2a3647 data/create_train_parts/loot_table/blocks/arm_extender.json
@@ -25,6 +27,7 @@ c61b0833f9ce19843265bd03b8e337f59b2a3647 data/create_train_parts/loot_table/bloc
 50a63dd1152ac4c74293cb74d9f8adba7c8a48f3 data/create_train_parts/loot_table/blocks/copper_sliding_window.json
 a8f0a0bd56e576848458e5591fbc1808297e3f3c data/create_train_parts/loot_table/blocks/crossing.json
 d53217e34dcbd46f1c906acd604ae5d997a66931 data/create_train_parts/loot_table/blocks/glass_sliding_window.json
+0ceaa608a7e43d37a48770fb52359237a2b72159 data/create_train_parts/loot_table/blocks/pole.json
 806c6eadc8eee2efdc2b2791c73a33108bbf4f31 data/create_train_parts/loot_table/blocks/train_slide_andesite.json
 048012e5d38c866462600d1ba70a1abb524e56d5 data/create_train_parts/loot_table/blocks/train_slide_brass.json
 3b129e3b276a455121f446c946572dd2d20676f6 data/create_train_parts/loot_table/blocks/train_slide_copper.json
@@ -34,5 +37,5 @@ d53217e34dcbd46f1c906acd604ae5d997a66931 data/create_train_parts/loot_table/bloc
 1dc325c4170cba4c1a7b05dbe5a52049ae01eb0a data/create_train_parts/loot_table/blocks/train_step_brass.json
 d3afbd1ada5672400d08ae4b24424b4310b9cdeb data/create_train_parts/loot_table/blocks/train_step_copper.json
 cbfe53b35e1cbbc1b843bb39dd0a3651e489005b data/create_train_parts/loot_table/blocks/train_step_train.json
-a24ce90fc939d79309c7c75cc6a3642b436085af data/minecraft/tags/block/mineable/axe.json
+851c97fd63ff184180ffc9c1c31b380cf6632c96 data/minecraft/tags/block/mineable/axe.json
 65a3ea89df9bc452d72a06ea99f25d55a2a165d8 data/minecraft/tags/block/mineable/pickaxe.json

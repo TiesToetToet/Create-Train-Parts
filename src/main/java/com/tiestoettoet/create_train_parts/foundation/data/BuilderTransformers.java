@@ -21,13 +21,11 @@ import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSl
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepGenerator;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepMovementBehaviour;
-import com.tiestoettoet.create_train_parts.content.trains.crossing.ArmExtenderGenerator;
-import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingGenerator;
+import com.tiestoettoet.create_train_parts.content.trains.crossing.*;
 import com.tiestoettoet.create_train_parts.foundation.block.connected.HorizontalCTBehaviour;
-import com.tiestoettoet.create_train_parts.content.trains.crossing.ArmExtenderBlock;
-import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.nullness.NonNullUnaryOperator;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -141,6 +139,17 @@ public class BuilderTransformers {
 //                .blockstate((ctx, prov) -> {})
                 .item()
                 .model(AssetLookup.customBlockItemModel("crossing", "arm_item"))
+                .build();
+    }
+
+    public static <B extends PoleBlock, P>NonNullUnaryOperator<BlockBuilder<B, P>> pole() {
+        return b -> b.initialProperties(SharedProperties::softMetal)
+                .properties(p -> p.mapColor(MapColor.COLOR_GRAY))
+                .properties(p -> p.sound(SoundType.NETHERITE_BLOCK))
+                .blockstate(new PoleGenerator()::generate)
+                .transform(axeOnly())
+                .item()
+                .model(AssetLookup.customBlockItemModel("crossing", "pole_item"))
                 .build();
     }
 

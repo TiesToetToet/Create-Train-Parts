@@ -14,6 +14,7 @@
     "create_train_parts:copper_sliding_window",
     "create_train_parts:train_sliding_window",
     "create_train_parts:crossing",
-    "create_train_parts:arm_extender"
+    "create_train_parts:arm_extender",
+    "create_train_parts:pole"
   ]
 }

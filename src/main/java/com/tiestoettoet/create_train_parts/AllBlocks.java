@@ -5,6 +5,7 @@ import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tiestoettoet.create_train_parts.content.decoration.slidingWindow.SlidingWindowBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSlideBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
+import com.tiestoettoet.create_train_parts.content.trains.crossing.PoleBlock;
 import com.tiestoettoet.create_train_parts.foundation.data.BuilderTransformers;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.ArmExtenderBlock;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock;
@@ -112,6 +113,12 @@ public class AllBlocks {
             .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY)
                     .sound(SoundType.NETHERITE_BLOCK))
             .transform(BuilderTransformers.armExtender())
+            .register();
+
+    public static final BlockEntry<PoleBlock> POLE = REGISTRATE.block("pole", PoleBlock::new)
+            .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY)
+                    .sound(SoundType.NETHERITE_BLOCK))
+            .transform(BuilderTransformers.pole())
             .register();
 
 //

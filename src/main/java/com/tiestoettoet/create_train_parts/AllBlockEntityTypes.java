@@ -1,5 +1,8 @@
 package com.tiestoettoet.create_train_parts;
 
+import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.content.kinetics.base.ShaftRenderer;
+import com.simibubi.create.content.kinetics.base.SingleAxisRotatingVisual;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tiestoettoet.create_train_parts.content.decoration.slidingWindow.SlidingWindowBlockEntity;
 import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSlideBlockEntity;
@@ -40,6 +43,13 @@ public class AllBlockEntityTypes {
 //                    .validBlocks(AllBlocks.ARM_EXTENDER)
 //                    .renderer(() -> ArmExtenderRenderer::new)
 //                    .register();
+
+    public static final BlockEntityEntry<KineticBlockEntity> POLE = REGISTRATE
+            .blockEntity("pole", KineticBlockEntity::new)
+            .visual(() -> SingleAxisRotatingVisual::shaft, false)
+            .validBlocks(AllBlocks.POLE)
+            .renderer(() -> ShaftRenderer::new)
+            .register();
 
     public static void register() {
 

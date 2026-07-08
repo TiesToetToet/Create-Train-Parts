@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "base=false,facing=east,top=false": {
+      "model": "create_train_parts:block/crossing/crossing_pole",
+      "y": 90
+    },
+    "base=false,facing=east,top=true": {
+      "model": "create_train_parts:block/crossing/crossing_pole_top",
+      "y": 90
+    },
+    "base=false,facing=north,top=false": {
+      "model": "create_train_parts:block/crossing/crossing_pole"
+    },
+    "base=false,facing=north,top=true": {
+      "model": "create_train_parts:block/crossing/crossing_pole_top"
+    },
+    "base=false,facing=south,top=false": {
+      "model": "create_train_parts:block/crossing/crossing_pole",
+      "y": 180
+    },
+    "base=false,facing=south,top=true": {
+      "model": "create_train_parts:block/crossing/crossing_pole_top",
+      "y": 180
+    },
+    "base=false,facing=west,top=false": {
+      "model": "create_train_parts:block/crossing/crossing_pole",
+      "y": 270
+    },
+    "base=false,facing=west,top=true": {
+      "model": "create_train_parts:block/crossing/crossing_pole_top",
+      "y": 270
+    },
+    "base=true,facing=east,top=false": {
+      "model": "create_train_parts:block/crossing/crossing_pole_base",
+      "y": 90
+    },
+    "base=true,facing=east,top=true": {
+      "model": "create_train_parts:block/crossing/crossing_pole_base_top",
+      "y": 90
+    },
+    "base=true,facing=north,top=false": {
+      "model": "create_train_parts:block/crossing/crossing_pole_base"
+    },
+    "base=true,facing=north,top=true": {
+      "model": "create_train_parts:block/crossing/crossing_pole_base_top"
+    },
+    "base=true,facing=south,top=false": {
+      "model": "create_train_parts:block/crossing/crossing_pole_base",
+      "y": 180
+    },
+    "base=true,facing=south,top=true": {
+      "model": "create_train_parts:block/crossing/crossing_pole_base_top",
+      "y": 180
+    },
+    "base=true,facing=west,top=false": {
+      "model": "create_train_parts:block/crossing/crossing_pole_base",
+      "y": 270
+    },
+    "base=true,facing=west,top=true": {
+      "model": "create_train_parts:block/crossing/crossing_pole_base_top",
+      "y": 270
+    }
+  }
+}

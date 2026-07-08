@@ -14,6 +14,7 @@
   "block.create_train_parts.train_sliding_window": "Train Window",
   "block.create_train_parts.crossing": "Level Crossing Gate",
   "block.create_train_parts.arm_extender": "Arm Extender",
+  "block.create_train_parts.pole": "Pole",
 
   "create_train_parts.ponder.train_assembly.header": "Train Step and Slide",
   "create_train_parts.ponder.train_assembly.text_1": "Sometimes the Train is too far away from the Station to enter the Train",
