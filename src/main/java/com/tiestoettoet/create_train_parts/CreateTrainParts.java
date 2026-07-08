@@ -5,6 +5,7 @@ import com.simibubi.create.Create;
 import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipModifier;
+import com.tiestoettoet.create_train_parts.infrastructure.data.CreateTrainPartsDataGen;
 import com.tiestoettoet.create_train_parts.item.ModItems;
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.data.CreateRegistrate;
@@ -17,6 +18,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -37,7 +39,7 @@ import org.slf4j.Logger;
 public class CreateTrainParts {
 
     public static final String MOD_ID = "create_train_parts";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
     private static CreateRegistrate registrate;
 
     private static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MOD_ID);
@@ -69,6 +71,9 @@ public class CreateTrainParts {
 
         // modEventBus.addListener(CreateTrainParts::commonSetup);
         modEventBus.addListener(CreateTrainParts::onRegister);
+        modEventBus.addListener(EventPriority.HIGHEST, CreateTrainPartsDataGen::gatherDataHighPriority);
+        modEventBus.addListener(EventPriority.LOWEST, CreateTrainPartsDataGen::gatherData);
+
 
         // NeoForge.EVENT_BUS.register(this);
 

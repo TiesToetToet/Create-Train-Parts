@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": {
+      "tag": "minecraft:fences"
+    }
+  },
+  "pattern": [
+    "FF"
+  ],
+  "result": {
+    "count": 4,
+    "id": "create_train_parts:arm_extender"
+  }
+}

@@ -21,6 +21,8 @@ import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSl
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepGenerator;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepMovementBehaviour;
+import com.tiestoettoet.create_train_parts.content.trains.crossing.ArmExtenderGenerator;
+import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingGenerator;
 import com.tiestoettoet.create_train_parts.foundation.block.connected.HorizontalCTBehaviour;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.ArmExtenderBlock;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock;
@@ -28,6 +30,7 @@ import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.nullness.NonNullUnaryOperator;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.MapColor;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
@@ -58,7 +61,11 @@ public class BuilderTransformers {
                 .item()
                 .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
 //        .transform(customItemModel())
-                .model(AssetLookup.customBlockItemModel("train_step_" + type, "steps"))
+                .model((ctx, prov) ->
+                        new ModelFile.UncheckedModelFile(
+                                prov.modLoc("block/train_step_" + type + "/steps")
+                        )
+                )
                 .build();
     }
 
@@ -80,7 +87,12 @@ public class BuilderTransformers {
 //                .loot((lr, block) -> lr.add(block, lr.createDoorTable(block)))
                 .item()
                 .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
-                .model(AssetLookup.customBlockItemModel("train_slide_" + type, "slide"))
+//                .model(AssetLookup.customBlockItemModel("train_slide_" + type, "slide"))
+                .model((ctx, prov) ->
+                        new ModelFile.UncheckedModelFile(
+                                prov.modLoc("block/train_slide_" + type + "/slide")
+                        )
+                )
                 .build();
     }
 
@@ -96,7 +108,11 @@ public class BuilderTransformers {
 //                .addLayer(() -> RenderType::cutoutMipped)
                 .item()
                 .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
-                .model(AssetLookup.customBlockItemModel("sliding_windows", type))
+                .model((ctx, prov) ->
+                        new ModelFile.UncheckedModelFile(
+                                prov.modLoc("block/sliding_windows/" + type)
+                        )
+                )
                 .build();
     }
 
@@ -104,7 +120,9 @@ public class BuilderTransformers {
         return b -> b.initialProperties(SharedProperties::softMetal)
                 .properties(p -> p.mapColor(MapColor.COLOR_GRAY))
                 .properties(p -> p.sound(SoundType.NETHERITE_BLOCK))
+                .blockstate(new CrossingGenerator()::generate)
                 .transform(axeOnly())
+
 //                .loot((lr, block) -> lr.add(block, lr.createDoorTable(block)))
 //                .addLayer(() -> RenderType::cutoutMipped)
 //                .addLayer(() -> RenderType::translucent)
@@ -117,8 +135,10 @@ public class BuilderTransformers {
         return b -> b.initialProperties(SharedProperties::softMetal)
                 .properties(p -> p.mapColor(MapColor.COLOR_GRAY))
                 .properties(p -> p.sound(SoundType.NETHERITE_BLOCK))
+                .blockstate(new ArmExtenderGenerator()::generate)
                 .transform(axeOnly())
 //                .addLayer(() -> RenderType::cutoutMipped)
+//                .blockstate((ctx, prov) -> {})
                 .item()
                 .model(AssetLookup.customBlockItemModel("crossing", "arm_item"))
                 .build();

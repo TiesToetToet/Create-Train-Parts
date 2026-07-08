@@ -1,0 +1,1540 @@
+{
+  "variants": {
+    "connected=both,facing=east,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=east,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=both,facing=north,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=north,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=both,facing=south,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=south,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=both,facing=west,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=both,facing=west,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=east,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=east,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=left,facing=north,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=north,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=left,facing=south,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=south,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=left,facing=west,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=left,facing=west,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=east,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=east,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=none,facing=north,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=north,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=none,facing=south,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=south,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=none,facing=west,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=none,facing=west,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=east,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=east,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/east"
+    },
+    "connected=right,facing=north,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=north,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/north"
+    },
+    "connected=right,facing=south,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=south,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/south"
+    },
+    "connected=right,facing=west,open=false,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=false,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=false,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=false,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=false,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=false,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=false,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=false,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=false,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=false,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=true,type=andesite,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=true,type=andesite,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=true,type=brass,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=true,type=brass,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=true,type=copper,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=true,type=copper,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=true,type=train,visible=false": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    },
+    "connected=right,facing=west,open=true,powered=true,type=train,visible=true": {
+      "model": "create_train_parts:block/train_step_copper/west"
+    }
+  }
+}
