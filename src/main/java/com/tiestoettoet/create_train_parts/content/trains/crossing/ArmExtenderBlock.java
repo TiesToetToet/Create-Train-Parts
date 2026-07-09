@@ -26,18 +26,20 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 import static com.simibubi.create.content.kinetics.base.HorizontalKineticBlock.HORIZONTAL_FACING;
 
 public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWrenchable {
-    private static final int placementHelperId = PlacementHelpers.register(PlacementHelper.get());
+    protected static final int placementHelperId = PlacementHelpers.register(PlacementHelper.get());
 
     public static final BooleanProperty FLIPPED = BooleanProperty.create("flipped");
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
@@ -136,13 +138,12 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
 
         BlockPos pos = context.getClickedPos(); // Retrieve the BlockPos
         Level level = context.getLevel();
+        boolean barrier = false;
         // get neighbour block of where to place
 
         boolean open = false;
         BlockState rightState = level.getBlockState(pos.relative(facing.getCounterClockWise()));
         BlockState leftState = level.getBlockState(pos.relative(facing.getClockWise()));
-
-        boolean barrier = false;
 
         if (leftState.getBlock() instanceof ArmExtenderBlock && leftState.hasProperty(BARRIER) && leftState.getValue(BARRIER)) {
             barrier = true;
@@ -151,6 +152,14 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
             barrier = true;
         }
 
+//        // check which block the player is hitting
+//        context.getClickLocation();
+//        BlockHitResult hitResult = new BlockHitResult(context.getClickLocation(), context.getClickedFace(), pos, false);
+//        BlockState hitState = level.getBlockState(hitResult.getBlockPos());
+//        if (hitState.getBlock() instanceof CrossingBlock) {
+//
+//        }
+
         return state.setValue(HORIZONTAL_FACING, facing).setValue(FLIPPED, flipped).setValue(OPEN, true).setValue(BARRIER, barrier);
     }
 
@@ -158,9 +167,10 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hitResult) {
         IPlacementHelper placementHelper = PlacementHelpers.get(placementHelperId);
-        if (placementHelper.matchesItem(stack) && !player.isShiftKeyDown())
+        if (placementHelper.matchesItem(stack) && !player.isShiftKeyDown()) {
             return placementHelper.getOffset(player, level, state, pos, hitResult).placeInWorld(level,
                     (BlockItem) stack.getItem(), player, hand, hitResult);
+        }
 
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
@@ -212,8 +222,12 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
         }
 
         private PlacementHelper() {
+
             super(
-                    AllBlocks.ARM_EXTENDER::has,
+                    List.of(
+                            AllBlocks.ARM_EXTENDER::has,
+                            AllBlocks.CROSSING::has
+                    ),
                     state -> state.getValue(HORIZONTAL_FACING).getClockWise().getAxis(),
                     HORIZONTAL_FACING);
         }

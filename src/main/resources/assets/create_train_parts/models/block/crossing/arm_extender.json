@@ -2,7 +2,7 @@
 	"render_type": "minecraft:cutout_mipped",
 	"textures": {
 		"0": "create_train_parts:block/crossing/arm",
-		"particle": "create_train_parts:block/crossing/arm"
+		"particle": "create_train_parts:particle/arm"
 	},
 	"elements": [
 		{
