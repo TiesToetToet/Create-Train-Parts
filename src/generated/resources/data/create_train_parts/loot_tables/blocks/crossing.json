@@ -3,15 +3,31 @@
   "pools": [
     {
       "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:survives_explosion"
+            }
+          ],
           "name": "create_train_parts:crossing"
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:survives_explosion"
+            },
+            {
+              "block": "create_train_parts:crossing",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "bell": "true"
+              }
+            }
+          ],
+          "name": "minecraft:bell"
         }
       ],
       "rolls": 1.0

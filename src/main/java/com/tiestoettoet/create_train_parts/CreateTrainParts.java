@@ -1,7 +1,5 @@
 package com.tiestoettoet.create_train_parts;
 
-import com.simibubi.create.AllCreativeModeTabs;
-import com.simibubi.create.Create;
 import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipModifier;
@@ -66,7 +64,8 @@ public class CreateTrainParts {
 
         REGISTRATE.registerEventListeners(modEventBus);
 
-        com.tiestoettoet.create_train_parts.AllCreativeModeTabs.register(modEventBus); // Only ONCE!
+        AllSoundEvents.prepare();
+        AllCreativeModeTabs.register(modEventBus); // Only ONCE!
 
         AllBlocks.register();
 
@@ -76,6 +75,7 @@ public class CreateTrainParts {
         modEventBus.addListener(CreateTrainParts::onRegister);
         modEventBus.addListener(EventPriority.HIGHEST, CreateTrainPartsDataGen::gatherDataHighPriority);
         modEventBus.addListener(EventPriority.LOWEST, CreateTrainPartsDataGen::gatherData);
+        modEventBus.addListener(AllSoundEvents::register);
 
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> CreateTrainPartsClient.onCtorClient(modEventBus, forgeEventBus));

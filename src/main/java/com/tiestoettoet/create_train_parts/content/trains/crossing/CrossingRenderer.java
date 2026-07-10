@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllSpriteShifts;
+import com.simibubi.create.content.equipment.bell.BellRenderer;
 import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
@@ -115,6 +116,38 @@ public class CrossingRenderer extends KineticBlockEntityRenderer<CrossingBlockEn
                     .rotateCenteredDegrees(Mth.RAD_TO_DEG * angle, Direction.EAST)
                     .renderInto(ms, vb);
 
+            boolean closed = !blockState.getValue(CrossingBlock.OPEN);
+
+            float amplitude = switch (be.bellState) {
+                case OFF -> 0;
+                case RINGING -> 1f;
+                case FADING -> be.bellFade;
+            };
+
+            float swing =
+                    getCrossingBellSwing(be.bellTicks, partialTicks)
+                            * amplitude;
+
+            if (blockState.getValue(CrossingBlock.BELL)) {
+                PartialModel bell = AllPartialModels.BELL;
+                PartialModel bellHolder = AllPartialModels.BELL_HOLDER;
+                SuperByteBuffer partial_bell = CachedBuffers.partial(bell, blockState);
+                SuperByteBuffer partial_bellHolder = CachedBuffers.partial(bellHolder, blockState);
+
+                partial_bell
+                        .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+                        .translate(8 / 16f, 20.25 / 16f, 1 / 16f)
+                        .rotate(swing, facing.getCounterClockWise())
+                        .light(lightInFront)
+                        .renderInto(ms, vb);
+
+                partial_bellHolder
+                        .light(lightInFront)
+                        .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+                        .renderInto(ms, vb);
+
+            }
+
             SuperByteBuffer shaftHalf =
                     CachedBuffers.partialFacing(com.simibubi.create.AllPartialModels.SHAFT_HALF, be.getBlockState(), Direction.DOWN);
 
@@ -124,6 +157,8 @@ public class CrossingRenderer extends KineticBlockEntityRenderer<CrossingBlockEn
                     .light(lightInFront)
                     .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
                     .renderInto(ms, buffer.getBuffer(RenderType.translucent()));
+
+
 
 
 
@@ -204,6 +239,19 @@ public class CrossingRenderer extends KineticBlockEntityRenderer<CrossingBlockEn
         final BlockPos pos = be.getBlockPos();
         Axis axis = Direction.Axis.Y;
         return kineticRotationTransform(buffer, be, axis, getAngleForBe(be, pos, axis), light);
+    }
+
+    public static float getCrossingBellSwing(int bellTicks, float partialTicks) {
+
+        float time = bellTicks + partialTicks;
+
+        // One left-right cycle every 24 ticks (~1.2 seconds)
+        float frequency = (float) (2 * Math.PI / 24f);
+
+        // Maximum swing (radians)
+        float amplitude = 0.28f; // about 16°
+
+        return Mth.sin(time * frequency) * amplitude;
     }
 
 //    @Override

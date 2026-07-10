@@ -118,6 +118,7 @@ public class BuilderTransformers {
         return b -> b.initialProperties(SharedProperties::softMetal)
                 .properties(p -> p.mapColor(MapColor.COLOR_GRAY))
                 .properties(p -> p.sound(SoundType.NETHERITE_BLOCK))
+                .loot((lt, block) -> lt.add(block, CrossingBlock.buildLootTable()))
                 .blockstate(new CrossingGenerator()::generate)
                 .transform(axeOnly())
 

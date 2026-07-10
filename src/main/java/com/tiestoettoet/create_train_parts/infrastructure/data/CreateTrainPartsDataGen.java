@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.simibubi.create.foundation.utility.FilesHelper;
 import com.simibubi.create.infrastructure.data.GeneratedEntriesProvider;
+import com.tiestoettoet.create_train_parts.AllSoundEvents;
 import com.tiestoettoet.create_train_parts.CreateTrainParts;
 import com.tiestoettoet.create_train_parts.foundation.data.recipe.CreateTrainPartsStandardRecipeGen;
 import com.tiestoettoet.create_train_parts.foundation.ponder.CreateTrainPartsPonderPlugin;
@@ -35,7 +36,7 @@ public class CreateTrainPartsDataGen {
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-//        generator.addProvider(event.includeClient(), AllSoundEvents.provider(generator));
+        generator.addProvider(event.includeClient(), AllSoundEvents.provider(generator));
 
         GeneratedEntriesProvider generatedEntriesProvider = new GeneratedEntriesProvider(output, lookupProvider);
         lookupProvider = generatedEntriesProvider.getRegistryProvider();
@@ -69,7 +70,7 @@ public class CreateTrainPartsDataGen {
             provideDefaultLang("interface", langConsumer);
 //            provideDefaultLang("tooltips", langConsumer);
 //            AllAdvancements.provideLang(langConsumer);
-//            AllSoundEvents.provideLang(langConsumer);
+            AllSoundEvents.provideLang(langConsumer);
 //            AllKeys.provideLang(langConsumer);
             providePonderLang(langConsumer);
 //            new TagLangGenerator(langConsumer).generate();

@@ -55,6 +55,8 @@ public class AllPartialModels {
     public static final PartialModel CROSSING_LAMP = block("crossing/lamp");
     public static final PartialModel LIGHTS = block("crossing/lights");
     public static final PartialModel LIGHTS_FLIPPED = block("crossing/lights_flipped");
+    public static final PartialModel BELL_HOLDER = block("crossing/bell_holder");
+    public static final PartialModel BELL = block("crossing/bell");
 
     static {
         putTrainStep("train_step_andesite");

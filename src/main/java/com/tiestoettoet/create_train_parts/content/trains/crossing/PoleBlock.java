@@ -43,7 +43,7 @@ public class PoleBlock extends HorizontalKineticBlock implements IBE<KineticBloc
 
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        return state;
+        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override
