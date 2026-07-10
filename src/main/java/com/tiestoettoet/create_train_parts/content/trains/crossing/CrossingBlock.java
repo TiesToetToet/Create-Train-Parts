@@ -8,22 +8,28 @@ import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.gantry.GantryShaftBlock;
 import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.block.IHaveBigOutline;
+import com.simibubi.create.foundation.data.SharedProperties;
 import com.tiestoettoet.create_train_parts.AllBlockEntityTypes;
 import com.tiestoettoet.create_train_parts.AllBlocks;
+import com.tiestoettoet.create_train_parts.AllSoundEvents;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlockEntity;
 import net.createmod.catnip.placement.IPlacementHelper;
 import net.createmod.catnip.placement.PlacementHelpers;
 import net.createmod.catnip.placement.PlacementOffset;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Interaction;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
@@ -40,6 +46,13 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -62,6 +75,7 @@ public class CrossingBlock extends HorizontalKineticBlock
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
     public static final BooleanProperty BARRIER = BooleanProperty.create("barrier");
     public static final BooleanProperty CONNECTED = BooleanProperty.create("connected");
+    public static final BooleanProperty BELL = BooleanProperty.create("bell");
 
 //    protected static final VoxelShape NORTH_OPEN;
 //    protected static final VoxelShape NORTH_OPEN_FLIPPED;
@@ -90,7 +104,7 @@ public class CrossingBlock extends HorizontalKineticBlock
 
     public CrossingBlock(Properties properties) {
         super(properties);
-        registerDefaultState(defaultBlockState().setValue(FLIPPED, false).setValue(OPEN, false).setValue(BARRIER, false).setValue(CONNECTED, false));
+        registerDefaultState(defaultBlockState().setValue(FLIPPED, false).setValue(OPEN, false).setValue(BARRIER, false).setValue(CONNECTED, false).setValue(BELL, false));
     }
 
     @Override
@@ -135,7 +149,8 @@ public class CrossingBlock extends HorizontalKineticBlock
         VoxelShape baseShape = base(state);
         VoxelShape lightsShape = lights(state);
         VoxelShape armShape = arm(state);
-        return Shapes.join(poleShape, Shapes.join(baseShape, Shapes.join(lightsShape, armShape, BooleanOp.OR), BooleanOp.OR), BooleanOp.OR);
+        VoxelShape bellShape = bell(state);
+        return Shapes.join(poleShape, Shapes.join(baseShape, Shapes.join(lightsShape, Shapes.join(armShape, bellShape, BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR);
     }
 
     @Override
@@ -172,7 +187,9 @@ public class CrossingBlock extends HorizontalKineticBlock
         VoxelShape lightsShape = lights(state);
         VoxelShape armShape = arm(state);
         VoxelShape barrierShape = barrier(state);
-        return Shapes.join(poleShape, Shapes.join(baseShape, Shapes.join(lightsShape, Shapes.join(armShape, barrierShape, BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR);
+        VoxelShape bellShape = bell(state);
+//        return Shapes.join(poleShape, Shapes.join(baseShape, Shapes.join(lightsShape, Shapes.join(armShape, barrierShape, BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR);
+        return Shapes.join(poleShape, Shapes.join(baseShape, Shapes.join(lightsShape, Shapes.join(armShape, Shapes.join(barrierShape, bellShape, BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR);
     }
 
     @Override
@@ -182,7 +199,7 @@ public class CrossingBlock extends HorizontalKineticBlock
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder.add(FLIPPED).add(OPEN).add(BARRIER).add(CONNECTED));
+        super.createBlockStateDefinition(builder.add(FLIPPED).add(OPEN).add(BARRIER).add(CONNECTED).add(BELL));
     }
 
     @Override
@@ -199,7 +216,7 @@ public class CrossingBlock extends HorizontalKineticBlock
         BlockState below = context.getLevel().getBlockState(context.getClickedPos().below());
         boolean connected = below.getBlock() instanceof PoleBlock;
 
-        return state.setValue(HORIZONTAL_FACING, facing).setValue(FLIPPED, flipped).setValue(OPEN, false).setValue(BARRIER, false).setValue(CONNECTED, connected);
+        return state.setValue(HORIZONTAL_FACING, facing).setValue(FLIPPED, flipped).setValue(OPEN, false).setValue(BARRIER, false).setValue(CONNECTED, connected).setValue(BELL, false);
     }
 
     @Override
@@ -225,6 +242,20 @@ public class CrossingBlock extends HorizontalKineticBlock
         // Only allow rotation/flipping when the crossing is closed
         if (state.getValue(OPEN)) {
             return InteractionResult.PASS;
+        }
+
+        if (state.getValue(BELL)) {
+            // If the bell is active, deactivate it and do not allow rotation/flipping
+            world.setBlock(pos, state.setValue(BELL, false), 3);
+            world.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, pos);
+            // give the bell back to the player
+            if (!context.getPlayer().isCreative()) {
+                ItemStack bellItem = new ItemStack(Items.BELL);
+                if (!context.getPlayer().addItem(bellItem)) {
+                    context.getLevel().addFreshEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), bellItem));
+                }
+            }
+            return InteractionResult.SUCCESS;
         }
 
         BlockState rotated;
@@ -353,6 +384,7 @@ public class CrossingBlock extends HorizontalKineticBlock
         if (!state.is(newState.getBlock())) {
             // Block is being completely removed/replaced with a different block type
             // Find and collect all connected arm extenders in all directions
+
             java.util.List<ItemStack> armExtenderItems = new java.util.ArrayList<>();
 
 //            for (Direction direction : Direction.Plane.HORIZONTAL) {
@@ -397,6 +429,33 @@ public class CrossingBlock extends HorizontalKineticBlock
             }
         }
         super.onRemove(state, world, pos, newState, isMoving);
+    }
+
+    public static LootTable.Builder buildLootTable() {
+        LootItemCondition.Builder survivesExplosion = ExplosionCondition.survivesExplosion();
+        CrossingBlock block = AllBlocks.CROSSING.get();
+
+        LootTable.Builder builder = LootTable.lootTable();
+        LootPool.Builder pool = LootPool.lootPool()
+                .setRolls(ConstantValue.exactly(1));
+
+        // Always drop the crossing itself
+        pool.add(LootItem.lootTableItem(AllBlocks.CROSSING.get())
+                .when(survivesExplosion));
+
+        // Drop a bell only if the BELL property is true
+        pool.add(LootItem.lootTableItem(Items.BELL)
+                .when(survivesExplosion)
+                .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                        .setProperties(StatePropertiesPredicate.Builder.properties()
+                                .hasProperty(CrossingBlock.BELL, true))));
+
+        builder.withPool(pool);
+        return builder;
+    }
+
+    public void playSound(Level world, BlockPos pos) {
+        AllSoundEvents.CROSSING_BELL.playOnServer(world, pos, 2f, 1f);
     }
 
     private static List<BlockPos> getConnectedArmPositions(Level world, BlockPos crossingPos, BlockState state) {
@@ -536,6 +595,15 @@ public class CrossingBlock extends HorizontalKineticBlock
             return placementHelper.getOffset(player, level, state, pos, hitResult)
                     .placeInWorld(level, (BlockItem) stack.getItem(), player, hand, hitResult);
 
+        if (stack.getItem() == Items.BELL && !state.getValue(BELL)) {
+            level.setBlock(pos, state.setValue(BELL, true), 3);
+            level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+            if (!player.isCreative()) {
+                stack.shrink(1);
+            }
+            return ItemInteractionResult.SUCCESS;
+        }
+
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
@@ -591,39 +659,75 @@ public class CrossingBlock extends HorizontalKineticBlock
         boolean flipped = state.getValue(FLIPPED);
         Direction facing = state.getValue(HORIZONTAL_FACING);
         Direction effectiveFacing = flipped ? facing.getOpposite() : facing;
+        VoxelShape baseArm = Shapes.empty();
         if (open) {
             switch (effectiveFacing) {
                 case NORTH -> {
-                    return Shapes.join(Block.box(6, 0, 11, 10, 16, 13), Block.box(2, 0, 11, 6, 4, 13), BooleanOp.OR);
+                    baseArm = Block.box(6, 0, 11, 10, 16, 13);
                 }
                 case SOUTH -> {
-                    return Shapes.join(Block.box(6, 0, 3, 10, 16, 5), Block.box(10, 0, 3, 14, 4, 5), BooleanOp.OR);
+                    baseArm = Block.box(6, 0, 3, 10, 16, 5);
                 }
                 case EAST -> {
-                    return Shapes.join(Block.box(3, 0, 6, 5, 16, 10), Block.box(3, 0, 2, 5, 4, 6), BooleanOp.OR);
+                    baseArm = Block.box(3, 0, 6, 5, 16, 10);
                 }
                 case WEST -> {
-                    return Shapes.join(Block.box(11, 0, 6, 13, 16, 10), Block.box(11, 0, 10, 13, 4, 14), BooleanOp.OR);
+                    baseArm = Block.box(11, 0, 6, 13, 16, 10);
                 }
             }
         } else {
             switch (effectiveFacing) {
                 case NORTH -> {
-                    return Shapes.join(Block.box(0, 6, 11, 16, 10, 13), Block.box(0, 10, 11, 4, 14, 13), BooleanOp.OR);
+                    baseArm = Block.box(0, 6, 11, 16, 10, 13);
                 }
                 case SOUTH -> {
-                    return Shapes.join(Block.box(0, 6, 3, 16, 10, 5), Block.box(12, 10, 3, 16, 14, 5), BooleanOp.OR);
+                    baseArm = Block.box(0, 6, 3, 16, 10, 5);
                 }
                 case EAST -> {
-                    return Shapes.join(Block.box(3, 6, 0, 5, 10, 16), Block.box(3, 10, 0, 5, 14, 4), BooleanOp.OR);
+                    baseArm = Block.box(3, 6, 0, 5, 10, 16);
                 }
                 case WEST -> {
-                    return Shapes.join(Block.box(11, 6, 0, 13, 10, 16), Block.box(11, 10, 12, 13, 14, 16), BooleanOp.OR)
-                    ;
+                    baseArm = Block.box(11, 6, 0, 13, 10, 16);
                 }
             }
         }
-        return Shapes.empty();
+
+        VoxelShape armExtension = Shapes.empty();
+        if (open) {
+            if (flipped) {
+                switch (facing) {
+                    case NORTH -> armExtension = Block.box(2, 0, 3, 6, 4, 5);
+                    case SOUTH -> armExtension = Block.box(10, 0, 11, 14, 4, 13);
+                    case EAST -> armExtension = Block.box(11, 0, 2, 13, 4, 6);
+                    case WEST -> armExtension = Block.box(3, 0, 10, 5, 4, 14);
+                }
+            } else {
+                switch (facing) {
+                    case NORTH -> armExtension = Block.box(2, 0, 11, 6, 4, 13);
+                    case SOUTH -> armExtension = Block.box(10, 0, 3, 14, 4, 5);
+                    case EAST -> armExtension = Block.box(3, 0, 2, 5, 4, 6);
+                    case WEST -> armExtension = Block.box(11, 0, 10, 13, 4, 14);
+                }
+            }
+        } else {
+            if (flipped) {
+                switch (facing) {
+                    case NORTH -> armExtension =  Block.box(0, 10, 3, 4, 14, 5);
+                    case SOUTH -> armExtension = Block.box(12, 10, 11, 16, 14, 13);
+                    case EAST -> armExtension = Block.box(11, 10, 0, 13, 14, 4);
+                    case WEST -> armExtension = Block.box(3, 10, 12, 5, 14, 16);
+                }
+            } else {
+                switch (facing) {
+                    case NORTH -> armExtension = Block.box(0, 10, 11, 4, 14, 13);
+                    case SOUTH -> armExtension = Block.box(12, 10, 3, 16, 14, 5);
+                    case EAST -> armExtension = Block.box(3, 10, 0, 5, 14, 4);
+                    case WEST -> armExtension = Block.box(11, 10, 12, 13, 14, 16);
+                }
+            }
+        }
+
+        return Shapes.join(baseArm, armExtension, BooleanOp.OR);
     }
 
     private static VoxelShape barrier(BlockState state) {
@@ -647,6 +751,62 @@ public class CrossingBlock extends HorizontalKineticBlock
             case WEST -> {
                 return Shapes.join(Block.box(11, 6, 0, 13, 26, 16), Block.box(11, 10, 12, 13, 30, 16), BooleanOp.OR)
                 ;
+            }
+        }
+        return Shapes.empty();
+    }
+
+    private static VoxelShape bell(BlockState state) {
+        boolean bell = state.getValue(BELL);
+        if (!bell) {
+            return Shapes.empty();
+        }
+        Direction facing = state.getValue(HORIZONTAL_FACING);
+//        Direction effectiveFacing = state.getValue(FLIPPED) ? facing.getOpposite() : facing;
+        switch (facing) {
+            case NORTH -> {
+                return Stream.of(
+                    Block.box(11, 20, 7, 17, 22, 9),
+                    Stream.of(
+                        Block.box(12, 12.5, 5, 18, 13.5, 11),
+                        Block.box(13, 13.5, 6, 17, 18.5, 10),
+                        Block.box(14.6, 18.5, 7.5, 15.6, 20.5, 8.5)
+                    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
+                    Block.box(17, 20, 7, 19, 22, 9)
+                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+            }
+            case SOUTH -> {
+                return Stream.of(
+                    Block.box(-1, 20, 7, 5, 22, 9),
+                    Stream.of(
+                        Block.box(-2, 12.5, 5, 4, 13.5, 11),
+                        Block.box(-1, 13.5, 6, 3, 18.5, 10),
+                        Block.box(0.4, 18.5, 7.5, 1.4, 20.5, 8.5)
+                    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
+                    Block.box(-3, 20, 7, -1, 22, 9)
+                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+            }
+            case EAST -> {
+                return Stream.of(
+                    Block.box(7, 20, 11, 9, 22, 17),
+                    Stream.of(
+                        Block.box(5, 12.5, 12, 11, 13.5, 18),
+                        Block.box(6, 13.5, 13, 10, 18.5, 17),
+                        Block.box(7.5, 18.5, 14.6, 8.5, 20.5, 15.6)
+                    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
+                    Block.box(7, 20, 17, 9, 22, 19)
+                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+            }
+            case WEST -> {
+                return Stream.of(
+                    Block.box(7, 20, -1, 9, 22, 5),
+                    Stream.of(
+                        Block.box(5, 12.5, -2, 11, 13.5, 4),
+                        Block.box(6, 13.5, -1, 10, 18.5, 3),
+                        Block.box(7.5, 18.5, 0.4, 8.5, 20.5, 1.4)
+                    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
+                    Block.box(7, 20, -3, 9, 22, -1)
+                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
             }
         }
         return Shapes.empty();

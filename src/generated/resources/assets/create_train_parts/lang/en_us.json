@@ -45,6 +45,7 @@
   "create_train_parts.ponder.window_modes.text_3": "Connected Windows with the same Mode will open together",
   "create_train_parts.ponder.window_modes.text_4": "Holding Control changes all Windows",
   "create_train_parts.sliding_window.mode": "Sliding Window Mode",
+  "create_train_parts.subtitle.crossing_bell": "Crossing Bell",
   "create_train_parts.train_step.mode": "Slide mode",
   "itemGroup.create_train_parts.base": "Create Train Parts",
   "step.mode.barrier": "Barrier",

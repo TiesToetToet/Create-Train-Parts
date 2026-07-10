@@ -57,7 +57,7 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
 
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        return state;
+        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override
@@ -150,6 +150,16 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
         }
         if (rightState.getBlock() instanceof ArmExtenderBlock && rightState.hasProperty(BARRIER) && rightState.getValue(BARRIER)) {
             barrier = true;
+        }
+        if ((leftState.getBlock() instanceof ArmExtenderBlock && leftState.hasProperty(FLIPPED) && leftState.getValue(FLIPPED)) ||
+                (leftState.getBlock() instanceof CrossingBlock && leftState.hasProperty(CrossingBlock.FLIPPED) && leftState.getValue(CrossingBlock.FLIPPED))) {
+            flipped = true;
+            facing = leftState.getValue(HORIZONTAL_FACING);
+        }
+        if ((rightState.getBlock() instanceof ArmExtenderBlock && rightState.hasProperty(FLIPPED) && rightState.getValue(FLIPPED)) ||
+                (rightState.getBlock() instanceof CrossingBlock && rightState.hasProperty(CrossingBlock.FLIPPED) && rightState.getValue(CrossingBlock.FLIPPED))) {
+            flipped = true;
+            facing = rightState.getValue(HORIZONTAL_FACING);
         }
 
 //        // check which block the player is hitting

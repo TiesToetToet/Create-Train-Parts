@@ -14,6 +14,7 @@ import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollOp
 import com.simibubi.create.foundation.utility.CreateLang;
 import com.simibubi.create.foundation.utility.ServerSpeedProvider;
 import com.tiestoettoet.create_train_parts.foundation.gui.AllIcons;
+import com.tiestoettoet.create_train_parts.foundation.sound.SoundScapes;
 import com.tiestoettoet.create_train_parts.foundation.utility.CreateTrainPartsLang;
 import net.createmod.catnip.animation.LerpedFloat;
 import net.createmod.catnip.lang.Lang;
@@ -36,10 +37,13 @@ import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.simibubi.create.content.kinetics.base.HorizontalKineticBlock.HORIZONTAL_FACING;
 import static com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock.OPEN;
@@ -52,6 +56,9 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
     protected double sequencedAngleLimit;
     protected boolean assembleNextTick;
     protected ScrollOptionBehaviour<CrossingBarrierMode> barrierMode;
+    public int bellTicks = 0;
+    public BellState bellState = BellState.OFF;
+    public float bellFade = 0;
 
     public ControlledContraptionEntity movedContraption;
     // boolean deferUpdate;
@@ -152,9 +159,41 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
         }
         speed = speed / 50f * 0.05f * 0.25f;
 
+
+
         float targetValue = shouldOpen ? 0 : 1;
         animation.chase(targetValue, speed, LerpedFloat.Chaser.LINEAR);
         animation.tickChaser();
+
+        boolean moving = !animation.settled();
+        boolean opening = moving && animation.getChaseTarget() == 1;
+        boolean closing = moving && animation.getChaseTarget() == 0;
+        boolean opened = !moving && animation.getValue() > 0.99f;
+        boolean closed = !moving && animation.getValue() < 0.01f;
+        switch (bellState) {
+            case OFF:
+                if (closing) {
+                    bellState = BellState.RINGING;
+                    bellTicks = 0;
+                }
+                break;
+
+            case RINGING:
+                bellTicks++;
+                if (opened) {
+                    bellState = BellState.FADING;
+                    bellFade = 1f;
+                }
+                break;
+
+            case FADING:
+                bellTicks++;
+                bellFade = Math.max(0, bellFade - 0.04f);
+
+                if (bellFade == 0)
+                    bellState = BellState.OFF;
+                break;
+        }
 
         if (level.isClientSide()) {
             if (bridgeTicks < 2 && open)
@@ -237,6 +276,16 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
         }
 
         movedContraption.setAngle(finalAngle);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void tickAudio() {
+        super.tickAudio();
+
+        float pitch = 1f;
+        if (bellState != BellState.RINGING)
+            return;
+        SoundScapes.play(SoundScapes.AmbienceGroup.CROSSING, worldPosition, pitch);
     }
 
     @Override
@@ -363,4 +412,12 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
     public BlockPos getBlockPosition() {
         return worldPosition;
     }
+
+    public enum BellState {
+        OFF,
+        RINGING,
+        FADING
+    }
+
+
 }

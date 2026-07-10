@@ -1,0 +1,15 @@
+{
+  "crossing_bell": {
+    "sounds": [
+      {
+        "type": "file",
+        "name": "create_train_parts:crossing_bell"
+      },
+      {
+        "type": "file",
+        "name": "create_train_parts:crossing"
+      }
+    ],
+    "subtitle": "create_train_parts.subtitle.crossing_bell"
+  }
+}
