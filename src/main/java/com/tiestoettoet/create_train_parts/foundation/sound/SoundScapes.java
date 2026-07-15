@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.function.BiFunction;
 
 public class SoundScapes {
@@ -61,13 +62,14 @@ public class SoundScapes {
             return;
 
         boolean disable = !AllConfigs.client().enableAmbientSounds.get();
-        for (Iterator<Map.Entry<Pair<AmbienceGroup, PitchGroup>, SoundScape>> iterator = activeSounds.entrySet()
+        for (Iterator<Entry<Pair<AmbienceGroup, PitchGroup>, SoundScape>> iterator = activeSounds.entrySet()
                 .iterator(); iterator.hasNext();) {
 
-            Map.Entry<Pair<AmbienceGroup, PitchGroup>, SoundScape> entry = iterator.next();
+            Entry<Pair<AmbienceGroup, PitchGroup>, SoundScape> entry = iterator.next();
             Pair<AmbienceGroup, PitchGroup> key = entry.getKey();
             SoundScape value = entry.getValue();
 
+            System.out.println(getSoundCount(key.getFirst(), key.getSecond()));
             if (disable || getSoundCount(key.getFirst(), key.getSecond()) == 0) {
                 value.remove();
                 iterator.remove();
@@ -99,6 +101,16 @@ public class SoundScapes {
         activeSounds.clear();
     }
 
+	public static void stop(AmbienceGroup group, float pitch) {
+		PitchGroup pg = getGroupFromPitch(pitch);
+
+		Pair<AmbienceGroup, PitchGroup> key = Pair.of(group, pg);
+
+		SoundScape scape = activeSounds.remove(key);
+		if (scape != null)
+			scape.remove();
+	}
+
     protected static boolean outOfRange(BlockPos pos) {
         return !getCameraPos().closerThan(pos, MAX_AMBIENT_SOURCE_DISTANCE);
     }
@@ -107,8 +119,7 @@ public class SoundScapes {
         Entity renderViewEntity = Minecraft.getInstance().cameraEntity;
         if (renderViewEntity == null)
             return BlockPos.ZERO;
-        BlockPos playerLocation = renderViewEntity.blockPosition();
-        return playerLocation;
+        return renderViewEntity.blockPosition();
     }
 
     public static int getSoundCount(AmbienceGroup group, PitchGroup pitchGroup) {

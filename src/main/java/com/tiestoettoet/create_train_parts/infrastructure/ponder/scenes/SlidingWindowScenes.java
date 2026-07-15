@@ -26,7 +26,6 @@ public class SlidingWindowScenes {
         CreateTrainPartsSceneBuilder createScene = new CreateTrainPartsSceneBuilder(scene);
         scene.title("window_modes", "Configuring Modes");
         scene.configureBasePlate(1, 0, 5);
-        scene.setSceneOffsetY(-1);
         scene.showBasePlate();
 
         Selection window = util.select().position(3, 2, 2);

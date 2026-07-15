@@ -5,6 +5,8 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSlideBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
+import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock;
+import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlockEntity;
 import com.tiestoettoet.create_train_parts.foundation.gui.AllIcons;
 import com.tiestoettoet.create_train_parts.foundation.ponder.CreateTrainPartsSceneBuilder;
 import net.createmod.catnip.math.Pointing;
@@ -17,6 +19,8 @@ import net.createmod.ponder.api.scene.SceneBuilder;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -29,7 +33,6 @@ public class CrossingScenes {
         CreateTrainPartsSceneBuilder createScene = new CreateTrainPartsSceneBuilder(scene);
         scene.title("crossing", "Crossing");
         scene.configureBasePlate(1, 0, 5);
-        scene.setSceneOffsetY(-1);
         scene.showBasePlate();
 
         scene.world().showIndependentSection(util.select().fromTo(4, 1, 0, 4, 2, 1), Direction.DOWN);
@@ -89,6 +92,38 @@ public class CrossingScenes {
         scene.world().configureCenterOfRotation(armsElement, util.vector().of(3.5, 1.5, 2.5));
         createScene.world().rotateSection(armsElement, 0, 0, -89.38, 63);
 
+		scene.idle(65);
+
+		scene.overlay().showText(50)
+			.pointAt(util.vector().of(3, 2, 2))
+			.placeNearTarget()
+			.attachKeyFrame()
+			.text("To audibly alert players, you can add a bell to the Crossing Gate");
+
+		scene.idle(60);
+
+		scene.overlay().showText(50)
+			.pointAt(util.vector().of(3, 4, 2))
+			.placeNearTarget()
+			.text("Click the crossing with a bell to add it to the gate");
+		scene.overlay().showControls(util.vector().centerOf(3, 2, 2), Pointing.DOWN, 50)
+			.rightClick()
+			.withItem(new ItemStack(Items.BELL));
+
+		scene.world().modifyBlock(util.grid().at(3, 1, 2), state -> state.setValue(CrossingBlock.BELL, true), false);
+
+		scene.idle(60);
+
+		scene.overlay().showText(50)
+			.pointAt(util.vector().of(3, 4, 2))
+			.placeNearTarget()
+			.text("Now, when the gate is lowered, the bell will ring to alert players");
+
+		scene.idle(60);
+
+		scene.world().modifyKineticSpeed(util.select().fromTo(3, 0, 2, 4, 1, 2), f -> -f);
+		scene.world().configureCenterOfRotation(armsElement, util.vector().of(3.5, 1.5, 2.5));
+		createScene.world().rotateSection(armsElement, 0, 0, 89.38, 63);
 
     }
 
@@ -97,8 +132,8 @@ public class CrossingScenes {
             CreateTrainPartsSceneBuilder createScene = new CreateTrainPartsSceneBuilder(scene);
             scene.title("railway_crossing", "Crossing");
             scene.configureBasePlate(17, 0, 12);
+			scene.setSceneOffsetY(-1);
             scene.scaleSceneView(.65f);
-            scene.setSceneOffsetY(-1);
             scene.showBasePlate();
 
             scene.world().showIndependentSectionImmediately(util.select().fromTo(26, 1, 2, 26, 1, 4));
@@ -216,148 +251,6 @@ public class CrossingScenes {
              scene.world().modifyKineticSpeed(util.select().fromTo(25, 0, 4, 26, 1, 4), f -> -f);
              createScene.world().rotateSection(armsElement, 0, 0, -89.38, 63);
             //
-            // scene.world().animateTrainStation(util.grid().at(11, 1, 3), true);
-            // scene.special().movePointOfInterest(util.grid().at(4, 3, 4));
-            //
-            // scene.idle(2);
-            // Vec3 target = util.vector().centerOf(4, 3, 4);
-            // scene.overlay().showText(50)
-            // .pointAt(target)
-            // .placeNearTarget()
-            // .attachKeyFrame()
-            // .text("Sometimes the Train is too far away from the Station to enter the
-            // Train");
-            //
-            // scene.idle(80);
-            //
-            // createScene.world().hideIndependentSectionImmediately(trainElement2);
-            // train2 = train2
-            // .substract(util.select().fromTo(5, 2, 5, 6, 2, 5))
-            // .substract(util.select().fromTo(2, 2, 5, 3, 2, 5));
-            //
-            // scene.world().setBlocks(util.select().fromTo(5, 2, 5, 6, 2, 5), air, false);
-            // scene.world().setBlocks(util.select().fromTo(2, 2, 5, 3, 2, 5), air, false);
-            //
-            // trainElement2 = scene.world().showIndependentSectionImmediately(train2);
-            //
-            // scene.overlay().showText(50)
-            // .pointAt(target)
-            // .placeNearTarget()
-            // .text("Use Train Steps or Train Slides for easier access");
-            // scene.world().setBlocks(util.select().fromTo(5, 2, 5, 6, 2, 5),
-            // AllBlocks.ANDESITE_CASING.getDefaultState(), false);
-            // scene.world().setBlocks(util.select().fromTo(2, 2, 5, 3, 2, 5),
-            // AllBlocks.ANDESITE_CASING.getDefaultState(), false);
-            // Selection casings1 = util.select().fromTo(5, 2, 5, 6, 2, 5);
-            // Selection casings2 = util.select().fromTo(2, 2, 5, 3, 2, 5);
-            // scene.world().hideSection(casings1, Direction.NORTH);
-            // scene.world().hideSection(casings2, Direction.NORTH);
-            //
-            // scene.idle(30);
-            //
-            // BlockState step =
-            // com.tiestoettoet.create_train_parts.AllBlocks.TRAIN_STEP_ANDESITE.getDefaultState().setValue(TrainStepBlock.VISIBLE,
-            // false);
-            // BlockState slide =
-            // com.tiestoettoet.create_train_parts.AllBlocks.TRAIN_SLIDE_ANDESITE.getDefaultState().setValue(TrainSlideBlock.VISIBLE,
-            // false);
-            //
-            // scene.world().setBlocks(util.select().position(5, 2, 5),
-            // step.setValue(TrainStepBlock.OPEN, false).setValue(TrainStepBlock.CONNECTED,
-            // TrainStepBlock.ConnectedState.LEFT), false);
-            // scene.world().setBlocks(util.select().position(6, 2, 5),
-            // step.setValue(TrainStepBlock.OPEN, false).setValue(TrainStepBlock.CONNECTED,
-            // TrainStepBlock.ConnectedState.RIGHT), false);
-            // scene.world().setBlocks(util.select().position(2, 2, 5),
-            // slide.setValue(TrainSlideBlock.OPEN,
-            // false).setValue(TrainSlideBlock.CONNECTED,
-            // TrainSlideBlock.ConnectedState.LEFT), false);
-            // scene.world().setBlocks(util.select().position(3, 2, 5),
-            // slide.setValue(TrainSlideBlock.OPEN,
-            // false).setValue(TrainSlideBlock.CONNECTED,
-            // TrainSlideBlock.ConnectedState.RIGHT), false);
-            // Selection steps = util.select().fromTo(5, 2, 5, 6, 2, 5);
-            // Selection slides = util.select().fromTo(2, 2, 5, 3, 2, 5);
-            //
-            // scene.idle(10);
-            //
-            // ElementLink<WorldSectionElement> stepsElement =
-            // scene.world().showIndependentSection(steps, Direction.DOWN);
-            // ElementLink<WorldSectionElement> slidesElement =
-            // scene.world().showIndependentSection(slides, Direction.DOWN);
-            //
-            // scene.idle(14);
-            //
-            // createScene.world().hideIndependentSectionImmediately(stepsElement);
-            // createScene.world().hideIndependentSectionImmediately(slidesElement);
-            // createScene.world().hideIndependentSectionImmediately(trainElement2);
-            //
-            //// scene.world().restoreBlocks(util.select().fromTo(5, 2, 5, 6, 2,
-            // 5).substract(util.select().fromTo(5, 2, 5, 6, 2,
-            // 5)).substract(util.select().fromTo(2, 2, 5, 3, 2, 5)));
-            //// scene.world().setBlocks(util.select().position(5, 2, 5),
-            // step.setValue(TrainStepBlock.OPEN, false).setValue(TrainStepBlock.CONNECTED,
-            // TrainStepBlock.ConnectedState.LEFT), false);
-            //// scene.world().setBlocks(util.select().position(6, 2, 5),
-            // step.setValue(TrainStepBlock.OPEN, false).setValue(TrainStepBlock.CONNECTED,
-            // TrainStepBlock.ConnectedState.RIGHT), false);
-            //// scene.world().setBlocks(util.select().position(2, 2, 5),
-            // slide.setValue(TrainSlideBlock.OPEN,
-            // false).setValue(TrainSlideBlock.CONNECTED,
-            // TrainSlideBlock.ConnectedState.LEFT), false);
-            //// scene.world().setBlocks(util.select().position(2, 2, 5),
-            // slide.setValue(TrainSlideBlock.OPEN,
-            // false).setValue(TrainSlideBlock.CONNECTED,
-            // TrainSlideBlock.ConnectedState.RIGHT), false);
-            // train2 = util.select().fromTo(7, 2, 5, 2, 3, 7);
-            // trainElement2 = scene.world().showIndependentSectionImmediately(train2);
-            //
-            // scene.idle(20);
-            //
-            // scene.overlay().showText(50)
-            // .pointAt(target)
-            // .placeNearTarget()
-            // .attachKeyFrame()
-            // .text("The Steps and Slides open automatically when it arrives at the
-            // Station");
-            //
-            // scene.idle(40);
-            //
-            // createScene.world().animateTrainStep(util.grid().at(5, 2, 5), true);
-            // createScene.world().animateTrainStep(util.grid().at(6, 2, 5), true);
-            // createScene.world().animateTrainSlide(util.grid().at(2, 2, 5), true);
-            // createScene.world().animateTrainSlide(util.grid().at(3, 2, 5), true);
-            //
-            // scene.idle(40);
-            //
-            // scene.overlay().showText(50)
-            // .pointAt(target)
-            // .placeNearTarget()
-            // .attachKeyFrame()
-            // .text("And close when the Train leaves the Station");
-            //
-            // scene.idle(35);
-            //
-            // scene.special().movePointOfInterest(util.grid().at(18, 3, 6));
-            //
-            // scene.idle(5);
-            //
-            // createScene.world().animateTrainStep(util.grid().at(5, 2, 5), false);
-            // createScene.world().animateTrainStep(util.grid().at(6, 2, 5), false);
-            // createScene.world().animateTrainSlide(util.grid().at(2, 2, 5), false);
-            // createScene.world().animateTrainSlide(util.grid().at(3, 2, 5), false);
-            // scene.world().animateTrainStation(util.grid().at(11, 1, 3), false);
-            //
-            // scene.idle(5);
-            //
-            // scene.world().moveSection(trainElement1, util.vector().of(20, 0, 0), 70);
-            // scene.world().moveSection(trainElement2, util.vector().of(20, 0, 0), 70);
-            // scene.special().moveParrot(birb, util.vector().of(20, 0, 0), 70);
-            // scene.world().animateBogey(util.grid().at(10, 2, 6), 20f, 70);
-            // scene.world().animateBogey(util.grid().at(6, 2, 6), 20f, 70);
-            // scene.world().animateBogey(util.grid().at(3, 2, 6), 20f, 70);
-
-            //
     }
 
     public static void modes(SceneBuilder builder, SceneBuildingUtil util) {
@@ -365,7 +258,6 @@ public class CrossingScenes {
         CreateTrainPartsSceneBuilder createScene = new CreateTrainPartsSceneBuilder(scene);
         scene.title("crossing_modes", "Crossing Modes");
         scene.configureBasePlate(1, 0, 7);
-        scene.setSceneOffsetY(-1);
         scene.showBasePlate();
 
         scene.world().showIndependentSection(util.select().fromTo(6, 1, 1, 6, 2, 2), Direction.DOWN);

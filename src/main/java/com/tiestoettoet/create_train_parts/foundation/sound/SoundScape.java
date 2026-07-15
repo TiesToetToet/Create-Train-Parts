@@ -9,6 +9,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
+import com.tiestoettoet.create_train_parts.foundation.sound.SoundScapes.AmbienceGroup;
+import com.tiestoettoet.create_train_parts.foundation.sound.SoundScapes.PitchGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +19,11 @@ public class SoundScape {
     List<ContinuousSound> continuous;
     List<RepeatingSound> repeating;
     private float pitch;
-    private SoundScapes.AmbienceGroup group;
+    private AmbienceGroup group;
     private Vec3 meanPos;
-    private SoundScapes.PitchGroup pitchGroup;
+    private PitchGroup pitchGroup;
 
-    public SoundScape(float pitch, SoundScapes.AmbienceGroup group) {
+    public SoundScape(float pitch, AmbienceGroup group) {
         this.pitchGroup = SoundScapes.getGroupFromPitch(pitch);
         this.pitch = pitch;
         this.group = group;
@@ -48,8 +50,11 @@ public class SoundScape {
     }
 
     public void play() {
-        continuous.forEach(Minecraft.getInstance()
-                .getSoundManager()::play);
+		System.out.println("Playing soundscape");
+		continuous.forEach(sound -> {
+			System.out.println("Playing " + sound);
+			Minecraft.getInstance().getSoundManager().play(sound);
+		});
     }
 
     public void tick() {

@@ -3,6 +3,7 @@ package com.tiestoettoet.create_train_parts.content.trains.crossing;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.contraptions.*;
+import com.simibubi.create.content.decoration.steamWhistle.WhistleSoundInstance;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.advancement.AllAdvancements;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
@@ -19,6 +20,8 @@ import com.tiestoettoet.create_train_parts.foundation.utility.CreateTrainPartsLa
 import net.createmod.catnip.animation.LerpedFloat;
 import net.createmod.catnip.lang.Lang;
 import net.createmod.catnip.math.VecHelper;
+import net.createmod.catnip.platform.CatnipServices;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -46,6 +49,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.simibubi.create.content.kinetics.base.HorizontalKineticBlock.HORIZONTAL_FACING;
+import static com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock.BELL;
 import static com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock.OPEN;
 
 public class CrossingBlockEntity extends KineticBlockEntity implements IControlContraption {
@@ -82,7 +86,25 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
 
         if (tag.contains("ForceOpen"))
             openObj = tag.getBoolean("ForceOpen");
+
+		bellTicks = tag.getInt("BellTicks");
+		bellFade = tag.getFloat("BellFade");
+
+		int state = tag.getInt("BellState");
+		if (state >= 0 && state < BellState.values().length)
+			bellState = BellState.values()[state];
+		else
+			bellState = BellState.OFF;
     }
+
+	@Override
+	protected void write(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {
+		super.write(tag, registries, clientPacket);
+
+		tag.putInt("BellTicks", bellTicks);
+		tag.putInt("BellState", bellState.ordinal());
+		tag.putFloat("BellFade", bellFade);
+	}
 
     public void assemble() {
 //        System.out.println("CrossingBlockEntity.assemble() called");
@@ -194,6 +216,9 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
                     bellState = BellState.OFF;
                 break;
         }
+        if (!block.getValue(BELL)) {
+            bellState = BellState.OFF;
+        }
 
         if (level.isClientSide()) {
             if (bridgeTicks < 2 && open)
@@ -205,6 +230,9 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
         if (animation.settled() && open == (animation.getValue() != 0)) {
             return;
         }
+
+		if (level.isClientSide)
+			CatnipServices.PLATFORM.executeOnClientOnly(() -> () -> this.tickAudio());
 
         block = block.setValue(OPEN, animation.getValue() != 0);
         level.setBlock(worldPosition, block, 10);
@@ -278,15 +306,50 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
         movedContraption.setAngle(finalAngle);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void tickAudio() {
-        super.tickAudio();
+	@OnlyIn(Dist.CLIENT)
+	private CrossingSoundInstance soundInstance;
 
-        float pitch = 1f;
-        if (bellState != BellState.RINGING)
-            return;
-        SoundScapes.play(SoundScapes.AmbienceGroup.CROSSING, worldPosition, pitch);
+	@OnlyIn(Dist.CLIENT)
+	public void tickAudio() {
+		boolean ringing = bellState == BellState.RINGING;
+		if (!ringing) {
+			if (soundInstance != null) {
+				soundInstance.fadeOut();
+				soundInstance = null;
+			}
+			return;
+		}
+
+		if (soundInstance == null || soundInstance.isStopped()) {
+			Minecraft.getInstance()
+				.getSoundManager()
+				.play(soundInstance = new CrossingSoundInstance(worldPosition));
+		}
+
+		soundInstance.keepAlive();
+	}
+
+    public void onBellAdded() {
+        if (bellState == BellState.OFF && !isOpen(getBlockState())) {
+            bellState = BellState.RINGING;
+            bellTicks = 0;
+        }
     }
+
+	public void addBell() {
+		BlockState blockState = getBlockState();
+		if (blockState.getBlock() instanceof CrossingBlock) {
+			level.setBlock(worldPosition, blockState.setValue(BELL, true), 3);
+		}
+	}
+
+	public void onBellRemoved() {
+		bellState = BellState.OFF;
+
+		if (level != null && level.isClientSide) {
+			SoundScapes.stop(SoundScapes.AmbienceGroup.CROSSING, 1.0f);
+		}
+	}
 
     @Override
     protected AABB createRenderBoundingBox() {

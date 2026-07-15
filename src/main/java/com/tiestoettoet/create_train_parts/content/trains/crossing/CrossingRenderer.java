@@ -20,6 +20,7 @@ import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import dev.engine_room.flywheel.lib.transform.TransformStack;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.math.AngleHelper;
+import net.createmod.catnip.math.VecHelper;
 import net.createmod.catnip.render.CachedBuffers;
 import net.createmod.catnip.render.SuperByteBuffer;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -133,11 +134,19 @@ public class CrossingRenderer extends KineticBlockEntityRenderer<CrossingBlockEn
                 PartialModel bellHolder = AllPartialModels.BELL_HOLDER;
                 SuperByteBuffer partial_bell = CachedBuffers.partial(bell, blockState);
                 SuperByteBuffer partial_bellHolder = CachedBuffers.partial(bellHolder, blockState);
+				Direction swingDirection = facing.getCounterClockWise();
+
+				switch ((int) ((rotationAngle % 360 + 360) % 360)) {
+					case 90 -> swingDirection = swingDirection.getClockWise();
+					case 180 -> swingDirection = swingDirection.getOpposite();
+					case 270 -> swingDirection = swingDirection.getCounterClockWise();
+				}
+
 
                 partial_bell
                         .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
-                        .translate(8 / 16f, 20.25 / 16f, 1 / 16f)
-                        .rotate(swing, facing.getCounterClockWise())
+                        .translate(8 / 16f, 20.25 / 16f, 0 / 16f)
+                        .rotate(swing, swingDirection.getClockWise())
                         .light(lightInFront)
                         .renderInto(ms, vb);
 
@@ -168,12 +177,13 @@ public class CrossingRenderer extends KineticBlockEntityRenderer<CrossingBlockEn
                 float movementSecondary = 14 / 16f;
                 float movementUp;
 
-                long gameTime = be.getLevel().getGameTime();
-                if ((gameTime / 10) % 2 == 0) {
-                    movementUp = 19 / 16f;
-                } else {
-                    movementUp = 14 / 16f;
-                }
+				float time = AnimationTickHolder.getRenderTime(be.getLevel());
+
+				if (((int) (time / 10)) % 2 == 0) {
+					movementUp = 19 / 16f;
+				} else {
+					movementUp = 14 / 16f;
+				}
 
 
                 Vec3 movementMainVec = Vec3.atLowerCornerOf(facing.getOpposite().getNormal()).scale(movementMain);
@@ -249,7 +259,7 @@ public class CrossingRenderer extends KineticBlockEntityRenderer<CrossingBlockEn
         float frequency = (float) (2 * Math.PI / 24f);
 
         // Maximum swing (radians)
-        float amplitude = 0.28f; // about 16°
+        float amplitude = 0.27f; // about 15.5 degrees
 
         return Mth.sin(time * frequency) * amplitude;
     }

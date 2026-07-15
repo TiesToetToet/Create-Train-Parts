@@ -34,8 +34,8 @@ public class AllSoundEvents {
 
     public static final SoundEntry
         CROSSING_BELL = create("crossing_bell").subtitle("Crossing Bell")
-            .addVariant("crossing")
             .category(SoundSource.BLOCKS)
+			.attenuationDistance(32)
             .build()
 
             ;

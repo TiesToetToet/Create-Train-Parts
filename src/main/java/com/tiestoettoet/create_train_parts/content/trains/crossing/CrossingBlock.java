@@ -4,6 +4,8 @@ import com.mojang.serialization.MapCodec;
 import com.simibubi.create.CreateClient;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
+import com.simibubi.create.content.kinetics.base.IRotate;
+import com.simibubi.create.content.kinetics.base.KineticBlock;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.gantry.GantryShaftBlock;
 import com.simibubi.create.foundation.block.IBE;
@@ -77,31 +79,6 @@ public class CrossingBlock extends HorizontalKineticBlock
     public static final BooleanProperty CONNECTED = BooleanProperty.create("connected");
     public static final BooleanProperty BELL = BooleanProperty.create("bell");
 
-//    protected static final VoxelShape NORTH_OPEN;
-//    protected static final VoxelShape NORTH_OPEN_FLIPPED;
-//    protected static final VoxelShape NORTH_CLOSED;
-//    protected static final VoxelShape NORTH_CLOSED_BARRIER;
-//    protected static final VoxelShape NORTH_CLOSED_FLIPPED;
-//    protected static final VoxelShape NORTH_CLOSED_FLIPPED_BARRIER;
-//    protected static final VoxelShape SOUTH_OPEN;
-//    protected static final VoxelShape SOUTH_OPEN_FLIPPED;
-//    protected static final VoxelShape SOUTH_CLOSED;
-//    protected static final VoxelShape SOUTH_CLOSED_BARRIER;
-//    protected static final VoxelShape SOUTH_CLOSED_FLIPPED;
-//    protected static final VoxelShape SOUTH_CLOSED_FLIPPED_BARRIER;
-//    protected static final VoxelShape WEST_OPEN;
-//    protected static final VoxelShape WEST_OPEN_FLIPPED;
-//    protected static final VoxelShape WEST_CLOSED;
-//    protected static final VoxelShape WEST_CLOSED_BARRIER;
-//    protected static final VoxelShape WEST_CLOSED_FLIPPED;
-//    protected static final VoxelShape WEST_CLOSED_FLIPPED_BARRIER;
-//    protected static final VoxelShape EAST_OPEN;
-//    protected static final VoxelShape EAST_OPEN_FLIPPED;
-//    protected static final VoxelShape EAST_CLOSED;
-//    protected static final VoxelShape EAST_CLOSED_BARRIER;
-//    protected static final VoxelShape EAST_CLOSED_FLIPPED;
-//    protected static final VoxelShape EAST_CLOSED_FLIPPED_BARRIER;
-
     public CrossingBlock(Properties properties) {
         super(properties);
         registerDefaultState(defaultBlockState().setValue(FLIPPED, false).setValue(OPEN, false).setValue(BARRIER, false).setValue(CONNECTED, false).setValue(BELL, false));
@@ -109,42 +86,6 @@ public class CrossingBlock extends HorizontalKineticBlock
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-//        Boolean flipped = state.getValue(FLIPPED);
-//        Boolean open = state.getValue(OPEN);
-//        Direction direction = state.getValue(HORIZONTAL_FACING);
-//        switch (direction) {
-//            case NORTH -> {
-//                if (open) {
-//                    return flipped ? NORTH_OPEN_FLIPPED : NORTH_OPEN;
-//                } else {
-//                    return flipped ? NORTH_CLOSED_FLIPPED : NORTH_CLOSED;
-//                }
-//            }
-//            case SOUTH -> {
-//                if (open) {
-//                    return flipped ? SOUTH_OPEN_FLIPPED : SOUTH_OPEN;
-//                } else {
-//                    return flipped ? SOUTH_CLOSED_FLIPPED : SOUTH_CLOSED;
-//                }
-//            }
-//            case WEST -> {
-//                if (open) {
-//                    return flipped ? WEST_OPEN_FLIPPED : WEST_OPEN;
-//                } else {
-//                    return flipped ? WEST_CLOSED_FLIPPED : WEST_CLOSED;
-//                }
-//            }
-//            case EAST -> {
-//                if (open) {
-//                    return flipped ? EAST_OPEN_FLIPPED : EAST_OPEN;
-//                } else {
-//                    return flipped ? EAST_CLOSED_FLIPPED : EAST_CLOSED;
-//                }
-//            }
-//
-//        }
-//        return Shapes.block();
         VoxelShape poleShape = pole();
         VoxelShape baseShape = base(state);
         VoxelShape lightsShape = lights(state);
@@ -155,33 +96,6 @@ public class CrossingBlock extends HorizontalKineticBlock
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-//        Boolean flipped = state.getValue(FLIPPED);
-//        Boolean open = state.getValue(OPEN);
-//        if (open) {
-//            return getShape(state, level, pos, context);
-//        }
-//        Boolean barrier = state.getValue(BARRIER);
-//        if (!barrier) {
-//            return getShape(state, level, pos, context);
-//        }
-//        Direction direction = state.getValue(HORIZONTAL_FACING);
-//        switch (direction) {
-//            case NORTH -> {
-//                return flipped ? NORTH_CLOSED_FLIPPED_BARRIER : NORTH_CLOSED_BARRIER;
-//            }
-//            case SOUTH -> {
-//                return flipped ? SOUTH_CLOSED_FLIPPED_BARRIER : SOUTH_CLOSED_BARRIER;
-//            }
-//            case WEST -> {
-//                return flipped ? WEST_CLOSED_FLIPPED_BARRIER : WEST_CLOSED_BARRIER;
-//            }
-//            case EAST -> {
-//                return flipped ? EAST_CLOSED_FLIPPED_BARRIER : EAST_CLOSED_BARRIER;
-//            }
-//
-//        }
-//        return getShape(state, level, pos, context);
         VoxelShape poleShape = pole();
         VoxelShape baseShape = base(state);
         VoxelShape lightsShape = lights(state);
@@ -208,15 +122,35 @@ public class CrossingBlock extends HorizontalKineticBlock
         if (state == null) {
             return null;
         }
+		BlockPos pos = context.getClickedPos();
+		Level world = context.getLevel();
 
         Direction facing = context.getHorizontalDirection();
 
         boolean flipped = false;
+		boolean open = false;
 
-        BlockState below = context.getLevel().getBlockState(context.getClickedPos().below());
+        BlockState below = world.getBlockState(pos.below());
         boolean connected = below.getBlock() instanceof PoleBlock;
 
-        return state.setValue(HORIZONTAL_FACING, facing).setValue(FLIPPED, flipped).setValue(OPEN, false).setValue(BARRIER, false).setValue(CONNECTED, connected).setValue(BELL, false);
+
+		BlockPos belowPos = pos.below();
+		BlockState belowState = world.getBlockState(belowPos);
+		Block belowBlock = belowState.getBlock();
+
+		if (belowBlock instanceof KineticBlock block &&
+			block.hasShaftTowards(world, belowPos, belowState, Direction.UP)) {
+			KineticBlockEntity belowBlockEntity = (KineticBlockEntity) world.getBlockEntity(belowPos);
+			if (belowBlockEntity != null) {
+				float speed = belowBlockEntity.getSpeed();
+				if (speed > 0) {
+					open = true;
+				}
+			}
+
+		}
+
+        return state.setValue(HORIZONTAL_FACING, facing).setValue(FLIPPED, flipped).setValue(OPEN, open).setValue(BARRIER, false).setValue(CONNECTED, connected).setValue(BELL, false);
     }
 
     @Override
@@ -246,6 +180,10 @@ public class CrossingBlock extends HorizontalKineticBlock
 
         if (state.getValue(BELL)) {
             // If the bell is active, deactivate it and do not allow rotation/flipping
+            CrossingBlockEntity blockEntity = (CrossingBlockEntity) world.getBlockEntity(pos);
+            if (blockEntity != null) {
+                blockEntity.onBellRemoved();
+            }
             world.setBlock(pos, state.setValue(BELL, false), 3);
             world.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, pos);
             // give the bell back to the player
@@ -376,6 +314,12 @@ public class CrossingBlock extends HorizontalKineticBlock
             armPos = armPos.relative(armDirection);
         }
 
+        CrossingBlockEntity blockEntity = (CrossingBlockEntity) worldIn.getBlockEntity(pos);
+        if (blockEntity != null) {
+            blockEntity.onBellRemoved();
+        }
+		worldIn.removeBlockEntity(pos);
+
         return super.playerWillDestroy(worldIn, pos, state, player);
     }
 
@@ -427,6 +371,11 @@ public class CrossingBlock extends HorizontalKineticBlock
                     }
                 }
             }
+            CrossingBlockEntity blockEntity = (CrossingBlockEntity) world.getBlockEntity(pos);
+            if (blockEntity != null) {
+                blockEntity.onBellRemoved();
+            }
+			world.removeBlockEntity(pos);
         }
         super.onRemove(state, world, pos, newState, isMoving);
     }
@@ -601,6 +550,10 @@ public class CrossingBlock extends HorizontalKineticBlock
             if (!player.isCreative()) {
                 stack.shrink(1);
             }
+            CrossingBlockEntity blockEntity = (CrossingBlockEntity) level.getBlockEntity(pos);
+            if (blockEntity != null) {
+                blockEntity.onBellAdded();
+            }
             return ItemInteractionResult.SUCCESS;
         }
 
@@ -766,413 +719,35 @@ public class CrossingBlock extends HorizontalKineticBlock
         switch (facing) {
             case NORTH -> {
                 return Stream.of(
-                    Block.box(11, 20, 7, 17, 22, 9),
-                    Stream.of(
-                        Block.box(12, 12.5, 5, 18, 13.5, 11),
-                        Block.box(13, 13.5, 6, 17, 18.5, 10),
-                        Block.box(14.6, 18.5, 7.5, 15.6, 20.5, 8.5)
-                    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                    Block.box(17, 20, 7, 19, 22, 9)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+					Block.box(13, 12.25, 5, 19, 13.25, 11),
+					Block.box(14, 13.25, 6, 18, 18.25, 10),
+					Block.box(15.5, 18.25, 7.5, 16.5, 20.25, 8.5)
+				).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
             }
             case SOUTH -> {
                 return Stream.of(
-                    Block.box(-1, 20, 7, 5, 22, 9),
-                    Stream.of(
-                        Block.box(-2, 12.5, 5, 4, 13.5, 11),
-                        Block.box(-1, 13.5, 6, 3, 18.5, 10),
-                        Block.box(0.4, 18.5, 7.5, 1.4, 20.5, 8.5)
-                    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                    Block.box(-3, 20, 7, -1, 22, 9)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+					Block.box(-3, 12.25, 5, 3, 13.25, 11),
+					Block.box(-2, 13.25, 6, 2, 18.25, 10),
+					Block.box(-0.5, 18.25, 7.5, 0.5, 20.25, 8.5)
+				).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
             }
             case EAST -> {
                 return Stream.of(
-                    Block.box(7, 20, 11, 9, 22, 17),
-                    Stream.of(
-                        Block.box(5, 12.5, 12, 11, 13.5, 18),
-                        Block.box(6, 13.5, 13, 10, 18.5, 17),
-                        Block.box(7.5, 18.5, 14.6, 8.5, 20.5, 15.6)
-                    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                    Block.box(7, 20, 17, 9, 22, 19)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+					Block.box(5, 12.25, 13, 11, 13.25, 19),
+					Block.box(6, 13.25, 14, 10, 18.25, 18),
+					Block.box(7.5, 18.25, 15.5, 8.5, 20.25, 16.5)
+				).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
             }
             case WEST -> {
                 return Stream.of(
-                    Block.box(7, 20, -1, 9, 22, 5),
-                    Stream.of(
-                        Block.box(5, 12.5, -2, 11, 13.5, 4),
-                        Block.box(6, 13.5, -1, 10, 18.5, 3),
-                        Block.box(7.5, 18.5, 0.4, 8.5, 20.5, 1.4)
-                    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                    Block.box(7, 20, -3, 9, 22, -1)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+					Block.box(5, 12.25, -3, 11, 13.25, 3),
+					Block.box(6, 13.25, -2, 10, 18.25, 2),
+					Block.box(7.5, 18.25, -0.5, 8.5, 20.25, 0.5)
+				).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
             }
         }
         return Shapes.empty();
     }
-
-//    static {
-//        NORTH_OPEN = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 11, 12, 1, 12),
-//                        Block.box(4, 0, 5, 5, 1, 11),
-//                        Block.box(11, 0, 5, 12, 1, 11),
-//                        Block.box(4, 0, 4, 12, 1, 5),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(4, 12, 7, 5, 16, 9),
-//                        Block.box(0, 17, 7, 4, 21, 9),
-//                        Block.box(0, 12, 7, 4, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(4, 17, 7, 5, 21, 9),
-//                Shapes.join(Block.box(6, 0, 11, 10, 16, 13), Block.box(2, 0, 11, 6, 4, 13), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        NORTH_OPEN_FLIPPED = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 11, 12, 1, 12),
-//                        Block.box(4, 0, 5, 5, 1, 11),
-//                        Block.box(11, 0, 5, 12, 1, 11),
-//                        Block.box(4, 0, 4, 12, 1, 5),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(4, 12, 7, 5, 16, 9),
-//                        Block.box(0, 17, 7, 4, 21, 9),
-//                        Block.box(0, 12, 7, 4, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(4, 17, 7, 5, 21, 9),
-//                Shapes.join(Block.box(6, 0, 3, 10, 16, 5), Block.box(2, 0, 3, 6, 4, 5), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        NORTH_CLOSED = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 11, 12, 1, 12),
-//                        Block.box(4, 0, 5, 5, 1, 11),
-//                        Block.box(11, 0, 5, 12, 1, 11),
-//                        Block.box(4, 0, 4, 12, 1, 5),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(4, 12, 7, 5, 16, 9),
-//                        Block.box(0, 17, 7, 4, 21, 9),
-//                        Block.box(0, 12, 7, 4, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(4, 17, 7, 5, 21, 9),
-//                Shapes.join(Block.box(0, 6, 11, 16, 10, 13), Block.box(0, 10, 11, 4, 14, 13), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        NORTH_CLOSED_BARRIER = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 11, 12, 1, 12),
-//                        Block.box(4, 0, 5, 5, 1, 11),
-//                        Block.box(11, 0, 5, 12, 1, 11),
-//                        Block.box(4, 0, 4, 12, 1, 5),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(4, 12, 7, 5, 16, 9),
-//                        Block.box(0, 17, 7, 4, 21, 9),
-//                        Block.box(0, 12, 7, 4, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(4, 17, 7, 5, 21, 9),
-//                Shapes.join(Block.box(0, 6, 11, 16, 26, 13), Block.box(0, 10, 11, 4, 30, 13), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        NORTH_CLOSED_FLIPPED = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 11, 12, 1, 12),
-//                        Block.box(4, 0, 5, 5, 1, 11),
-//                        Block.box(11, 0, 5, 12, 1, 11),
-//                        Block.box(4, 0, 4, 12, 1, 5),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(4, 12, 7, 5, 16, 9),
-//                        Block.box(0, 17, 7, 4, 21, 9),
-//                        Block.box(0, 12, 7, 4, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(4, 17, 7, 5, 21, 9),
-//                Shapes.join(Block.box(0, 6, 3, 16, 10, 5), Block.box(0, 10, 3, 4, 14, 5), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        NORTH_CLOSED_FLIPPED_BARRIER = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 11, 12, 1, 12),
-//                        Block.box(4, 0, 5, 5, 1, 11),
-//                        Block.box(11, 0, 5, 12, 1, 11),
-//                        Block.box(4, 0, 4, 12, 1, 5),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(4, 12, 7, 5, 16, 9),
-//                        Block.box(0, 17, 7, 4, 21, 9),
-//                        Block.box(0, 12, 7, 4, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(4, 17, 7, 5, 21, 9),
-//                Shapes.join(Block.box(0, 6, 3, 16, 26, 5), Block.box(0, 10, 3, 4, 30, 5), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        EAST_OPEN = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 4, 5, 1, 12),
-//                        Block.box(5, 0, 4, 11, 1, 5),
-//                        Block.box(5, 0, 11, 11, 1, 12),
-//                        Block.box(11, 0, 4, 12, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(7, 12, 4, 9, 16, 5),
-//                        Block.box(7, 17, 0, 9, 21, 4),
-//                        Block.box(7, 12, 0, 9, 16, 4)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(7, 17, 4, 9, 21, 5),
-//                Shapes.join(Block.box(3, 0, 6, 5, 16, 10), Block.box(3, 0, 2, 5, 4, 6), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        EAST_OPEN_FLIPPED = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 4, 5, 1, 12),
-//                        Block.box(5, 0, 4, 11, 1, 5),
-//                        Block.box(5, 0, 11, 11, 1, 12),
-//                        Block.box(11, 0, 4, 12, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(7, 12, 4, 9, 16, 5),
-//                        Block.box(7, 17, 0, 9, 21, 4),
-//                        Block.box(7, 12, 0, 9, 16, 4)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(7, 17, 4, 9, 21, 5),
-//                Shapes.join(Block.box(11, 0, 6, 13, 16, 10), Block.box(11, 0, 2, 13, 4, 6), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        EAST_CLOSED = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 4, 5, 1, 12),
-//                        Block.box(5, 0, 4, 11, 1, 5),
-//                        Block.box(5, 0, 11, 11, 1, 12),
-//                        Block.box(11, 0, 4, 12, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(7, 12, 4, 9, 16, 5),
-//                        Block.box(7, 17, 0, 9, 21, 4),
-//                        Block.box(7, 12, 0, 9, 16, 4)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(7, 17, 4, 9, 21, 5),
-//                Shapes.join(Block.box(3, 6, 0, 5, 10, 16), Block.box(3, 10, 0, 5, 14, 4), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        EAST_CLOSED_BARRIER = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 4, 5, 1, 12),
-//                        Block.box(5, 0, 4, 11, 1, 5),
-//                        Block.box(5, 0, 11, 11, 1, 12),
-//                        Block.box(11, 0, 4, 12, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(7, 12, 4, 9, 16, 5),
-//                        Block.box(7, 17, 0, 9, 21, 4),
-//                        Block.box(7, 12, 0, 9, 16, 4)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(7, 17, 4, 9, 21, 5),
-//                Shapes.join(Block.box(3, 6, 0, 5, 26, 16), Block.box(3, 10, 0, 5, 30, 4), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        EAST_CLOSED_FLIPPED = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 4, 5, 1, 12),
-//                        Block.box(5, 0, 4, 11, 1, 5),
-//                        Block.box(5, 0, 11, 11, 1, 12),
-//                        Block.box(11, 0, 4, 12, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(7, 12, 4, 9, 16, 5),
-//                        Block.box(7, 17, 0, 9, 21, 4),
-//                        Block.box(7, 12, 0, 9, 16, 4)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(7, 17, 4, 9, 21, 5),
-//                Shapes.join(Block.box(11, 6, 0, 13, 10, 16), Block.box(11, 10, 0, 13, 14, 4), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        EAST_CLOSED_FLIPPED_BARRIER = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 4, 5, 1, 12),
-//                        Block.box(5, 0, 4, 11, 1, 5),
-//                        Block.box(5, 0, 11, 11, 1, 12),
-//                        Block.box(11, 0, 4, 12, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(7, 12, 4, 9, 16, 5),
-//                        Block.box(7, 17, 0, 9, 21, 4),
-//                        Block.box(7, 12, 0, 9, 16, 4)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(7, 17, 4, 9, 21, 5),
-//                Shapes.join(Block.box(11, 6, 0, 13, 26, 16), Block.box(11, 10, 0, 13, 30, 4), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        SOUTH_OPEN = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 4, 12, 1, 5),
-//                        Block.box(11, 0, 5, 12, 1, 11),
-//                        Block.box(4, 0, 5, 5, 1, 11),
-//                        Block.box(4, 0, 11, 12, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(11, 12, 7, 12, 16, 9),
-//                        Block.box(12, 17, 7, 16, 21, 9),
-//                        Block.box(12, 12, 7, 16, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(11, 17, 7, 12, 21, 9),
-//                Shapes.join(Block.box(6, 0, 3, 10, 16, 5), Block.box(10, 0, 3, 14, 4, 5), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        SOUTH_OPEN_FLIPPED = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 4, 12, 1, 5),
-//                        Block.box(11, 0, 5, 12, 1, 11),
-//                        Block.box(4, 0, 5, 5, 1, 11),
-//                        Block.box(4, 0, 11, 12, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(11, 12, 7, 12, 16, 9),
-//                        Block.box(12, 17, 7, 16, 21, 9),
-//                        Block.box(12, 12, 7, 16, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(11, 17, 7, 12, 21, 9),
-//                Shapes.join(Block.box(6, 0, 11, 10, 16, 13), Block.box(10, 0, 11, 14, 4, 13), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        SOUTH_CLOSED = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 4, 12, 1, 5),
-//                        Block.box(11, 0, 5, 12, 1, 11),
-//                        Block.box(4, 0, 5, 5, 1, 11),
-//                        Block.box(4, 0, 11, 12, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(11, 12, 7, 12, 16, 9),
-//                        Block.box(12, 17, 7, 16, 21, 9),
-//                        Block.box(12, 12, 7, 16, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(11, 17, 7, 12, 21, 9),
-//                Shapes.join(Block.box(0, 6, 3, 16, 10, 5), Block.box(12, 10, 3, 16, 14, 5), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        SOUTH_CLOSED_BARRIER = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 4, 12, 1, 5),
-//                        Block.box(11, 0, 5, 12, 1, 11),
-//                        Block.box(4, 0, 5, 5, 1, 11),
-//                        Block.box(4, 0, 11, 12, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(11, 12, 7, 12, 16, 9),
-//                        Block.box(12, 17, 7, 16, 21, 9),
-//                        Block.box(12, 12, 7, 16, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(11, 17, 7, 12, 21, 9),
-//                Shapes.join(Block.box(0, 6, 3, 16, 26, 5), Block.box(12, 10, 3, 16, 30, 5), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        SOUTH_CLOSED_FLIPPED = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 4, 12, 1, 5),
-//                        Block.box(11, 0, 5, 12, 1, 11),
-//                        Block.box(4, 0, 5, 5, 1, 11),
-//                        Block.box(4, 0, 11, 12, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(11, 12, 7, 12, 16, 9),
-//                        Block.box(12, 17, 7, 16, 21, 9),
-//                        Block.box(12, 12, 7, 16, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(11, 17, 7, 12, 21, 9),
-//                Shapes.join(Block.box(0, 6, 11, 16, 10, 13), Block.box(12, 10, 11, 16, 14, 13), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        SOUTH_CLOSED_FLIPPED_BARRIER = Stream.of(
-//                Stream.of(
-//                        Block.box(4, 0, 4, 12, 1, 5),
-//                        Block.box(11, 0, 5, 12, 1, 11),
-//                        Block.box(4, 0, 5, 5, 1, 11),
-//                        Block.box(4, 0, 11, 12, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(11, 12, 7, 12, 16, 9),
-//                        Block.box(12, 17, 7, 16, 21, 9),
-//                        Block.box(12, 12, 7, 16, 16, 9)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(11, 17, 7, 12, 21, 9),
-//                Shapes.join(Block.box(0, 6, 11, 16, 26, 13), Block.box(12, 10, 11, 16, 30, 13), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        WEST_OPEN = Stream.of(
-//                Stream.of(
-//                        Block.box(11, 0, 4, 12, 1, 12),
-//                        Block.box(5, 0, 11, 11, 1, 12),
-//                        Block.box(5, 0, 4, 11, 1, 5),
-//                        Block.box(4, 0, 4, 5, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(7, 12, 11, 9, 16, 12),
-//                        Block.box(7, 17, 12, 9, 21, 16),
-//                        Block.box(7, 12, 12, 9, 16, 16)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(7, 17, 11, 9, 21, 12),
-//                Shapes.join(Block.box(11, 0, 6, 13, 16, 10), Block.box(11, 0, 10, 13, 4, 14), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        WEST_OPEN_FLIPPED = Stream.of(
-//                Stream.of(
-//                        Block.box(11, 0, 4, 12, 1, 12),
-//                        Block.box(5, 0, 11, 11, 1, 12),
-//                        Block.box(5, 0, 4, 11, 1, 5),
-//                        Block.box(4, 0, 4, 5, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(7, 12, 11, 9, 16, 12),
-//                        Block.box(7, 17, 12, 9, 21, 16),
-//                        Block.box(7, 12, 12, 9, 16, 16)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(7, 17, 11, 9, 21, 12),
-//                Shapes.join(Block.box(3, 0, 6, 5, 16, 10), Block.box(3, 0, 10, 5, 4, 14), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        WEST_CLOSED = Stream.of(
-//                Stream.of(
-//                        Block.box(11, 0, 4, 12, 1, 12),
-//                        Block.box(5, 0, 11, 11, 1, 12),
-//                        Block.box(5, 0, 4, 11, 1, 5),
-//                        Block.box(4, 0, 4, 5, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(7, 12, 11, 9, 16, 12),
-//                        Block.box(7, 17, 12, 9, 21, 16),
-//                        Block.box(7, 12, 12, 9, 16, 16)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(7, 17, 11, 9, 21, 12),
-//                Shapes.join(Block.box(11, 6, 0, 13, 10, 16), Block.box(11, 10, 12, 13, 14, 16), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        WEST_CLOSED_BARRIER = Stream.of(
-//                Stream.of(
-//                        Block.box(11, 0, 4, 12, 1, 12),
-//                        Block.box(5, 0, 11, 11, 1, 12),
-//                        Block.box(5, 0, 4, 11, 1, 5),
-//                        Block.box(4, 0, 4, 5, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(7, 12, 11, 9, 16, 12),
-//                        Block.box(7, 17, 12, 9, 21, 16),
-//                        Block.box(7, 12, 12, 9, 16, 16)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(7, 17, 11, 9, 21, 12),
-//                Shapes.join(Block.box(11, 6, 0, 13, 26, 16), Block.box(11, 10, 12, 13, 30, 16), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        WEST_CLOSED_FLIPPED = Stream.of(
-//                Stream.of(
-//                        Block.box(11, 0, 4, 12, 1, 12),
-//                        Block.box(5, 0, 11, 11, 1, 12),
-//                        Block.box(5, 0, 4, 11, 1, 5),
-//                        Block.box(4, 0, 4, 5, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(7, 12, 11, 9, 16, 12),
-//                        Block.box(7, 17, 12, 9, 21, 16),
-//                        Block.box(7, 12, 12, 9, 16, 16)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(7, 17, 11, 9, 21, 12),
-//                Shapes.join(Block.box(3, 6, 0, 5, 10, 16), Block.box(3, 10, 12, 5, 14, 16), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//
-//        WEST_CLOSED_FLIPPED_BARRIER = Stream.of(
-//                Stream.of(
-//                        Block.box(11, 0, 4, 12, 1, 12),
-//                        Block.box(5, 0, 11, 11, 1, 12),
-//                        Block.box(5, 0, 4, 11, 1, 5),
-//                        Block.box(4, 0, 4, 5, 1, 12),
-//                        Block.box(5, 1, 5, 11, 12, 11),
-//                        Block.box(5, 12, 5, 11, 23, 11),
-//                        Block.box(7, 12, 11, 9, 16, 12),
-//                        Block.box(7, 17, 12, 9, 21, 16),
-//                        Block.box(7, 12, 12, 9, 16, 16)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-//                Block.box(7, 17, 11, 9, 21, 12),
-//                Shapes.join(Block.box(3, 6, 0, 5, 26, 16), Block.box(3, 10, 12, 5, 30, 16), BooleanOp.OR))
-//                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-//    }
 
     public static boolean isArmExtender(BlockState state) {
         return AllBlocks.ARM_EXTENDER.has(state);
