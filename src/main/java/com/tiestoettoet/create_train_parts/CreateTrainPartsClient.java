@@ -1,7 +1,6 @@
 package com.tiestoettoet.create_train_parts;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.simibubi.create.CreateClient;
 import com.simibubi.create.compat.Mods;
 import com.simibubi.create.compat.ftb.FTBIntegration;
 //import com.simibubi.create.compat.sodium.SodiumCompat;
@@ -22,25 +21,11 @@ import com.simibubi.create.foundation.blockEntity.behaviour.ValueSettingsClient;
 import com.simibubi.create.foundation.model.ModelSwapper;
 import com.simibubi.create.foundation.ponder.CreatePonderPlugin;
 import com.simibubi.create.foundation.render.AllInstanceTypes;
-import com.simibubi.create.infrastructure.config.AllConfigs;
-import com.simibubi.create.infrastructure.gui.CreateMainMenuScreen;
 
 import com.tiestoettoet.create_train_parts.foundation.ponder.CreateTrainPartsPonderPlugin;
-import com.tiestoettoet.create_train_parts.infrastructure.ponder.AllCreateTrainPartsPonderScenes;
-import net.createmod.catnip.config.ui.BaseConfigScreen;
-import net.createmod.catnip.config.ui.ConfigScreen;
 import net.createmod.catnip.render.CachedBuffers;
 import net.createmod.catnip.render.SuperByteBufferCache;
 import net.createmod.ponder.foundation.PonderIndex;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.GraphicsStatus;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.Direction;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.ComponentUtils;
-import net.minecraft.network.chat.HoverEvent;
-import net.minecraft.network.chat.MutableComponent;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -50,7 +35,10 @@ import net.minecraftforge.common.MinecraftForge;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = CreateTrainParts.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CreateTrainPartsClient {
-    
+
+
+	public static final ClientResourceReloadListener RESOURCE_RELOAD_LISTENER = new ClientResourceReloadListener();
+
     public static void onCtorClient(IEventBus modEventBus, IEventBus forgeEventBus) {
 
         modEventBus.addListener(CreateTrainPartsClient::clientInit);

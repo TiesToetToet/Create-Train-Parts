@@ -197,7 +197,7 @@ public class TrainStepSlideScenes {
         CreateTrainPartsSceneBuilder createScene = new CreateTrainPartsSceneBuilder(scene);
         scene.title("train_steps", "Configuring modes");
         scene.configureBasePlate(1, 0, 5);
-        scene.setSceneOffsetY(-1);
+//        scene.setSceneOffsetY(-1);
         scene.showBasePlate();
 
         Selection steps = util.select().fromTo(2, 1, 2, 4, 1, 2);
