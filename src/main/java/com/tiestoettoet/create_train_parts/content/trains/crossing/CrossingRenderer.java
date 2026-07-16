@@ -106,6 +106,17 @@ public class CrossingRenderer extends KineticBlockEntityRenderer<CrossingBlockEn
 
             PartialModel arm = flipped ? AllPartialModels.ARM_FLIPPED : AllPartialModels.ARM;
 
+			PartialModel colour1Part;
+			PartialModel colour2Part;
+
+			if (flipped) {
+				colour1Part = AllPartialModels.ARM_FLIPPED_1;
+				colour2Part = AllPartialModels.ARM_FLIPPED_2;
+			} else {
+				colour1Part = AllPartialModels.ARM_1;
+				colour2Part = AllPartialModels.ARM_2;
+			}
+
             SuperByteBuffer partial_arm = CachedBuffers.partial(arm, blockState);
 
             int lightInFront = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().relative(Direction.UP));
@@ -116,6 +127,30 @@ public class CrossingRenderer extends KineticBlockEntityRenderer<CrossingBlockEn
                     .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
                     .rotateCenteredDegrees(Mth.RAD_TO_DEG * angle, Direction.EAST)
                     .renderInto(ms, vb);
+
+			CachedBuffers.partial(colour1Part, blockState)
+				.shiftUVtoSheet(
+					com.tiestoettoet.create_train_parts.AllSpriteShifts.ARM_COLOURS,
+					getColourU(be.getColour1()),
+					getColourV(be.getColour1()),
+					1
+				)
+				.rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+				.rotateCenteredDegrees(Mth.RAD_TO_DEG * angle, Direction.EAST)
+				.light(light)
+				.renderInto(ms, vb);
+
+			CachedBuffers.partial(colour2Part, blockState)
+				.shiftUVtoSheet(
+					com.tiestoettoet.create_train_parts.AllSpriteShifts.ARM_COLOURS,
+					getColourU(be.getColour2()),
+					getColourV(be.getColour2()),
+					1
+				)
+				.rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+				.rotateCenteredDegrees(Mth.RAD_TO_DEG * angle, Direction.EAST)
+				.light(light)
+				.renderInto(ms, vb);
 
             boolean closed = !blockState.getValue(CrossingBlock.OPEN);
 
@@ -263,6 +298,19 @@ public class CrossingRenderer extends KineticBlockEntityRenderer<CrossingBlockEn
 
         return Mth.sin(time * frequency) * amplitude;
     }
+
+	private float getColourU(byte colour) {
+		float column = colour % 4;
+		float u = (column) / 4f;
+		return u;
+	}
+
+
+	private float getColourV(byte colour) {
+		float row = Math.floorDiv(colour, 4);
+		float v = (row) / 4f;
+		return v;
+	}
 
 //    @Override
 //    protected SuperByteBuffer getRotatedModel(CrossingBlockEntity be, BlockState state) {

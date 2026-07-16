@@ -49,9 +49,15 @@ public class AllPartialModels {
     public static final Map<ResourceLocation, PartialModel> SLIDING_WINDOW_LEFT = new HashMap<>();
     public static final Map<ResourceLocation, PartialModel> SLIDING_WINDOW_BACK = new HashMap<>();
     public static final PartialModel ARM = block("crossing/arm");
+    public static final PartialModel ARM_1 = block("crossing/arm_1");
+    public static final PartialModel ARM_2 = block("crossing/arm_2");
     public static final PartialModel ARM_FLIPPED = block("crossing/arm_flipped");
-    public static final PartialModel ARM_EXTENDER = block("crossing/arm_extender");
-    public static final PartialModel ARM_EXTENDER_FLIPPED = block("crossing/arm_extender_flipped");
+    public static final PartialModel ARM_FLIPPED_1 = block("crossing/arm_flipped_1");
+    public static final PartialModel ARM_FLIPPED_2 = block("crossing/arm_flipped_2");
+    public static final PartialModel ARM_EXTENDER_1 = block("crossing/arm_extender_1");
+    public static final PartialModel ARM_EXTENDER_2 = block("crossing/arm_extender_2");
+    public static final PartialModel ARM_EXTENDER_FLIPPED_1 = block("crossing/arm_extender_flipped_1");
+    public static final PartialModel ARM_EXTENDER_FLIPPED_2 = block("crossing/arm_extender_flipped_2");
     public static final PartialModel CROSSING_LAMP = block("crossing/lamp");
     public static final PartialModel LIGHTS = block("crossing/lights");
     public static final PartialModel LIGHTS_FLIPPED = block("crossing/lights_flipped");

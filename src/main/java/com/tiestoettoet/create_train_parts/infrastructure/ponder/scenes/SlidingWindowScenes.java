@@ -70,7 +70,8 @@ public class SlidingWindowScenes {
                 .rightClick()
                 .withItem(AllItems.WRENCH.asStack());
         scene.overlay().showControls(util.vector().centerOf(4, 2, 2), Pointing.RIGHT, 30).showing(AllIcons.I_SLIDING_WINDOW_UP);
-        scene.world().modifyBlockEntity(util.grid().at(3, 2, 2), SlidingWindowBlockEntity.class, be -> be.setMode(SlidingWindowBlockEntity.SelectionMode.RIGHT));
+//        scene.world().modifyBlockEntity(util.grid().at(3, 2, 2), SlidingWindowBlockEntity.class, be -> be.setMode(SlidingWindowBlockEntity.SelectionMode.RIGHT));
+		scene.world().modifyBlock(util.grid().at(3, 2, 2), state -> state.setValue(SlidingWindowBlock.MODE, SlidingWindowBlockEntity.SelectionMode.RIGHT), false);
 
         scene.idle(35);
 
@@ -85,7 +86,7 @@ public class SlidingWindowScenes {
 
         ElementLink<WorldSectionElement> secondWindowElement = scene.world().showIndependentSection(util.select().position(3, 3, 2), Direction.DOWN);
 
-        scene.idle(20);
+		scene.idle(20);
 
         scene.overlay().showText(50)
                 .pointAt(util.vector().centerOf(3, 3, 2))
@@ -104,7 +105,8 @@ public class SlidingWindowScenes {
         createScene.world().hideIndependentSectionImmediately(secondWindowElement);
         window = util.select().fromTo(3, 2, 2, 3, 3, 2);
         windowElement = scene.world().showIndependentSectionImmediately(window);
-        scene.world().modifyBlockEntity(util.grid().at(3, 3, 2), SlidingWindowBlockEntity.class, be -> be.setMode(SlidingWindowBlockEntity.SelectionMode.RIGHT));
+		scene.world().modifyBlockEntity(util.grid().at(3, 2, 2), SlidingWindowBlockEntity.class, be -> be.setMode(SlidingWindowBlockEntity.SelectionMode.RIGHT));
+		scene.world().modifyBlockEntity(util.grid().at(3, 3, 2), SlidingWindowBlockEntity.class, be -> be.setMode(SlidingWindowBlockEntity.SelectionMode.RIGHT));
 
 
         scene.idle(10);
@@ -164,6 +166,7 @@ public class SlidingWindowScenes {
         createScene.world().animateSlidingWindow(util.grid().at(3, 3, 2), true);
         createScene.world().animateSlidingWindow(util.grid().at(4, 2, 2), true);
         createScene.world().animateSlidingWindow(util.grid().at(4, 3, 2), true);
+		scene.markAsFinished();
 
     }
 
@@ -266,5 +269,7 @@ public class SlidingWindowScenes {
         scene.world().animateBogey(util.grid().at(10, 2, 6), 20f, 70);
         scene.world().animateBogey(util.grid().at(6, 2, 6), 20f, 70);
         scene.world().animateBogey(util.grid().at(3, 2, 6), 20f, 70);
+		scene.idle(40);
+		scene.markAsFinished();
     }
 }

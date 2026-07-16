@@ -38,11 +38,12 @@ public class AllBlockEntityTypes {
                     .validBlocks(AllBlocks.CROSSING)
                     .renderer(() -> AllBlockEntityRenderers::crossingRenderer)
                     .register();
-//    public static final BlockEntityEntry<ArmExtenderBlockEntity> ARM_EXTENDER =
-//            REGISTRATE.blockEntity("arm_extender", ArmExtenderBlockEntity::new)
-//                    .validBlocks(AllBlocks.ARM_EXTENDER)
-//                    .renderer(() -> ArmExtenderRenderer::new)
-//                    .register();
+
+	public static final BlockEntityEntry<ArmExtenderBlockEntity> ARM_EXTENDER =
+            REGISTRATE.blockEntity("arm_extender", ArmExtenderBlockEntity::new)
+                    .validBlocks(AllBlocks.ARM_EXTENDER)
+                    .renderer(() -> AllBlockEntityRenderers::armExtenderRenderer)
+                    .register();
 
     public static final BlockEntityEntry<KineticBlockEntity> POLE = REGISTRATE
             .blockEntity("pole", KineticBlockEntity::new)

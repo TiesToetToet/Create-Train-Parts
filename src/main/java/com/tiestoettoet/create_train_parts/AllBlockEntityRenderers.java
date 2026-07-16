@@ -6,12 +6,16 @@ import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSl
 import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSlideRenderer;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlockEntity;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepRenderer;
+import com.tiestoettoet.create_train_parts.content.trains.crossing.ArmExtenderBlockEntity;
+import com.tiestoettoet.create_train_parts.content.trains.crossing.ArmExtenderRenderer;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlockEntity;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.level.block.Block;
+
 
 /**
  * Client-only class that provides block entity renderer factories.
@@ -35,4 +39,8 @@ public class AllBlockEntityRenderers {
     public static BlockEntityRenderer<CrossingBlockEntity> crossingRenderer(BlockEntityRendererProvider.Context context) {
         return new CrossingRenderer(context);
     }
+
+	public static BlockEntityRenderer<ArmExtenderBlockEntity> armExtenderRenderer(BlockEntityRendererProvider.Context context) {
+		return new ArmExtenderRenderer(context);
+	}
 }

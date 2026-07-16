@@ -1,19 +1,14 @@
 package com.tiestoettoet.create_train_parts.content.trains.crossing;
 
-import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.contraptions.*;
-import com.simibubi.create.content.decoration.steamWhistle.WhistleSoundInstance;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.advancement.AllAdvancements;
-import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.CenteredSideValueBoxTransform;
 import com.simibubi.create.foundation.blockEntity.behaviour.ValueBoxTransform;
 import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.INamedIconOptions;
 import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollOptionBehaviour;
-import com.simibubi.create.foundation.utility.CreateLang;
-import com.simibubi.create.foundation.utility.ServerSpeedProvider;
 import com.tiestoettoet.create_train_parts.foundation.gui.AllIcons;
 import com.tiestoettoet.create_train_parts.foundation.sound.SoundScapes;
 import com.tiestoettoet.create_train_parts.foundation.utility.CreateTrainPartsLang;
@@ -26,27 +21,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Mth;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.RailShape;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 import static com.simibubi.create.content.kinetics.base.HorizontalKineticBlock.HORIZONTAL_FACING;
 import static com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock.BELL;
@@ -64,7 +49,11 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
     public BellState bellState = BellState.OFF;
     public float bellFade = 0;
 
-    public ControlledContraptionEntity movedContraption;
+	private byte colour1 = 5;
+	private byte colour2 = 0;
+
+
+	public ControlledContraptionEntity movedContraption;
     // boolean deferUpdate;
     // Map<String, BlockState> neighborStates = new HashMap<>();
 
@@ -92,6 +81,12 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
 			bellState = BellState.values()[state];
 		else
 			bellState = BellState.OFF;
+
+		if (tag.contains("Colour1"))
+			colour1 = tag.getByte("Colour1");
+
+		if (tag.contains("Colour2"))
+			colour2 = tag.getByte("Colour2");
     }
 
 	@Override
@@ -101,6 +96,8 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
 		tag.putInt("BellTicks", bellTicks);
 		tag.putInt("BellState", bellState.ordinal());
 		tag.putFloat("BellFade", bellFade);
+		tag.putByte("Colour1", colour1);
+		tag.putByte("Colour2", colour2);
 	}
 
     public void assemble() {
@@ -143,6 +140,40 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
         angle = 90;
         sendData();
     }
+
+	@Override
+	public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+		return saveWithoutMetadata(provider);
+	}
+
+	@Override
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider provider) {
+		loadWithComponents(tag, provider);
+	}
+
+	public byte getColour1() {
+		return colour1;
+	}
+
+	public byte getColour2() {
+		return colour2;
+	}
+
+	public void setColour1(byte colour1) {
+		this.colour1 = colour1;
+		setChanged();
+
+		if (level != null && !level.isClientSide)
+			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+	}
+
+	public void setColour2(byte colour2) {
+		this.colour2 = colour2;
+		setChanged();
+
+		if (level != null && !level.isClientSide)
+			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+	}
 
     public void disassemble() {
 //        System.out.println(
