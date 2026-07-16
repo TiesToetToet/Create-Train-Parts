@@ -84,8 +84,10 @@ public class CrossingBlock extends HorizontalKineticBlock
         VoxelShape baseShape = base(state);
         VoxelShape lightsShape = lights(state);
         VoxelShape armShape = arm(state);
+		VoxelShape barrierShape = barrier(state);
+		VoxelShape bellHolder =	bellHolder(state);
         VoxelShape bellShape = bell(state);
-        return Shapes.join(poleShape, Shapes.join(baseShape, Shapes.join(lightsShape, Shapes.join(armShape, bellShape, BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR);
+        return Shapes.join(poleShape, Shapes.join(baseShape, Shapes.join(lightsShape, Shapes.join(armShape, Shapes.join(bellHolder, bellShape, BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR);
     }
 
     @Override
@@ -95,9 +97,10 @@ public class CrossingBlock extends HorizontalKineticBlock
         VoxelShape lightsShape = lights(state);
         VoxelShape armShape = arm(state);
         VoxelShape barrierShape = barrier(state);
+		VoxelShape bellHolder =	bellHolder(state);
         VoxelShape bellShape = bell(state);
 //        return Shapes.join(poleShape, Shapes.join(baseShape, Shapes.join(lightsShape, Shapes.join(armShape, barrierShape, BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR);
-        return Shapes.join(poleShape, Shapes.join(baseShape, Shapes.join(lightsShape, Shapes.join(armShape, Shapes.join(barrierShape, bellShape, BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR);
+        return Shapes.join(poleShape, Shapes.join(baseShape, Shapes.join(lightsShape, Shapes.join(armShape, Shapes.join(barrierShape, Shapes.join(bellHolder, bellShape, BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR), BooleanOp.OR);
     }
 
     @Override
@@ -836,6 +839,29 @@ public class CrossingBlock extends HorizontalKineticBlock
         return Shapes.empty();
     }
 
+	private static VoxelShape bellHolder(BlockState state) {
+		boolean bell = state.getValue(BELL);
+		if (!bell) {
+			return Shapes.empty();
+		}
+		Direction facing = state.getValue(HORIZONTAL_FACING);
+		switch (facing) {
+			case NORTH -> {
+				return Shapes.join(Block.box(17, 20, 7, 19, 22, 9), Block.box(11, 20, 7, 17, 22, 9), BooleanOp.OR);
+			}
+			case SOUTH -> {
+				return Shapes.join(Block.box(7, 20, 17, 9, 22, 19), Block.box(7, 20, 11, 9, 22, 17), BooleanOp.OR);
+			}
+			case EAST -> {
+				return Shapes.join(Block.box(-3, 20, 7, -1, 22, 9), Block.box(-1, 20, 7, 5, 22, 9), BooleanOp.OR);
+			}
+			case WEST -> {
+				return Shapes.join(Block.box(7, 20, -3, 9, 22, -1), Block.box(7, 20, -1, 9, 22, 5), BooleanOp.OR);
+			}
+		}
+		return Shapes.empty();
+	}
+
     private static VoxelShape bell(BlockState state) {
         boolean bell = state.getValue(BELL);
         if (!bell) {
@@ -846,30 +872,30 @@ public class CrossingBlock extends HorizontalKineticBlock
         switch (facing) {
             case NORTH -> {
                 return Stream.of(
-					Block.box(13, 12.25, 5, 19, 13.25, 11),
-					Block.box(14, 13.25, 6, 18, 18.25, 10),
-					Block.box(15.5, 18.25, 7.5, 16.5, 20.25, 8.5)
+					Block.box(13, 12.5, 5, 19, 13.5, 11),
+					Block.box(14, 13.5, 6, 18, 18.5, 10),
+					Block.box(15.5, 18.5, 7.5, 16.5, 20.5, 8.5)
 				).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
             }
             case SOUTH -> {
                 return Stream.of(
-					Block.box(-3, 12.25, 5, 3, 13.25, 11),
-					Block.box(-2, 13.25, 6, 2, 18.25, 10),
-					Block.box(-0.5, 18.25, 7.5, 0.5, 20.25, 8.5)
+					Block.box(-3, 12.5, 5, 3, 13.5, 11),
+					Block.box(-2, 13.5, 6, 2, 18.5, 10),
+					Block.box(-0.5, 18.5, 7.5, 0.5, 20.5, 8.5)
 				).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
             }
             case EAST -> {
                 return Stream.of(
-					Block.box(5, 12.25, 13, 11, 13.25, 19),
-					Block.box(6, 13.25, 14, 10, 18.25, 18),
-					Block.box(7.5, 18.25, 15.5, 8.5, 20.25, 16.5)
+					Block.box(5, 12.5, 13, 11, 13.5, 19),
+					Block.box(6, 13.5, 14, 10, 18.5, 18),
+					Block.box(7.5, 18.5, 15.5, 8.5, 20.5, 16.5)
 				).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
             }
             case WEST -> {
                 return Stream.of(
-					Block.box(5, 12.25, -3, 11, 13.25, 3),
-					Block.box(6, 13.25, -2, 10, 18.25, 2),
-					Block.box(7.5, 18.25, -0.5, 8.5, 20.25, 0.5)
+					Block.box(5, 12.5, -3, 11, 13.5, 3),
+					Block.box(6, 13.5, -2, 10, 18.5, 2),
+					Block.box(7.5, 18.5, -0.5, 8.5, 20.5, 0.5)
 				).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
             }
         }
