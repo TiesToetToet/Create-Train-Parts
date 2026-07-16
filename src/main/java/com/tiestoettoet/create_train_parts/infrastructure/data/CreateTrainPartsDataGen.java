@@ -68,7 +68,7 @@ public class CreateTrainPartsDataGen {
             BiConsumer<String, String> langConsumer = provider::add;
 
             provideDefaultLang("interface", langConsumer);
-//            provideDefaultLang("tooltips", langConsumer);
+            provideDefaultLang("tooltips", langConsumer);
 //            AllAdvancements.provideLang(langConsumer);
             AllSoundEvents.provideLang(langConsumer);
 //            AllKeys.provideLang(langConsumer);
