@@ -222,13 +222,19 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
         boolean closed = !moving && animation.getValue() < 0.01f;
         switch (bellState) {
             case OFF:
-                if (closing) {
+                if (closing && speed != 0) {
                     bellState = BellState.RINGING;
                     bellTicks = 0;
                 }
                 break;
 
             case RINGING:
+				if (speed == 0) {
+					bellState = BellState.FADING;
+					bellFade = 1f;
+					break;
+				}
+
                 bellTicks++;
                 if (opened) {
                     bellState = BellState.FADING;
