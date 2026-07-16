@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-15T20:49:46.2338764	Registrate Provider for create_train_parts [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.21.1	2026-07-16T18:00:58.299953	Registrate Provider for create_train_parts [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 7d16ece5e56745a5c2d970d22be43cd48f15cb04 assets/create_train_parts/blockstates/andesite_sliding_window.json
 6b52b5dd6388e15abe8fdcfd0b0ca3bc27f914b0 assets/create_train_parts/blockstates/arm_extender.json
 afdb0dcac8071facce91510ebe22e863b6af0587 assets/create_train_parts/blockstates/brass_sliding_window.json
@@ -15,8 +15,8 @@ d2bd6f92d2bb338a86c300130616796f1be2cdfc assets/create_train_parts/blockstates/t
 21d51a42af91dec05871758ad584e6221d370d9d assets/create_train_parts/blockstates/train_step_brass.json
 debff808f6d4c96b064bbe2259c7a4e5ac93a2aa assets/create_train_parts/blockstates/train_step_copper.json
 30725a10dcdbf7d90e08b69aa561563e4cb5ccca assets/create_train_parts/blockstates/train_step_train.json
-28b0f45fac27e04caa3ce17bd235a484f53dd762 assets/create_train_parts/lang/en_ud.json
-d657c9f7a61f0ae4dd8bae0486fe3bcc977934f6 assets/create_train_parts/lang/en_us.json
+b51bdd26f0eb83f856fee39a456f67632439ccd4 assets/create_train_parts/lang/en_ud.json
+08d356d71b1de9ba295aef1ae5a256167c13125d assets/create_train_parts/lang/en_us.json
 39b80d89f9313d80c75c6c7129f77f2af7296364 assets/create_train_parts/models/item/arm_extender.json
 883bb28d86a0b7050e065d15581d21771a463eb7 assets/create_train_parts/models/item/crossing.json
 153f692b5b5573feb1da2139972ffd12fcc486b5 assets/create_train_parts/models/item/pole.json

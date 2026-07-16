@@ -189,6 +189,9 @@ public class TrainStepSlideScenes {
         scene.world().animateBogey(util.grid().at(6, 2, 6), 20f, 70);
         scene.world().animateBogey(util.grid().at(3, 2, 6), 20f, 70);
 
+		scene.idle(40);
+		scene.markAsFinished();
+
 //
     }
 
@@ -297,5 +300,6 @@ public class TrainStepSlideScenes {
         createScene.world().animateTrainStep(util.grid().at(3, 1, 2), true);
         createScene.world().animateTrainStep(util.grid().at(4, 1, 2), true);
 
+		scene.markAsFinished();
     }
 }

@@ -5,6 +5,7 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSlideBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
+import com.tiestoettoet.create_train_parts.content.trains.crossing.ArmExtenderBlockEntity;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlockEntity;
 import com.tiestoettoet.create_train_parts.foundation.gui.AllIcons;
@@ -124,133 +125,135 @@ public class CrossingScenes {
 		scene.world().modifyKineticSpeed(util.select().fromTo(3, 0, 2, 4, 1, 2), f -> -f);
 		scene.world().configureCenterOfRotation(armsElement, util.vector().of(3.5, 1.5, 2.5));
 		createScene.world().rotateSection(armsElement, 0, 0, 89.38, 63);
+		scene.markAsFinished();
 
     }
 
     public static void railway_crossing(SceneBuilder builder, SceneBuildingUtil util) {
-            CreateSceneBuilder scene = new CreateSceneBuilder(builder);
-            CreateTrainPartsSceneBuilder createScene = new CreateTrainPartsSceneBuilder(scene);
-            scene.title("railway_crossing", "Crossing");
-            scene.configureBasePlate(17, 0, 12);
-			scene.setSceneOffsetY(-1);
-            scene.scaleSceneView(.65f);
-            scene.showBasePlate();
+		CreateSceneBuilder scene = new CreateSceneBuilder(builder);
+		CreateTrainPartsSceneBuilder createScene = new CreateTrainPartsSceneBuilder(scene);
+		scene.title("railway_crossing", "Crossing");
+		scene.configureBasePlate(17, 0, 12);
+		scene.setSceneOffsetY(-1);
+		scene.scaleSceneView(.65f);
+		scene.showBasePlate();
 
-            scene.world().showIndependentSectionImmediately(util.select().fromTo(26, 1, 2, 26, 1, 4));
+		scene.world().showIndependentSectionImmediately(util.select().fromTo(26, 1, 2, 26, 1, 4));
 
-            for (int i = 45; i >= 0; i--) {
-                    scene.world().showSection(util.select().position(i, 1, 6), Direction.DOWN);
-                    scene.idle(1);
-            }
+		for (int i = 45; i >= 0; i--) {
+				scene.world().showSection(util.select().position(i, 1, 6), Direction.DOWN);
+				scene.idle(1);
+		}
 
-            // scene.idle(20);
+		// scene.idle(20);
 
-            scene.world().showSection(util.select().fromTo(25, 1, 4, 25, 1, 4), Direction.DOWN);
+		scene.world().showSection(util.select().fromTo(25, 1, 4, 25, 1, 4), Direction.DOWN);
 
-            scene.idle(15);
+		scene.idle(15);
 
-            Selection arms = util.select().fromTo(24, 1, 4, 20, 1, 4);
+		Selection arms = util.select().fromTo(24, 1, 4, 20, 1, 4);
 
-            ElementLink<WorldSectionElement> armsElement = scene.world().showIndependentSectionImmediately(arms);
-            scene.world().configureCenterOfRotation(armsElement, util.vector().of(25.5, 1.5, 4.5));
-            createScene.world().rotateSection(armsElement, 0, 0, -44.69, 0);
+		ElementLink<WorldSectionElement> armsElement = scene.world().showIndependentSectionImmediately(arms);
+		scene.world().configureCenterOfRotation(armsElement, util.vector().of(25.5, 1.5, 4.5));
+		createScene.world().rotateSection(armsElement, 0, 0, -44.69, 0);
 //                createScene.world().hideIndependentSectionImmediately(armsElement);
 //                scene.world().showIndependentSection(arms, Direction.DOWN);
-            // createScene.world().hideIndependentSectionImmediately(armsElement);
+		// createScene.world().hideIndependentSectionImmediately(armsElement);
 
-            scene.idle(20);
+		scene.idle(20);
 
-            scene.world().showSection(util.select().fromTo(17, 1 , 3, 17, 2, 3), Direction.DOWN);
-            scene.world().showSection(util.select().fromTo(28, 1 , 3, 28, 2, 3), Direction.DOWN);
-            scene.world().showSection(util.select().position(26, 2, 3), Direction.DOWN);
+		scene.world().showSection(util.select().fromTo(17, 1 , 3, 17, 2, 3), Direction.DOWN);
+		scene.world().showSection(util.select().fromTo(28, 1 , 3, 28, 2, 3), Direction.DOWN);
+		scene.world().showSection(util.select().position(26, 2, 3), Direction.DOWN);
 
-            scene.idle(20);
+		scene.idle(20);
 
-            scene.overlay().showText(50)
-                            .pointAt(util.vector().of(22, 3, 4))
-                            .placeNearTarget()
-                            .attachKeyFrame()
-                            .text("When using Crossing Gates with Signals, you can create a safe Railway Crossing");
+		scene.overlay().showText(50)
+						.pointAt(util.vector().of(22, 3, 4))
+						.placeNearTarget()
+						.attachKeyFrame()
+						.text("When using Crossing Gates with Signals, you can create a safe Railway Crossing");
 
 
 //                scene.world().toggleRedstonePower(util.select().position(26, 1, 3));
 //                scene.world().modifyKineticSpeed(util.select().fromTo(25, 0, 4, 26, 1, 4), f -> -f);
 
-            scene.idle(60);
+		scene.idle(60);
 
-            // BlockState air = Blocks.AIR.defaultBlockState();
-            // scene.world().setBlock(util.grid().at(26, 2, 6), air, false);
-            // scene.world().setBlock(util.grid().at(22, 2, 6), air, false);
-            // scene.world().setBlock(util.grid().at(19, 2, 6), air, false);
+		// BlockState air = Blocks.AIR.defaultBlockState();
+		// scene.world().setBlock(util.grid().at(26, 2, 6), air, false);
+		// scene.world().setBlock(util.grid().at(22, 2, 6), air, false);
+		// scene.world().setBlock(util.grid().at(19, 2, 6), air, false);
 
-            // Selection station = util.select().position(11, 1, 3);
-            // Selection controls = util.select().fromTo(9, 3, 6, 10, 3, 6);
-            Selection train1 = util.select().fromTo(28, 2, 5, 24, 3, 7);
-            // .substract(util.select().position(10, 2, 6));
-            //
-            //
-            //
-            Selection train2 = util.select().fromTo(23, 2, 5, 18, 3, 7);
-            //
-            // for (int i = 7; i >= 2; i--) {
-            // scene.world().showSection(util.select().fromTo(i, 1, 1, i, 1, 3),
-            // Direction.DOWN);
-            // scene.idle(1);
-            // }
-            //
-            // scene.world().showSection(station, Direction.DOWN);
-            //
-            scene.special().movePointOfInterest(util.grid().at(44, 3, 6));
-            //
-            ElementLink<WorldSectionElement> trainElement1 = scene.world().showIndependentSection(train1,
-                            Direction.DOWN);
-            ElementLink<WorldSectionElement> trainElement2 = scene.world().showIndependentSection(train2,
-                            Direction.DOWN);
-            scene.world().moveSection(trainElement1, util.vector().of(-20, 0, 0), 0);
-            scene.world().moveSection(trainElement2, util.vector().of(-20, 0, 0), 0);
-            ElementLink<ParrotElement> birb = scene.special().createBirb(util.vector().centerOf(6, 3, 6),
-                            ParrotPose.FacePointOfInterestPose::new);
-            scene.world().toggleControls(util.grid().at(27, 3, 6));
-            //
-            // scene.world().animateBogey(util.grid().at(10, 2, 6), -20f, 0);
-            // scene.world().animateBogey(util.grid().at(6, 2, 6), -20f, 0);
-            // scene.world().animateBogey(util.grid().at(3, 2, 6), -20f, 0);
-            // scene.idle(10);
-            //
-            scene.world().moveSection(trainElement1, util.vector().of(52, 0, 0), 300);
-            scene.world().moveSection(trainElement2, util.vector().of(52, 0, 0), 300);
-            scene.special().moveParrot(birb, util.vector().of(52, 0, 0), 300);
-            scene.world().animateBogey(util.grid().at(26, 2, 6), 68f, 300);
-            scene.world().animateBogey(util.grid().at(22, 2, 6), 68f, 300);
-            scene.world().animateBogey(util.grid().at(19, 2, 6), 68f, 300);
-            //
-             scene.idle(35);
+		// Selection station = util.select().position(11, 1, 3);
+		// Selection controls = util.select().fromTo(9, 3, 6, 10, 3, 6);
+		Selection train1 = util.select().fromTo(28, 2, 5, 24, 3, 7);
+		// .substract(util.select().position(10, 2, 6));
+		//
+		//
+		//
+		Selection train2 = util.select().fromTo(23, 2, 5, 18, 3, 7);
+		//
+		// for (int i = 7; i >= 2; i--) {
+		// scene.world().showSection(util.select().fromTo(i, 1, 1, i, 1, 3),
+		// Direction.DOWN);
+		// scene.idle(1);
+		// }
+		//
+		// scene.world().showSection(station, Direction.DOWN);
+		//
+		scene.special().movePointOfInterest(util.grid().at(44, 3, 6));
+		//
+		ElementLink<WorldSectionElement> trainElement1 = scene.world().showIndependentSection(train1,
+						Direction.DOWN);
+		ElementLink<WorldSectionElement> trainElement2 = scene.world().showIndependentSection(train2,
+						Direction.DOWN);
+		scene.world().moveSection(trainElement1, util.vector().of(-20, 0, 0), 0);
+		scene.world().moveSection(trainElement2, util.vector().of(-20, 0, 0), 0);
+		ElementLink<ParrotElement> birb = scene.special().createBirb(util.vector().centerOf(6, 3, 6),
+						ParrotPose.FacePointOfInterestPose::new);
+		scene.world().toggleControls(util.grid().at(27, 3, 6));
+		//
+		// scene.world().animateBogey(util.grid().at(10, 2, 6), -20f, 0);
+		// scene.world().animateBogey(util.grid().at(6, 2, 6), -20f, 0);
+		// scene.world().animateBogey(util.grid().at(3, 2, 6), -20f, 0);
+		// scene.idle(10);
+		//
+		scene.world().moveSection(trainElement1, util.vector().of(52, 0, 0), 300);
+		scene.world().moveSection(trainElement2, util.vector().of(52, 0, 0), 300);
+		scene.special().moveParrot(birb, util.vector().of(52, 0, 0), 300);
+		scene.world().animateBogey(util.grid().at(26, 2, 6), 68f, 300);
+		scene.world().animateBogey(util.grid().at(22, 2, 6), 68f, 300);
+		scene.world().animateBogey(util.grid().at(19, 2, 6), 68f, 300);
+		//
+		 scene.idle(35);
 
-             scene.world().toggleRedstonePower(util.select().position(17, 2, 3));
-             scene.effects().indicateRedstone(util.grid().at(17, 2, 3));
-             scene.world().toggleRedstonePower(util.select().fromTo(26, 1, 3, 26, 2, 3));
-             scene.effects().indicateRedstone(util.grid().at(26, 2, 3));
-             scene.world().modifyKineticSpeed(util.select().fromTo(25, 0, 4, 26, 1, 4), f -> -f);
-             createScene.world().rotateSection(armsElement, 0, 0, 89.38, 63);
+		 scene.world().toggleRedstonePower(util.select().position(17, 2, 3));
+		 scene.effects().indicateRedstone(util.grid().at(17, 2, 3));
+		 scene.world().toggleRedstonePower(util.select().fromTo(26, 1, 3, 26, 2, 3));
+		 scene.effects().indicateRedstone(util.grid().at(26, 2, 3));
+		 scene.world().modifyKineticSpeed(util.select().fromTo(25, 0, 4, 26, 1, 4), f -> -f);
+		 createScene.world().rotateSection(armsElement, 0, 0, 89.38, 63);
 
-             scene.idle(63);
+		 scene.idle(63);
 
-             scene.world().toggleRedstonePower(util.select().position(17, 2, 3));
+		 scene.world().toggleRedstonePower(util.select().position(17, 2, 3));
 
-             scene.idle(40);
+		 scene.idle(40);
 
-             scene.world().toggleRedstonePower(util.select().position(28, 2, 3));
-             scene.effects().indicateRedstone(util.grid().at(28, 2, 3));
+		 scene.world().toggleRedstonePower(util.select().position(28, 2, 3));
+		 scene.effects().indicateRedstone(util.grid().at(28, 2, 3));
 
 
 
-             scene.idle(55);
+		 scene.idle(55);
 
-             scene.world().toggleRedstonePower(util.select().fromTo(26, 1, 3, 26, 2, 3));
-             scene.world().toggleRedstonePower(util.select().position(28, 2, 3));
-             scene.world().modifyKineticSpeed(util.select().fromTo(25, 0, 4, 26, 1, 4), f -> -f);
-             createScene.world().rotateSection(armsElement, 0, 0, -89.38, 63);
-            //
+		 scene.world().toggleRedstonePower(util.select().fromTo(26, 1, 3, 26, 2, 3));
+		 scene.world().toggleRedstonePower(util.select().position(28, 2, 3));
+		 scene.world().modifyKineticSpeed(util.select().fromTo(25, 0, 4, 26, 1, 4), f -> -f);
+		 createScene.world().rotateSection(armsElement, 0, 0, -89.38, 63);
+		 scene.markAsFinished();
+		//
     }
 
     public static void modes(SceneBuilder builder, SceneBuildingUtil util) {
@@ -299,8 +302,81 @@ public class CrossingScenes {
 //        scene.
 
         scene.idle(60);
-
+		scene.markAsFinished();
 
 
     }
+
+	public static void colours(SceneBuilder builder, SceneBuildingUtil util) {
+		CreateSceneBuilder scene = new CreateSceneBuilder(builder);
+		CreateTrainPartsSceneBuilder createScene = new CreateTrainPartsSceneBuilder(scene);
+		scene.title("crossing_colours", "Crossing Colours");
+		scene.configureBasePlate(1, 0, 5);
+		scene.showBasePlate();
+
+		scene.world().showIndependentSection(util.select().fromTo(4, 1, 0, 4, 2, 1), Direction.DOWN);
+		scene.world().showIndependentSection(util.select().fromTo(3, 0, 2, 4, 1, 2), Direction.DOWN);
+		scene.idle(5);
+		ElementLink<WorldSectionElement> arm1 = scene.world().showIndependentSection(util.select().position(2, 1, 2), Direction.DOWN);
+		scene.idle(5);
+		ElementLink<WorldSectionElement> arm2 = scene.world().showIndependentSection(util.select().position(1, 1, 2), Direction.DOWN);
+
+		scene.idle(30);
+
+		scene.overlay().showText(50)
+			.pointAt(util.vector().of(3, 2, 2))
+			.placeNearTarget()
+			.attachKeyFrame()
+			.text("Crossing Gates can be configured to have different colours");
+
+		scene.idle(60);
+
+		scene.overlay().showText(50)
+			.pointAt(util.vector().of(3, 2, 2))
+//			.placeNearTarget()
+			.attachKeyFrame()
+			.text("Click the Crossing or Arm with a dye to change the colour of the gate");
+		scene.overlay().showControls(util.vector().centerOf(2, 1, 2), Pointing.DOWN, 50)
+			.rightClick()
+			.withItem(new ItemStack(Items.YELLOW_DYE));
+
+		scene.idle(25);
+
+		Byte yellow = (byte) 7;
+//		scene.world().modifyBlockEntity(util.grid().at(3, 1, 2), CrossingBlockEntity.class, be -> be.setColour1(yellow));
+		scene.world().modifyBlockEntity(util.grid().at(2, 1, 2), ArmExtenderBlockEntity.class, be -> be.setColour1(yellow));
+//		scene.world().modifyBlockEntity(util.grid().at(1, 1, 2), ArmExtenderBlockEntity.class, be -> be.setColour1(yellow));
+
+		scene.idle(70);
+
+		scene.overlay().showText(50)
+			.pointAt(util.vector().of(3, 2, 2))
+//			.placeNearTarget()
+			.attachKeyFrame()
+			.text("By holding control, all Arms can be changed at once");
+		scene.overlay().showControls(util.vector().of(1.7, 1.7, 2), Pointing.DOWN, 50)
+			.rightClick()
+			.withItem(new ItemStack(Items.BLACK_DYE));
+
+		scene.idle(25);
+
+		Byte black = (byte) 3;
+		scene.world().modifyBlockEntity(util.grid().at(3, 1, 2), CrossingBlockEntity.class, be -> be.setColour2(black));
+		scene.world().modifyBlockEntity(util.grid().at(2, 1, 2), ArmExtenderBlockEntity.class, be -> be.setColour2(black));
+		scene.world().modifyBlockEntity(util.grid().at(1, 1, 2), ArmExtenderBlockEntity.class, be -> be.setColour2(black));
+
+		scene.idle(70);
+
+		scene.world().toggleRedstonePower(util.select().fromTo(4, 1, 1, 4, 2, 2));
+		scene.effects().indicateRedstone(util.grid().at(4, 2, 1));
+		scene.world().modifyKineticSpeed(util.select().fromTo(3, 0, 2, 4, 1, 2), f -> -f);
+
+		Selection arms = util.select().fromTo(2, 1, 2, 1, 1, 2);
+		createScene.world().hideIndependentSectionImmediately(arm1);
+		createScene.world().hideIndependentSectionImmediately(arm2);
+		ElementLink<WorldSectionElement> armsElement = scene.world().showIndependentSectionImmediately(arms);
+		scene.world().configureCenterOfRotation(armsElement, util.vector().of(3.5, 1.5, 2.5));
+		createScene.world().rotateSection(armsElement, 0, 0, -89.38, 63);
+		scene.markAsFinished();
+	}
 }

@@ -1,35 +1,32 @@
 package com.tiestoettoet.create_train_parts.content.trains.crossing;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.CreateClient;
+import com.simibubi.create.AllKeys;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
-import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.base.KineticBlock;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.gantry.GantryShaftBlock;
 import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.block.IHaveBigOutline;
-import com.simibubi.create.foundation.data.SharedProperties;
 import com.tiestoettoet.create_train_parts.AllBlockEntityTypes;
 import com.tiestoettoet.create_train_parts.AllBlocks;
 import com.tiestoettoet.create_train_parts.AllSoundEvents;
-import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlockEntity;
+
 import net.createmod.catnip.placement.IPlacementHelper;
 import net.createmod.catnip.placement.PlacementHelpers;
 import net.createmod.catnip.placement.PlacementOffset;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.entity.Interaction;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -40,14 +37,11 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -55,20 +49,20 @@ import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.lwjgl.system.CallbackI;
+
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
-import static com.simibubi.create.content.kinetics.base.DirectionalKineticBlock.FACING;
 
 public class CrossingBlock extends HorizontalKineticBlock
         implements IBE<CrossingBlockEntity>, IWrenchable, IHaveBigOutline {
@@ -557,8 +551,141 @@ public class CrossingBlock extends HorizontalKineticBlock
             return ItemInteractionResult.SUCCESS;
         }
 
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-    }
+		if (stack.getItem() instanceof DyeItem dyeItem) {
+			DyeColor colour = dyeItem.getDyeColor();
+			Vec3 hitPos = hitResult.getLocation();
+
+			// Relative position within the block (0.0 - 1.0)
+			double x = hitPos.x - pos.getX();
+			double y = hitPos.y - pos.getY();
+			double z = hitPos.z - pos.getZ();
+
+			Vec3 relativePos = new Vec3(x, y, z);
+			CrossingBlockEntity blockEntity = (CrossingBlockEntity) level.getBlockEntity(pos);
+			if (isInColour1(state, relativePos)) {
+				// Change colour 1
+				blockEntity.setColour1(getColourIndex(colour));
+			}
+			if (isInColour2(state, relativePos)) {
+				// Change colour 2
+				blockEntity.setColour2(getColourIndex(colour));
+			}
+			Byte colour1 = isInColour1(state, relativePos) ? getColourIndex(colour) : null;
+			Byte colour2 = isInColour2(state, relativePos) ? getColourIndex(colour) : null;
+			boolean ctrl = AllKeys.ctrlDown();
+			if (ctrl) {
+				updateConnectedColours(level, pos, colour1, colour2);
+			}
+
+		}
+
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+	}
+
+	private void updateConnectedColours(Level level, BlockPos pos, @Nullable Byte colour1, @Nullable Byte colour2) {
+		//navigate to all connected arms and crossings and update their colours
+		//first check to the right
+		BlockPos currentPos = pos;
+		Direction facing = level.getBlockState(pos).getValue(HORIZONTAL_FACING);
+		boolean flipped = level.getBlockState(currentPos).getValue(FLIPPED);
+		while (true) {
+			BlockPos nextPos = pos.relative(
+				flipped ? facing.getCounterClockWise() : facing.getClockWise()
+			);
+			BlockState nextState = level.getBlockState(nextPos);
+			if (nextState.getBlock() instanceof ArmExtenderBlock) {
+				ArmExtenderBlockEntity rightBE = (ArmExtenderBlockEntity) level.getBlockEntity(nextPos);
+				if (colour1 != null)
+					rightBE.setColour1(colour1);
+				if (colour2 != null)
+					rightBE.setColour2(colour2);
+				pos = nextPos;
+			} else {
+				break;
+			}
+		}
+	}
+
+	private boolean isInColour1(BlockState state, Vec3 hitPos) {
+		Direction facing = state.getValue(HORIZONTAL_FACING);
+		boolean flipped = state.getValue(FLIPPED);
+
+		Direction effectiveFacing = flipped ? facing.getOpposite() : facing;
+
+		AABB colour1Box;
+
+		switch (effectiveFacing) {
+			case NORTH -> {
+				colour1Box = box(9, 6, 11, 12, 10, 13);
+			}
+			case SOUTH -> {
+				colour1Box = box(3, 6, 9, 5, 10, 12);
+			}
+			case EAST -> {
+				colour1Box = box(4, 6, 3, 7, 10, 5);
+			}
+			case WEST -> {
+				colour1Box = box(11, 6, 4, 13, 10, 7);
+			}
+			default -> throw new IllegalStateException();
+		}
+
+		return colour1Box.contains(hitPos);
+	}
+
+	private boolean isInColour2(BlockState state, Vec3 hitPos) {
+		Direction facing = state.getValue(HORIZONTAL_FACING);
+		boolean flipped = state.getValue(FLIPPED);
+
+		Direction effectiveFacing = flipped ? facing.getOpposite() : facing;
+
+		AABB colour2Box;
+
+		switch (effectiveFacing) {
+			case NORTH -> {
+				colour2Box = box(12, 6, 11, 16, 10, 13);
+			}
+			case SOUTH -> {
+				colour2Box = box(3, 6, 12, 5, 10, 16);
+			}
+			case EAST -> {
+				colour2Box = box(0, 6, 3, 4, 10, 5);
+			}
+			case WEST -> {
+				colour2Box = box(11, 6, 0, 13, 10, 4);
+			}
+			default -> throw new IllegalStateException();
+		}
+
+		return colour2Box.contains(hitPos);
+	}
+
+	private static AABB box(int x1, int y1, int z1, int x2, int y2, int z2) {
+		return Block.box(x1, y1, z1, x2, y2, z2)
+			.bounds()
+			.inflate(0.001);
+	}
+
+	private byte getColourIndex(DyeColor colour) {
+		return switch (colour) {
+			case WHITE -> 0;
+			case LIGHT_GRAY -> 1;
+			case GRAY -> 2;
+			case BLACK -> 3;
+			case BROWN -> 4;
+			case RED -> 5;
+			case ORANGE -> 6;
+			case YELLOW -> 7;
+			case LIME -> 8;
+			case GREEN -> 9;
+			case CYAN -> 10;
+			case LIGHT_BLUE -> 11;
+			case BLUE -> 12;
+			case PURPLE -> 13;
+			case MAGENTA -> 14;
+			case PINK -> 15;
+		};
+	}
 
     @Override
     public Class<CrossingBlockEntity> getBlockEntityClass() {
