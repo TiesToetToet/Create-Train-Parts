@@ -622,10 +622,10 @@ public class CrossingBlock extends HorizontalKineticBlock
 				colour1Box = box(9, 6, 11, 12, 10, 13);
 			}
 			case SOUTH -> {
-				colour1Box = box(3, 6, 9, 5, 10, 12);
+				colour1Box = box(4, 6, 3, 7, 10, 5);
 			}
 			case EAST -> {
-				colour1Box = box(4, 6, 3, 7, 10, 5);
+				colour1Box = box(3, 6, 9, 5, 10, 12);
 			}
 			case WEST -> {
 				colour1Box = box(11, 6, 4, 13, 10, 7);
@@ -649,10 +649,10 @@ public class CrossingBlock extends HorizontalKineticBlock
 				colour2Box = box(12, 6, 11, 16, 10, 13);
 			}
 			case SOUTH -> {
-				colour2Box = box(3, 6, 12, 5, 10, 16);
+				colour2Box = box(0, 6, 3, 4, 10, 5);
 			}
 			case EAST -> {
-				colour2Box = box(0, 6, 3, 4, 10, 5);
+				colour2Box = box(3, 6, 12, 5, 10, 16);
 			}
 			case WEST -> {
 				colour2Box = box(11, 6, 0, 13, 10, 4);

@@ -299,12 +299,12 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
 				colour1Box2 = box(8, 6, 11, 12, 10, 13);
 			}
 			case SOUTH -> {
-				colour1Box1 = box(3, 6, 0, 5, 10, 4);
-				colour1Box2 = box(3, 6, 8, 5, 10, 12);
-			}
-			case EAST -> {
 				colour1Box1 = box(12, 6, 3, 16, 10, 5);
 				colour1Box2 = box(4, 6, 3, 8, 10, 5);
+			}
+			case EAST -> {
+				colour1Box1 = box(3, 6, 0, 5, 10, 4);
+				colour1Box2 = box(3, 6, 8, 5, 10, 12);
 			}
 			case WEST -> {
 				colour1Box1 = box(11, 6, 12, 13, 10, 16);
@@ -331,12 +331,12 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
 				colour2Box2 = box(12, 6, 11, 16, 10, 13);
 			}
 			case SOUTH -> {
-				colour2Box1 = box(3, 6, 4, 5, 10, 8);
-				colour2Box2 = box(3, 6, 12, 5, 10, 16);
-			}
-			case EAST -> {
 				colour2Box1 = box(8, 6, 3, 12, 10, 5);
 				colour2Box2 = box(0, 6, 3, 4, 10, 5);
+			}
+			case EAST -> {
+				colour2Box1 = box(3, 6, 4, 5, 10, 8);
+				colour2Box2 = box(3, 6, 12, 5, 10, 16);
 			}
 			case WEST -> {
 				colour2Box1 = box(11, 6, 8, 13, 10, 12);
