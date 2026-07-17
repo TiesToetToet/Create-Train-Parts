@@ -37,13 +37,8 @@ public class PoleBlock extends HorizontalKineticBlock implements IBE<KineticBloc
     }
 
     @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return null;
-    }
-
-    @Override
-    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        return super.playerWillDestroy(level, pos, state, player);
+    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override

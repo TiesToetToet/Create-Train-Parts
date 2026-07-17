@@ -48,10 +48,10 @@ public class ArmExtenderBlockEntity extends BlockEntity {
 			return;
 		}
 
-		if (rightBE instanceof CrossingBlockEntity rightCrossing) {
-			blockEntity.setColours(rightCrossing.getColour1(), rightCrossing.getColour2());
-			return;
-		}
+//		if (rightBE instanceof CrossingBlockEntity rightCrossing) {
+//			blockEntity.setColours(rightCrossing.getColour1(), rightCrossing.getColour2());
+//			return;
+//		}
 
 		BlockPos leftPos = pos.relative(facing.getCounterClockWise());
 		BlockEntity leftBE = level.getBlockEntity(leftPos);
@@ -61,22 +61,22 @@ public class ArmExtenderBlockEntity extends BlockEntity {
 			return;
 		}
 
-		if (leftBE instanceof CrossingBlockEntity leftCrossing) {
-			blockEntity.setColours(leftCrossing.getColour1(), leftCrossing.getColour2());
-		}
+//		if (leftBE instanceof CrossingBlockEntity leftCrossing) {
+//			blockEntity.setColours(leftCrossing.getColour1(), leftCrossing.getColour2());
+//		}
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-		super.saveAdditional(tag, registries);
+	protected void saveAdditional(CompoundTag tag) {
+		super.saveAdditional(tag);
 
 		tag.putByte("Colour1", colour1);
 		tag.putByte("Colour2", colour2);
 	}
 
 	@Override
-	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-		super.loadAdditional(tag, registries);
+	public void load(CompoundTag tag) {
+		super.load(tag);
 
 		if (tag.contains("Colour1"))
 			colour1 = tag.getByte("Colour1");
@@ -85,8 +85,8 @@ public class ArmExtenderBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
-		return saveWithoutMetadata(provider);
+	public CompoundTag getUpdateTag() {
+		return saveWithoutMetadata();
 	}
 
 	@Override
@@ -95,8 +95,8 @@ public class ArmExtenderBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider provider) {
-		loadWithComponents(tag, provider);
+	public void handleUpdateTag(CompoundTag tag) {
+		load(tag);
 	}
 
 	public void playPlaceSound() {

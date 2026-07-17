@@ -16,7 +16,7 @@ import net.minecraftforge.event.TickEvent.ClientTickEvent;
 @EventBusSubscriber(Dist.CLIENT)
 public class ClientEvents {
 	@SubscribeEvent
-    public static void onTick(boolean isPreEvent) {
+    public static void onTick(ClientTickEvent event) {
         if (!isGameActive())
             return;
 

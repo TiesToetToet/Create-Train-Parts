@@ -136,9 +136,10 @@ public abstract class ArmHelper<T extends Comparable<T>> implements IPlacementHe
                         ? CrossingBlock.FLIPPED
                         : ArmExtenderBlock.FLIPPED);
 
-                boolean barrier = state.getValue(CrossingBlock.isCrossing(state)
-                        ? CrossingBlock.BARRIER
-                        : ArmExtenderBlock.BARRIER);
+//                boolean barrier = state.getValue(CrossingBlock.isCrossing(state)
+//                        ? CrossingBlock.BARRIER
+//                        : ArmExtenderBlock.BARRIER);
+				boolean barrier = false;
                 return PlacementOffset.success(newPos, bState -> bState
                         .setValue(HORIZONTAL_FACING, facing)
                         .setValue(ArmExtenderBlock.FLIPPED, flipped)

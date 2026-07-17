@@ -73,7 +73,6 @@ public class CreateTrainParts {
 
         // modEventBus.addListener(CreateTrainParts::commonSetup);
         modEventBus.addListener(CreateTrainParts::onRegister);
-        modEventBus.addListener(EventPriority.HIGHEST, CreateTrainPartsDataGen::gatherDataHighPriority);
         modEventBus.addListener(EventPriority.LOWEST, CreateTrainPartsDataGen::gatherData);
         modEventBus.addListener(AllSoundEvents::register);
 

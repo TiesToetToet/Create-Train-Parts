@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "create:framed_glass_trapdoor"
+    },
+    {
+      "item": "create:brass_casing"
+    }
+  ],
+  "result": {
+    "item": "create_train_parts:brass_sliding_window"
+  }
+}

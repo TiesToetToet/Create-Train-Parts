@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "create:andesite_casing"
+    },
+    "F": {
+      "tag": "minecraft:fences"
+    },
+    "S": {
+      "item": "create:iron_sheet"
+    },
+    "T": {
+      "item": "create:electron_tube"
+    }
+  },
+  "pattern": [
+    "TC ",
+    "TCF",
+    " S "
+  ],
+  "result": {
+    "item": "create_train_parts:crossing"
+  },
+  "show_notification": true
+}

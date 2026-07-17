@@ -17,8 +17,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.RegisterEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -202,8 +203,6 @@ public class AllSoundEvents {
 
         public abstract void write(JsonObject json);
 
-        public abstract Holder<SoundEvent> getMainEventHolder();
-
         public abstract SoundEvent getMainEvent();
 
         public String getSubtitleKey() {
@@ -282,7 +281,7 @@ public class AllSoundEvents {
             for (int i = 0; i < wrappedEvents.size(); i++) {
                 ConfiguredSoundEvent wrapped = wrappedEvents.get(i);
                 ResourceLocation location = getIdOf(i);
-                DeferredHolder<SoundEvent, SoundEvent> event = DeferredHolder.create(Registries.SOUND_EVENT, location);
+                RegistryObject<SoundEvent> event = RegistryObject.create(location, ForgeRegistries.SOUND_EVENTS);
                 compiledEvents.add(new WrappedSoundEntry.CompiledSoundEvent(event, wrapped.volume(), wrapped.pitch()));
             }
         }
@@ -293,11 +292,6 @@ public class AllSoundEvents {
                 ResourceLocation location = compiledEvent.event().getId();
                 helper.register(location, SoundEvent.createVariableRangeEvent(location));
             }
-        }
-
-        @Override
-        public Holder<SoundEvent> getMainEventHolder() {
-            return compiledEvents.getFirst().event();
         }
 
         @Override
@@ -347,7 +341,7 @@ public class AllSoundEvents {
             }
         }
 
-        private record CompiledSoundEvent(DeferredHolder<SoundEvent, SoundEvent> event, float volume, float pitch) {
+        private record CompiledSoundEvent(RegistryObject<SoundEvent> event, float volume, float pitch) {
         }
 
     }
@@ -355,7 +349,7 @@ public class AllSoundEvents {
     private static class CustomSoundEntry extends SoundEntry {
 
         protected List<ResourceLocation> variants;
-        protected DeferredHolder<SoundEvent, SoundEvent> event;
+        protected RegistryObject<SoundEvent> event;
 
         public CustomSoundEntry(ResourceLocation id, List<ResourceLocation> variants, String subtitle,
                                 SoundSource category, int attenuationDistance) {
@@ -365,18 +359,13 @@ public class AllSoundEvents {
 
         @Override
         public void prepare() {
-            event = DeferredHolder.create(Registries.SOUND_EVENT, id);
+            event = RegistryObject.create(id, ForgeRegistries.SOUND_EVENTS);
         }
 
         @Override
         public void register(RegisterEvent.RegisterHelper<SoundEvent> helper) {
             ResourceLocation location = event.getId();
             helper.register(location, SoundEvent.createVariableRangeEvent(location));
-        }
-
-        @Override
-        public Holder<SoundEvent> getMainEventHolder() {
-            return event;
         }
 
         @Override

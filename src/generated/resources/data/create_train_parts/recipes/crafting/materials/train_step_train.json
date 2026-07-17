@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "create:railway_casing"
+    },
+    "X": {
+      "tag": "minecraft:stairs"
+    }
+  },
+  "pattern": [
+    "X#"
+  ],
+  "result": {
+    "item": "create_train_parts:train_step_train"
+  },
+  "show_notification": true
+}

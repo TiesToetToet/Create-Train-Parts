@@ -70,6 +70,7 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
 
 	@Override
 	protected void read(CompoundTag tag, boolean clientPacket) {
+		super.read(tag, clientPacket);
         if (tag.contains("ForceOpen"))
             openObj = tag.getBoolean("ForceOpen");
 
@@ -142,13 +143,13 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
     }
 
 	@Override
-	public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
-		return saveWithoutMetadata(provider);
+	public CompoundTag getUpdateTag() {
+		return saveWithoutMetadata();
 	}
 
 	@Override
-	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider provider) {
-		loadWithComponents(tag, provider);
+	public void handleUpdateTag(CompoundTag tag) {
+		load(tag);
 	}
 
 	public byte getColour1() {

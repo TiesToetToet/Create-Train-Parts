@@ -13,8 +13,8 @@ import net.createmod.ponder.foundation.PonderIndex;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.data.event.GatherDataEvent;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -22,14 +22,8 @@ import java.util.function.BiConsumer;
 
 public class CreateTrainPartsDataGen {
 
-    public static void gatherDataHighPriority(GatherDataEvent event) {
-        if (event.getMods().contains(CreateTrainParts.MOD_ID))
-            addExtraRegistrateData();
-    }
-
     public static void gatherData(GatherDataEvent event) {
-        if (!event.getMods().contains(CreateTrainParts.MOD_ID))
-            return;
+		addExtraRegistrateData();
 
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
@@ -47,7 +41,7 @@ public class CreateTrainPartsDataGen {
 //        generator.addProvider(event.includeServer(), new CreateMountedItemStorageTypeTagsProvider(output, lookupProvider, existingFileHelper));
 //        generator.addProvider(event.includeServer(), new DamageTypeTagGen(output, lookupProvider, existingFileHelper));
 //        generator.addProvider(event.includeServer(), new AllAdvancements(output, lookupProvider));
-        generator.addProvider(event.includeServer(), new CreateTrainPartsStandardRecipeGen(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new CreateTrainPartsStandardRecipeGen(output));
 //        generator.addProvider(event.includeServer(), new CreateMechanicalCraftingRecipeGen(output, lookupProvider));
 //        generator.addProvider(event.includeServer(), new CreateSequencedAssemblyRecipeGen(output, lookupProvider));
 //        generator.addProvider(event.includeServer(), new CreateIceAgeDatamapProvider(output, lookupProvider));

@@ -6,7 +6,7 @@ import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.ModelFile;
 
 public class CrossingGenerator extends SpecialBlockStateGen {
     @Override
@@ -28,7 +28,8 @@ public class CrossingGenerator extends SpecialBlockStateGen {
     @Override
     public <T extends Block> ModelFile getModel(DataGenContext<Block, T> ctx, RegistrateBlockstateProvider prov, BlockState state) {
         boolean flipped = state.getValue(CrossingBlock.FLIPPED);
-        boolean connected = state.getValue(CrossingBlock.CONNECTED);
+//        boolean connected = state.getValue(CrossingBlock.CONNECTED);
+		boolean connected = false;
         if (flipped) {
             return prov.models().getExistingFile(prov.modLoc("block/crossing/block_flipped" + (connected ? "_connected" : "")));
         } else {
