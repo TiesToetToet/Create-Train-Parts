@@ -1,0 +1,37 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
+	"render_type": "minecraft:cutout_mipped",
+	"textures": {
+		"1": "create_train_parts:block/crossing/arm_colours",
+		"particle": "create_train_parts:block/crossing/arm"
+	},
+	"elements": [
+		{
+			"from": [11, 6, 12],
+			"to": [13, 10, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [11, 8, 14]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 4], "texture": "#1"},
+				"east": {"uv": [0, 0, 4, 4], "rotation": 180, "texture": "#1"},
+				"south": {"uv": [2, 0, 4, 4], "texture": "#1"},
+				"west": {"uv": [0, 0, 4, 4], "texture": "#1"},
+				"up": {"uv": [0, 0, 4, 2], "rotation": 90, "texture": "#1"},
+				"down": {"uv": [4, 0, 0, 2], "rotation": 90, "texture": "#1"}
+			}
+		},
+		{
+			"from": [11, 6, 4],
+			"to": [13, 10, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [11, 8, 6]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 4], "texture": "#1"},
+				"east": {"uv": [0, 0, 4, 4], "rotation": 180, "texture": "#1"},
+				"south": {"uv": [2, 0, 4, 4], "texture": "#1"},
+				"west": {"uv": [0, 0, 4, 4], "texture": "#1"},
+				"up": {"uv": [0, 0, 4, 2], "rotation": 90, "texture": "#1"},
+				"down": {"uv": [4, 0, 0, 2], "rotation": 90, "texture": "#1"}
+			}
+		}
+	]
+}

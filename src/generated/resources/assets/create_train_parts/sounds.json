@@ -1,0 +1,12 @@
+{
+  "crossing_bell": {
+    "sounds": [
+      {
+        "type": "file",
+        "attenuation_distance": 32,
+        "name": "create_train_parts:crossing_bell"
+      }
+    ],
+    "subtitle": "create_train_parts.subtitle.crossing_bell"
+  }
+}

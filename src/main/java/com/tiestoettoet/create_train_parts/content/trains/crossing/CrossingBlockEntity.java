@@ -1,47 +1,40 @@
 package com.tiestoettoet.create_train_parts.content.trains.crossing;
 
-import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.contraptions.*;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.advancement.AllAdvancements;
-import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.CenteredSideValueBoxTransform;
 import com.simibubi.create.foundation.blockEntity.behaviour.ValueBoxTransform;
 import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.INamedIconOptions;
 import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollOptionBehaviour;
-import com.simibubi.create.foundation.utility.CreateLang;
-import com.simibubi.create.foundation.utility.ServerSpeedProvider;
 import com.tiestoettoet.create_train_parts.foundation.gui.AllIcons;
+import com.tiestoettoet.create_train_parts.foundation.sound.SoundScapes;
 import com.tiestoettoet.create_train_parts.foundation.utility.CreateTrainPartsLang;
 import net.createmod.catnip.animation.LerpedFloat;
 import net.createmod.catnip.lang.Lang;
 import net.createmod.catnip.math.VecHelper;
+import net.createmod.catnip.platform.CatnipServices;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Mth;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.RailShape;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.simibubi.create.content.kinetics.base.HorizontalKineticBlock.HORIZONTAL_FACING;
+import static com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock.BELL;
 import static com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock.OPEN;
 
 public class CrossingBlockEntity extends KineticBlockEntity implements IControlContraption {
@@ -52,8 +45,15 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
     protected double sequencedAngleLimit;
     protected boolean assembleNextTick;
     protected ScrollOptionBehaviour<CrossingBarrierMode> barrierMode;
+    public int bellTicks = 0;
+    public BellState bellState = BellState.OFF;
+    public float bellFade = 0;
 
-    public ControlledContraptionEntity movedContraption;
+	private byte colour1 = 5;
+	private byte colour2 = 0;
+
+
+	public ControlledContraptionEntity movedContraption;
     // boolean deferUpdate;
     // Map<String, BlockState> neighborStates = new HashMap<>();
 
@@ -75,7 +75,33 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
 
         if (tag.contains("ForceOpen"))
             openObj = tag.getBoolean("ForceOpen");
+
+		bellTicks = tag.getInt("BellTicks");
+		bellFade = tag.getFloat("BellFade");
+
+		int state = tag.getInt("BellState");
+		if (state >= 0 && state < BellState.values().length)
+			bellState = BellState.values()[state];
+		else
+			bellState = BellState.OFF;
+
+		if (tag.contains("Colour1"))
+			colour1 = tag.getByte("Colour1");
+
+		if (tag.contains("Colour2"))
+			colour2 = tag.getByte("Colour2");
     }
+
+	@Override
+	protected void write(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {
+		super.write(tag, registries, clientPacket);
+
+		tag.putInt("BellTicks", bellTicks);
+		tag.putInt("BellState", bellState.ordinal());
+		tag.putFloat("BellFade", bellFade);
+		tag.putByte("Colour1", colour1);
+		tag.putByte("Colour2", colour2);
+	}
 
     public void assemble() {
 //        System.out.println("CrossingBlockEntity.assemble() called");
@@ -118,6 +144,40 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
         sendData();
     }
 
+	@Override
+	public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+		return saveWithoutMetadata(provider);
+	}
+
+	@Override
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider provider) {
+		loadWithComponents(tag, provider);
+	}
+
+	public byte getColour1() {
+		return colour1;
+	}
+
+	public byte getColour2() {
+		return colour2;
+	}
+
+	public void setColour1(byte colour1) {
+		this.colour1 = colour1;
+		setChanged();
+
+		if (level != null && !level.isClientSide)
+			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+	}
+
+	public void setColour2(byte colour2) {
+		this.colour2 = colour2;
+		setChanged();
+
+		if (level != null && !level.isClientSide)
+			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+	}
+
     public void disassemble() {
 //        System.out.println(
 //                "Disassemble called - running: " + running + ", movedContraption: " + (movedContraption != null));
@@ -152,9 +212,50 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
         }
         speed = speed / 50f * 0.05f * 0.25f;
 
+
+
         float targetValue = shouldOpen ? 0 : 1;
         animation.chase(targetValue, speed, LerpedFloat.Chaser.LINEAR);
         animation.tickChaser();
+
+        boolean moving = !animation.settled();
+        boolean opening = moving && animation.getChaseTarget() == 1;
+        boolean closing = moving && animation.getChaseTarget() == 0;
+        boolean opened = !moving && animation.getValue() > 0.99f;
+        boolean closed = !moving && animation.getValue() < 0.01f;
+        switch (bellState) {
+            case OFF:
+                if (closing && speed != 0) {
+                    bellState = BellState.RINGING;
+                    bellTicks = 0;
+                }
+                break;
+
+            case RINGING:
+				if (speed == 0) {
+					bellState = BellState.FADING;
+					bellFade = 1f;
+					break;
+				}
+
+                bellTicks++;
+                if (opened) {
+                    bellState = BellState.FADING;
+                    bellFade = 1f;
+                }
+                break;
+
+            case FADING:
+                bellTicks++;
+                bellFade = Math.max(0, bellFade - 0.04f);
+
+                if (bellFade == 0)
+                    bellState = BellState.OFF;
+                break;
+        }
+        if (!block.getValue(BELL)) {
+            bellState = BellState.OFF;
+        }
 
         if (level.isClientSide()) {
             if (bridgeTicks < 2 && open)
@@ -166,6 +267,9 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
         if (animation.settled() && open == (animation.getValue() != 0)) {
             return;
         }
+
+		if (level.isClientSide)
+			CatnipServices.PLATFORM.executeOnClientOnly(() -> () -> this.tickAudio());
 
         block = block.setValue(OPEN, animation.getValue() != 0);
         level.setBlock(worldPosition, block, 10);
@@ -239,6 +343,31 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
         movedContraption.setAngle(finalAngle);
     }
 
+	@OnlyIn(Dist.CLIENT)
+	public void tickAudio() {
+		boolean ringing = bellState == BellState.RINGING;
+        if (ringing)
+            SoundScapes.play(SoundScapes.AmbienceGroup.CROSSING, worldPosition, 1.0f);
+	}
+
+    public void onBellAdded() {
+        if (bellState == BellState.OFF && !isOpen(getBlockState())) {
+            bellState = BellState.RINGING;
+            bellTicks = 0;
+        }
+    }
+
+	public void addBell() {
+		BlockState blockState = getBlockState();
+		if (blockState.getBlock() instanceof CrossingBlock) {
+			level.setBlock(worldPosition, blockState.setValue(BELL, true), 3);
+		}
+	}
+
+	public void onBellRemoved() {
+		bellState = BellState.OFF;
+	}
+
     @Override
     protected AABB createRenderBoundingBox() {
         return super.createRenderBoundingBox().inflate(1);
@@ -250,11 +379,15 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
 
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-        barrierMode = new ScrollOptionBehaviour<>(CrossingBarrierMode.class,
-                CreateTrainPartsLang.translateDirect("crossing.mode"), this, getBarrierModeSlot());
-        barrierMode.withCallback($ -> onBarrierModeChanged());
-        behaviours.add(barrierMode);
-        barrierMode.requiresWrench();
+        BlockState state = getBlockState();
+        boolean visible = !state.getValue(OPEN);
+        if (visible) {
+            barrierMode = new ScrollOptionBehaviour<>(CrossingBarrierMode.class,
+                    CreateTrainPartsLang.translateDirect("crossing.mode"), this, getBarrierModeSlot());
+            barrierMode.withCallback($ -> onBarrierModeChanged());
+            behaviours.add(barrierMode);
+            barrierMode.requiresWrench();
+        }
     }
 
     private void onBarrierModeChanged() {
@@ -291,7 +424,11 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
     private class CrossingValueBoxTransform extends CenteredSideValueBoxTransform {
 
         public CrossingValueBoxTransform() {
-            super((state, d) -> d == state.getValue(HORIZONTAL_FACING) || d == state.getValue(HORIZONTAL_FACING).getOpposite() || d == state.getValue(HORIZONTAL_FACING).getClockWise());
+            super((state, d) ->
+                    !state.getValue(OPEN) &&
+                            (d == state.getValue(HORIZONTAL_FACING)
+                                    || d == state.getValue(HORIZONTAL_FACING).getOpposite()
+                                    || d == state.getValue(HORIZONTAL_FACING).getClockWise()));
         }
 
         @Override
@@ -355,4 +492,12 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
     public BlockPos getBlockPosition() {
         return worldPosition;
     }
+
+    public enum BellState {
+        OFF,
+        RINGING,
+        FADING
+    }
+
+
 }

@@ -1,4 +1,6 @@
 {
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
 	"render_type": "minecraft:cutout_mipped",
 	"textures": {
 		"0": "create_train_parts:block/crossing/arm",
@@ -6,16 +8,16 @@
 	},
 	"elements": [
 		{
-			"from": [3, 6, 0],
+			"from": [3, 6, 7],
 			"to": [5, 10, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [3, 8, 8]},
 			"faces": {
-				"north": {"uv": [9, 0, 8, 2], "texture": "#0"},
-				"east": {"uv": [16, 0, 8, 2], "texture": "#0"},
+				"north": {"uv": [12.5, 0, 11.5, 2], "texture": "#0"},
+				"east": {"uv": [16, 0, 11.5, 2], "texture": "#0"},
 				"south": {"uv": [15, 0, 14, 2], "texture": "#0"},
-				"west": {"uv": [16, 0, 8, 2], "rotation": 180, "texture": "#0"},
-				"up": {"uv": [16, 0, 8, 1], "rotation": 270, "texture": "#0"},
-				"down": {"uv": [8, 0, 16, 1], "rotation": 270, "texture": "#0"}
+				"west": {"uv": [16, 0, 11.5, 2], "rotation": 180, "texture": "#0"},
+				"up": {"uv": [16, 0, 11.5, 1], "rotation": 270, "texture": "#0"},
+				"down": {"uv": [11.5, 0, 16, 1], "rotation": 270, "texture": "#0"}
 			}
 		},
 		{
@@ -35,16 +37,19 @@
 		{
 			"name": "arm",
 			"origin": [8, 8, 8],
+			"scope": 0,
 			"color": 0,
 			"children": [
 				{
 					"name": "red_arm",
 					"origin": [8, 8, 8],
+					"scope": 0,
 					"color": 0,
 					"children": [
 						{
 							"name": "arm red",
 							"origin": [8, 8, 8],
+							"scope": 0,
 							"color": 0,
 							"children": [0, 1]
 						}

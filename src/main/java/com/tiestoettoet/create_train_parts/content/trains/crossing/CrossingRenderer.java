@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllSpriteShifts;
+import com.simibubi.create.content.equipment.bell.BellRenderer;
 import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
@@ -19,6 +20,7 @@ import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import dev.engine_room.flywheel.lib.transform.TransformStack;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.math.AngleHelper;
+import net.createmod.catnip.math.VecHelper;
 import net.createmod.catnip.render.CachedBuffers;
 import net.createmod.catnip.render.SuperByteBuffer;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -104,6 +106,17 @@ public class CrossingRenderer extends KineticBlockEntityRenderer<CrossingBlockEn
 
             PartialModel arm = flipped ? AllPartialModels.ARM_FLIPPED : AllPartialModels.ARM;
 
+			PartialModel colour1Part;
+			PartialModel colour2Part;
+
+			if (flipped) {
+				colour1Part = AllPartialModels.ARM_FLIPPED_1;
+				colour2Part = AllPartialModels.ARM_FLIPPED_2;
+			} else {
+				colour1Part = AllPartialModels.ARM_1;
+				colour2Part = AllPartialModels.ARM_2;
+			}
+
             SuperByteBuffer partial_arm = CachedBuffers.partial(arm, blockState);
 
             int lightInFront = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().relative(Direction.UP));
@@ -114,6 +127,70 @@ public class CrossingRenderer extends KineticBlockEntityRenderer<CrossingBlockEn
                     .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
                     .rotateCenteredDegrees(Mth.RAD_TO_DEG * angle, Direction.EAST)
                     .renderInto(ms, vb);
+
+			CachedBuffers.partial(colour1Part, blockState)
+				.shiftUVtoSheet(
+					com.tiestoettoet.create_train_parts.AllSpriteShifts.ARM_COLOURS,
+					getColourU(be.getColour1()),
+					getColourV(be.getColour1()),
+					1
+				)
+				.rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+				.rotateCenteredDegrees(Mth.RAD_TO_DEG * angle, Direction.EAST)
+				.light(light)
+				.renderInto(ms, vb);
+
+			CachedBuffers.partial(colour2Part, blockState)
+				.shiftUVtoSheet(
+					com.tiestoettoet.create_train_parts.AllSpriteShifts.ARM_COLOURS,
+					getColourU(be.getColour2()),
+					getColourV(be.getColour2()),
+					1
+				)
+				.rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+				.rotateCenteredDegrees(Mth.RAD_TO_DEG * angle, Direction.EAST)
+				.light(light)
+				.renderInto(ms, vb);
+
+            boolean closed = !blockState.getValue(CrossingBlock.OPEN);
+
+            float amplitude = switch (be.bellState) {
+                case OFF -> 0;
+                case RINGING -> 1f;
+                case FADING -> be.bellFade;
+            };
+
+            float swing =
+                    getCrossingBellSwing(be.bellTicks, partialTicks)
+                            * amplitude;
+
+            if (blockState.getValue(CrossingBlock.BELL)) {
+                PartialModel bell = AllPartialModels.BELL;
+                PartialModel bellHolder = AllPartialModels.BELL_HOLDER;
+                SuperByteBuffer partial_bell = CachedBuffers.partial(bell, blockState);
+                SuperByteBuffer partial_bellHolder = CachedBuffers.partial(bellHolder, blockState);
+				Direction swingDirection = facing.getCounterClockWise();
+
+				switch ((int) ((rotationAngle % 360 + 360) % 360)) {
+					case 90 -> swingDirection = swingDirection.getClockWise();
+					case 180 -> swingDirection = swingDirection.getOpposite();
+					case 270 -> swingDirection = swingDirection.getCounterClockWise();
+				}
+
+
+                partial_bell
+                        .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+                        .translate(8 / 16f, 20.25 / 16f, 0 / 16f)
+                        .rotate(swing, swingDirection.getClockWise())
+                        .light(lightInFront)
+                        .renderInto(ms, vb);
+
+                partial_bellHolder
+                        .light(lightInFront)
+                        .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+                        .renderInto(ms, vb);
+
+            }
 
             SuperByteBuffer shaftHalf =
                     CachedBuffers.partialFacing(com.simibubi.create.AllPartialModels.SHAFT_HALF, be.getBlockState(), Direction.DOWN);
@@ -127,18 +204,21 @@ public class CrossingRenderer extends KineticBlockEntityRenderer<CrossingBlockEn
 
 
 
+
+
             if (value != 1 && be.getSpeed() != 0) {
 
                 float movementMain = 8 / 16f;
                 float movementSecondary = 14 / 16f;
                 float movementUp;
 
-                long gameTime = be.getLevel().getGameTime();
-                if ((gameTime / 10) % 2 == 0) {
-                    movementUp = 19 / 16f;
-                } else {
-                    movementUp = 14 / 16f;
-                }
+				float time = AnimationTickHolder.getRenderTime(be.getLevel());
+
+				if (((int) (time / 10)) % 2 == 0) {
+					movementUp = 19 / 16f;
+				} else {
+					movementUp = 14 / 16f;
+				}
 
 
                 Vec3 movementMainVec = Vec3.atLowerCornerOf(facing.getOpposite().getNormal()).scale(movementMain);
@@ -205,6 +285,32 @@ public class CrossingRenderer extends KineticBlockEntityRenderer<CrossingBlockEn
         Axis axis = Direction.Axis.Y;
         return kineticRotationTransform(buffer, be, axis, getAngleForBe(be, pos, axis), light);
     }
+
+    public static float getCrossingBellSwing(int bellTicks, float partialTicks) {
+
+        float time = bellTicks + partialTicks;
+
+        // One left-right cycle every 24 ticks (~1.2 seconds)
+        float frequency = (float) (2 * Math.PI / 24f);
+
+        // Maximum swing (radians)
+        float amplitude = 0.27f; // about 15.5 degrees
+
+        return Mth.sin(time * frequency) * amplitude;
+    }
+
+	private float getColourU(byte colour) {
+		float column = colour % 4;
+		float u = (column) / 4f;
+		return u;
+	}
+
+
+	private float getColourV(byte colour) {
+		float row = Math.floorDiv(colour, 4);
+		float v = (row) / 4f;
+		return v;
+	}
 
 //    @Override
 //    protected SuperByteBuffer getRotatedModel(CrossingBlockEntity be, BlockState state) {

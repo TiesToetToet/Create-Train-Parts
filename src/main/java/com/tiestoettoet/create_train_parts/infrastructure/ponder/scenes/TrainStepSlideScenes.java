@@ -189,6 +189,9 @@ public class TrainStepSlideScenes {
         scene.world().animateBogey(util.grid().at(6, 2, 6), 20f, 70);
         scene.world().animateBogey(util.grid().at(3, 2, 6), 20f, 70);
 
+		scene.idle(40);
+		scene.markAsFinished();
+
 //
     }
 
@@ -197,7 +200,7 @@ public class TrainStepSlideScenes {
         CreateTrainPartsSceneBuilder createScene = new CreateTrainPartsSceneBuilder(scene);
         scene.title("train_steps", "Configuring modes");
         scene.configureBasePlate(1, 0, 5);
-        scene.setSceneOffsetY(-1);
+//        scene.setSceneOffsetY(-1);
         scene.showBasePlate();
 
         Selection steps = util.select().fromTo(2, 1, 2, 4, 1, 2);
@@ -297,5 +300,6 @@ public class TrainStepSlideScenes {
         createScene.world().animateTrainStep(util.grid().at(3, 1, 2), true);
         createScene.world().animateTrainStep(util.grid().at(4, 1, 2), true);
 
+		scene.markAsFinished();
     }
 }

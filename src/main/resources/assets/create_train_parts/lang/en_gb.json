@@ -14,6 +14,7 @@
   "block.create_train_parts.train_sliding_window": "Train Window",
   "block.create_train_parts.crossing": "Level Crossing Gate",
   "block.create_train_parts.arm_extender": "Arm Extender",
+  "block.create_train_parts.pole": "Pole",
 
   "create_train_parts.ponder.train_assembly.header": "Train Step and Slide",
   "create_train_parts.ponder.train_assembly.text_1": "Sometimes the Train is too far away from the Station to enter the Train",
@@ -41,6 +42,13 @@
   "create_train_parts.ponder.crossing.text_1": "Level Crossing Gates need kinetic power to operate",
   "create_train_parts.ponder.crossing.text_2": "Reverse the power to change direction",
   "create_train_parts.ponder.crossing.text_3": "If you want to extend the Crossing Gate, simply place down Arm Extenders",
+  "create_train_parts.ponder.crossing.text_4": "To audibly alert players, you can add a bell to the Crossing Gate",
+  "create_train_parts.ponder.crossing.text_5": "Click the Crossing Gate with a bell to add it to the gate",
+  "create_train_parts.ponder.crossing.text_6": "Now, when the Gate is lowered, the bell will ring to alert players",
+  "create_train_parts.ponder.crossing_colours.header": "Level Crossing Gate Colours",
+  "create_train_parts.ponder.crossing_colours.text_1": "Level Crossing Gates can be configured to have different colours",
+  "create_train_parts.ponder.crossing_colours.text_2": "Click the Crossing Gate or Arm with a dye to change the colour of the gate",
+  "create_train_parts.ponder.crossing_colours.text_3": "By holding control, all Arms can be changed at once",
 
   "create_train_parts.ponder.crossing_modes.header": "Crossing Modes",
   "create_train_parts.ponder.crossing_modes.text_1": "In Normal mode, players can jump over the gate",

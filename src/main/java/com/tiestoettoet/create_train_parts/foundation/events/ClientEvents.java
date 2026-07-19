@@ -9,6 +9,11 @@ import com.simibubi.create.content.redstone.link.controller.LinkedControllerClie
 import com.tiestoettoet.create_train_parts.content.trains.entity.BellowRenderer;
 import net.createmod.catnip.render.DefaultSuperRenderTypeBuffer;
 import net.createmod.catnip.render.SuperRenderTypeBuffer;
+import com.tiestoettoet.create_train_parts.CreateTrainPartsClient;
+import com.tiestoettoet.create_train_parts.content.decoration.slidingWindow.SlidingWindowRangeDisplay;
+//import com.tiestoettoet.create_train_parts.content.foundation.blockEntity.behaviour.scrollValue.ScrollOptionRenderer;
+import com.tiestoettoet.create_train_parts.foundation.sound.SoundScapes;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -19,6 +24,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 
@@ -26,7 +32,7 @@ import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 public class ClientEvents {
     @SubscribeEvent
     public static void onTickPre(ClientTickEvent.Pre event) {
-        onTick( true);
+        onTick(true);
     }
 
     @SubscribeEvent
@@ -35,13 +41,14 @@ public class ClientEvents {
     }
 
     public static void onTick(boolean isPreEvent) {
+        if (isPreEvent)
+            return;
+
         if (!isGameActive())
             return;
 
-        Level world = Minecraft.getInstance().level;
-        if (isPreEvent) {
-            return;
-        }
+		SoundScapes.tick();
+		SlidingWindowRangeDisplay.tick();
     }
 
     @SubscribeEvent
@@ -64,11 +71,15 @@ public class ClientEvents {
 
         ContraptionPlayerPassengerRotation.frame();
 //        ScrollOptionRenderer.tick();
-        SlidingWindowRangeDisplay.tick();
 
     }
 
     protected static boolean isGameActive() {
         return !(Minecraft.getInstance().level == null || Minecraft.getInstance().player == null);
     }
+
+	@SubscribeEvent
+	public static void registerClientReloadListeners(RegisterClientReloadListenersEvent event) {
+		event.registerReloadListener(CreateTrainPartsClient.RESOURCE_RELOAD_LISTENER);
+	}
 }
