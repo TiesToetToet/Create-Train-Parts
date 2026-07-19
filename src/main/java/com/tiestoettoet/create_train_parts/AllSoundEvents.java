@@ -296,7 +296,8 @@ public class AllSoundEvents {
 
         @Override
         public SoundEvent getMainEvent() {
-            return compiledEvents.getFirst().event().get();
+            return compiledEvents.get(0)
+				.event().get();
         }
 
         protected ResourceLocation getIdOf(int i) {
