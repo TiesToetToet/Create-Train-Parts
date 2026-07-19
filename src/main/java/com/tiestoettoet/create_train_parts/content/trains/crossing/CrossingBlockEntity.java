@@ -342,26 +342,10 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
     }
 
 	@OnlyIn(Dist.CLIENT)
-	private CrossingSoundInstance soundInstance;
-
-	@OnlyIn(Dist.CLIENT)
 	public void tickAudio() {
 		boolean ringing = bellState == BellState.RINGING;
-		if (!ringing) {
-			if (soundInstance != null) {
-				soundInstance.fadeOut();
-				soundInstance = null;
-			}
-			return;
-		}
-
-		if (soundInstance == null || soundInstance.isStopped()) {
-			Minecraft.getInstance()
-				.getSoundManager()
-				.play(soundInstance = new CrossingSoundInstance(worldPosition));
-		}
-
-		soundInstance.keepAlive();
+		if (ringing)
+			SoundScapes.play(SoundScapes.AmbienceGroup.CROSSING, worldPosition, 1.0f);
 	}
 
     public void onBellAdded() {
