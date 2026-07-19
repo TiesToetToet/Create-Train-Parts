@@ -1,10 +1,11 @@
 package com.tiestoettoet.create_train_parts.foundation.events;
 
 import com.simibubi.create.content.contraptions.actors.trainControls.ControlsHandler;
-import com.simibubi.create.foundation.sound.SoundScapes;
 import com.tiestoettoet.create_train_parts.CreateTrainPartsClient;
 import com.tiestoettoet.create_train_parts.content.decoration.slidingWindow.SlidingWindowRangeDisplay;
 //import com.tiestoettoet.create_train_parts.content.foundation.blockEntity.behaviour.scrollValue.ScrollOptionRenderer;
+import com.tiestoettoet.create_train_parts.foundation.sound.SoundScapes;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
@@ -17,7 +18,7 @@ import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 public class ClientEvents {
     @SubscribeEvent
     public static void onTickPre(ClientTickEvent.Pre event) {
-        onTick( true);
+        onTick(true);
     }
 
     @SubscribeEvent
@@ -26,6 +27,9 @@ public class ClientEvents {
     }
 
     public static void onTick(boolean isPreEvent) {
+        if (isPreEvent)
+            return;
+
         if (!isGameActive())
             return;
 
