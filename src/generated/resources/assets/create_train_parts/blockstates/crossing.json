@@ -61,64 +61,64 @@
       "model": "create_train_parts:block/crossing/block_flipped"
     },
     "barrier=false,bell=false,connected=true,facing=east,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 180
     },
     "barrier=false,bell=false,connected=true,facing=east,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 180
     },
     "barrier=false,bell=false,connected=true,facing=east,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 180
     },
     "barrier=false,bell=false,connected=true,facing=east,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 180
     },
     "barrier=false,bell=false,connected=true,facing=north,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 90
     },
     "barrier=false,bell=false,connected=true,facing=north,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 90
     },
     "barrier=false,bell=false,connected=true,facing=north,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 90
     },
     "barrier=false,bell=false,connected=true,facing=north,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 90
     },
     "barrier=false,bell=false,connected=true,facing=south,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 270
     },
     "barrier=false,bell=false,connected=true,facing=south,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 270
     },
     "barrier=false,bell=false,connected=true,facing=south,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 270
     },
     "barrier=false,bell=false,connected=true,facing=south,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 270
     },
     "barrier=false,bell=false,connected=true,facing=west,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected"
+      "model": "create_train_parts:block/crossing/block"
     },
     "barrier=false,bell=false,connected=true,facing=west,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected"
+      "model": "create_train_parts:block/crossing/block"
     },
     "barrier=false,bell=false,connected=true,facing=west,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected"
+      "model": "create_train_parts:block/crossing/block_flipped"
     },
     "barrier=false,bell=false,connected=true,facing=west,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected"
+      "model": "create_train_parts:block/crossing/block_flipped"
     },
     "barrier=false,bell=true,connected=false,facing=east,flipped=false,open=false": {
       "model": "create_train_parts:block/crossing/block",
@@ -181,64 +181,64 @@
       "model": "create_train_parts:block/crossing/block_flipped"
     },
     "barrier=false,bell=true,connected=true,facing=east,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 180
     },
     "barrier=false,bell=true,connected=true,facing=east,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 180
     },
     "barrier=false,bell=true,connected=true,facing=east,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 180
     },
     "barrier=false,bell=true,connected=true,facing=east,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 180
     },
     "barrier=false,bell=true,connected=true,facing=north,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 90
     },
     "barrier=false,bell=true,connected=true,facing=north,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 90
     },
     "barrier=false,bell=true,connected=true,facing=north,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 90
     },
     "barrier=false,bell=true,connected=true,facing=north,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 90
     },
     "barrier=false,bell=true,connected=true,facing=south,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 270
     },
     "barrier=false,bell=true,connected=true,facing=south,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 270
     },
     "barrier=false,bell=true,connected=true,facing=south,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 270
     },
     "barrier=false,bell=true,connected=true,facing=south,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 270
     },
     "barrier=false,bell=true,connected=true,facing=west,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected"
+      "model": "create_train_parts:block/crossing/block"
     },
     "barrier=false,bell=true,connected=true,facing=west,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected"
+      "model": "create_train_parts:block/crossing/block"
     },
     "barrier=false,bell=true,connected=true,facing=west,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected"
+      "model": "create_train_parts:block/crossing/block_flipped"
     },
     "barrier=false,bell=true,connected=true,facing=west,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected"
+      "model": "create_train_parts:block/crossing/block_flipped"
     },
     "barrier=true,bell=false,connected=false,facing=east,flipped=false,open=false": {
       "model": "create_train_parts:block/crossing/block",
@@ -301,64 +301,64 @@
       "model": "create_train_parts:block/crossing/block_flipped"
     },
     "barrier=true,bell=false,connected=true,facing=east,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 180
     },
     "barrier=true,bell=false,connected=true,facing=east,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 180
     },
     "barrier=true,bell=false,connected=true,facing=east,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 180
     },
     "barrier=true,bell=false,connected=true,facing=east,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 180
     },
     "barrier=true,bell=false,connected=true,facing=north,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 90
     },
     "barrier=true,bell=false,connected=true,facing=north,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 90
     },
     "barrier=true,bell=false,connected=true,facing=north,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 90
     },
     "barrier=true,bell=false,connected=true,facing=north,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 90
     },
     "barrier=true,bell=false,connected=true,facing=south,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 270
     },
     "barrier=true,bell=false,connected=true,facing=south,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 270
     },
     "barrier=true,bell=false,connected=true,facing=south,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 270
     },
     "barrier=true,bell=false,connected=true,facing=south,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 270
     },
     "barrier=true,bell=false,connected=true,facing=west,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected"
+      "model": "create_train_parts:block/crossing/block"
     },
     "barrier=true,bell=false,connected=true,facing=west,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected"
+      "model": "create_train_parts:block/crossing/block"
     },
     "barrier=true,bell=false,connected=true,facing=west,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected"
+      "model": "create_train_parts:block/crossing/block_flipped"
     },
     "barrier=true,bell=false,connected=true,facing=west,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected"
+      "model": "create_train_parts:block/crossing/block_flipped"
     },
     "barrier=true,bell=true,connected=false,facing=east,flipped=false,open=false": {
       "model": "create_train_parts:block/crossing/block",
@@ -421,64 +421,64 @@
       "model": "create_train_parts:block/crossing/block_flipped"
     },
     "barrier=true,bell=true,connected=true,facing=east,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 180
     },
     "barrier=true,bell=true,connected=true,facing=east,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 180
     },
     "barrier=true,bell=true,connected=true,facing=east,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 180
     },
     "barrier=true,bell=true,connected=true,facing=east,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 180
     },
     "barrier=true,bell=true,connected=true,facing=north,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 90
     },
     "barrier=true,bell=true,connected=true,facing=north,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 90
     },
     "barrier=true,bell=true,connected=true,facing=north,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 90
     },
     "barrier=true,bell=true,connected=true,facing=north,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 90
     },
     "barrier=true,bell=true,connected=true,facing=south,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 270
     },
     "barrier=true,bell=true,connected=true,facing=south,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected",
+      "model": "create_train_parts:block/crossing/block",
       "y": 270
     },
     "barrier=true,bell=true,connected=true,facing=south,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 270
     },
     "barrier=true,bell=true,connected=true,facing=south,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected",
+      "model": "create_train_parts:block/crossing/block_flipped",
       "y": 270
     },
     "barrier=true,bell=true,connected=true,facing=west,flipped=false,open=false": {
-      "model": "create_train_parts:block/crossing/block_connected"
+      "model": "create_train_parts:block/crossing/block"
     },
     "barrier=true,bell=true,connected=true,facing=west,flipped=false,open=true": {
-      "model": "create_train_parts:block/crossing/block_connected"
+      "model": "create_train_parts:block/crossing/block"
     },
     "barrier=true,bell=true,connected=true,facing=west,flipped=true,open=false": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected"
+      "model": "create_train_parts:block/crossing/block_flipped"
     },
     "barrier=true,bell=true,connected=true,facing=west,flipped=true,open=true": {
-      "model": "create_train_parts:block/crossing/block_flipped_connected"
+      "model": "create_train_parts:block/crossing/block_flipped"
     }
   }
 }

@@ -167,8 +167,13 @@ public final class CreateTrainPartsStandardRecipeGen extends BaseRecipeProvider 
     ARM_EXTENDER = create(AllBlocks.ARM_EXTENDER).returns(4)
 			.unlockedBy(com.simibubi.create.AllBlocks.ANDESITE_CASING::get)
             .viaShaped(b -> b.define('F', ItemTags.FENCES)
-					.pattern("FF"));
-		;
+					.pattern("FF")),
+
+	POLE = create(AllBlocks.POLE).returns(4)
+		.unlockedBy(com.simibubi.create.AllBlocks.ANDESITE_CASING::get)
+		.viaShapeless(b -> b.requires(com.simibubi.create.AllBlocks.ANDESITE_CASING.get())
+		.requires(com.simibubi.create.AllBlocks.SHAFT));
+
 
 	/*
 	 * End of recipe list

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "create:andesite_casing"
+    },
+    {
+      "item": "create:shaft"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "create_train_parts:pole"
+  }
+}
