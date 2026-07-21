@@ -10,6 +10,8 @@ import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import com.simibubi.create.content.trains.entity.Train;
 import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlock;
+import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowCollisionManager;
+
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.animation.LerpedFloat;
 import net.createmod.catnip.math.AngleHelper;
@@ -296,9 +298,16 @@ public class BellowRenderer {
                                 .light(lightCoords)
                                 .renderInto(ms, vb);
 
+
+
                         // if (logBoxes) {
                         // logSegmentBoxes(j, curvePosition, segmentYRot, segmentXRot);
                         // }
+						BellowCollisionManager.addSegment(
+							curvePosition,
+							tangent,
+							segmentStretch
+						);
 
                         ms.popPose();
                     }

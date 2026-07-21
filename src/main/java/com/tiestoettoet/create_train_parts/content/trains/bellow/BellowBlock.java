@@ -1,15 +1,22 @@
 package com.tiestoettoet.create_train_parts.content.trains.bellow;
 
+import com.ibm.icu.impl.Pair;
 import com.mojang.serialization.MapCodec;
+import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import com.simibubi.create.foundation.block.IHaveBigOutline;
 import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
 import com.simibubi.create.content.contraptions.Contraption;
 import com.simibubi.create.content.contraptions.ContraptionWorld;
 import com.tiestoettoet.create_train_parts.AllBlockEntityTypes;
 import com.simibubi.create.foundation.block.IBE;
+
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.FloatTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.CollisionGetter;
@@ -33,6 +40,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 import java.lang.reflect.Field;
@@ -66,30 +74,10 @@ public class BellowBlock extends HorizontalDirectionalBlock implements IHaveBigO
             default -> Shapes.block();
         };
 
-        if (!(level instanceof ContraptionWorld world)) {
-            return shape;
-        }
+		if (!(level instanceof ContraptionWorld cw))
+			return shape;
 
-        BellowBlockEntity blockEntity = getBlockEntity(world, pos);
-        System.out.println("Block entity: " + blockEntity);
-
-        float partialTicks = world.isClientSide() ? AnimationTickHolder.getPartialTicks() : 0f;
-        System.out.println("Partial ticks: " + partialTicks);
-        System.out.println("BlockPos: " + pos);
-        BlockPos zero = new BlockPos(0, 0, 0);
-        Vec3 selfWorldPos = getWorldCenter(world, zero, partialTicks);
-        System.out.println("Self world pos: " + selfWorldPos);
-        Vec3 blockOrigin = selfWorldPos.subtract(0, 0.5, 0);
-        System.out.println("Block origin: " + blockOrigin);
-        for (List<AABB> segment : getAssembledAabbs(world, state, selfWorldPos, partialTicks)) {
-            System.out.println("Segment: " + segment);
-            for (AABB box : segment) {
-                AABB local = box.move(-blockOrigin.x, -blockOrigin.y, -blockOrigin.z);
-                shape = Shapes.or(shape, Shapes.create(local));
-            }
-        }
-
-        return shape;
+		return shape;
     }
 
     @Override
@@ -180,53 +168,5 @@ public class BellowBlock extends HorizontalDirectionalBlock implements IHaveBigO
     @Override
     public BlockEntityType<? extends BellowBlockEntity> getBlockEntityType() {
         return AllBlockEntityTypes.BELLOW.get();
-    }
-
-    public List<List<AABB>> getAssembledAabbs(Level level, BlockState state, Vec3 selfWorldPos,
-            float partialTicks) {
-        if (level == null) {
-            return List.of();
-        }
-
-        if (state.hasProperty(VISIBLE) && state.getValue(VISIBLE)) {
-            return List.of();
-        }
-
-        BellowBlockEntity.SegmentResult result = BellowBlockEntity.computeSegmentResult(
-                level,
-                selfWorldPos,
-                partialTicks,
-                false);
-
-        if (result == null || !result.primary()) {
-            return List.of();
-        }
-
-        BellowBlockEntity.SegmentData data = result.data();
-        return BellowBlockEntity.getAllAABBs(data.positions(), data.yRots(), data.xRots());
-    }
-
-    private Vec3 getWorldCenter(Level level, BlockPos localPos, float partialTicks) {
-        if (!(level instanceof ContraptionWorld contraptionWorld)) {
-            return Vec3.atCenterOf(localPos);
-        }
-
-        Contraption contraption = getContraption(contraptionWorld);
-        if (contraption == null || contraption.entity == null) {
-            return Vec3.atCenterOf(localPos);
-        }
-
-        AbstractContraptionEntity entity = contraption.entity;
-        return entity.toGlobalVector(Vec3.atCenterOf(localPos), partialTicks);
-    }
-
-    private Contraption getContraption(ContraptionWorld contraptionWorld) {
-        try {
-            Field field = ContraptionWorld.class.getDeclaredField("contraption");
-            field.setAccessible(true);
-            return (Contraption) field.get(contraptionWorld);
-        } catch (ReflectiveOperationException e) {
-            return null;
-        }
     }
 }
