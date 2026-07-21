@@ -172,7 +172,7 @@ public final class CreateTrainPartsStandardRecipeGen extends BaseRecipeProvider 
 	POLE = create(AllBlocks.POLE).returns(4)
 		.unlockedBy(com.simibubi.create.AllBlocks.ANDESITE_CASING::get)
 		.viaShapeless(b -> b.requires(com.simibubi.create.AllBlocks.ANDESITE_CASING.get())
-		.requires(com.simibubi.create.AllBlocks.SHAFT));
+			.requires(com.simibubi.create.AllBlocks.SHAFT));
 
 
 	/*
