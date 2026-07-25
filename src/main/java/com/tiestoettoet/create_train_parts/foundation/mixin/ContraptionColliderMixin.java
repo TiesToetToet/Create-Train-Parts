@@ -19,6 +19,12 @@ import net.minecraft.world.phys.Vec3;
 @Mixin(ContraptionCollider.class)
 public abstract class ContraptionColliderMixin {
 
+    private static final double FRAME_HALF_WIDTH = 8 / 16.0;
+    private static final double FRAME_BOTTOM = -3.5 / 16.0;
+    private static final double FRAME_TOP = 28.5 / 16.0;
+    private static final double FRAME_HALF_THICKNESS = 1 / 16.0;
+    private static final double RENDER_Y_OFFSET = 1.0;
+
     /**
      * Adds the flexible connection to Create's dense collider list. The list
      * returned by Contraption is cached, so it must be copied rather than
@@ -67,17 +73,45 @@ public abstract class ContraptionColliderMixin {
             localSide = localTangent.cross(new Vec3(1, 0, 0));
         localSide = localSide.normalize();
         localUp = localSide.cross(localTangent).normalize();
+        localCenter = localCenter.add(localUp.scale(RENDER_Y_OFFSET));
 
         double halfLength = segment.stretch() / 16.0;
-        double halfHeight = 1.0;
-        double halfWidth = 0.25;
+        double verticalCenter = (FRAME_BOTTOM + FRAME_TOP) / 2.0;
+        double verticalHalfHeight = (FRAME_TOP - FRAME_BOTTOM) / 2.0;
+
+        // Bottom and top horizontal members of the bellow frame.
+        appendOrientedBox(populate,
+            localCenter.add(localUp.scale(FRAME_BOTTOM)),
+            localTangent, localUp, localSide,
+            halfLength, FRAME_HALF_THICKNESS, FRAME_HALF_WIDTH);
+        appendOrientedBox(populate,
+            localCenter.add(localUp.scale(FRAME_TOP)),
+            localTangent, localUp, localSide,
+            halfLength, FRAME_HALF_THICKNESS, FRAME_HALF_WIDTH);
+
+        // Left and right vertical members. Their centers are raised to match
+        // the actual rendered model instead of being centred on the curve.
+        Vec3 verticalOffset = localUp.scale(verticalCenter);
+        appendOrientedBox(populate,
+            localCenter.add(verticalOffset).add(localSide.scale(FRAME_HALF_WIDTH)),
+            localTangent, localUp, localSide,
+            halfLength, verticalHalfHeight, FRAME_HALF_THICKNESS);
+        appendOrientedBox(populate,
+            localCenter.add(verticalOffset).subtract(localSide.scale(FRAME_HALF_WIDTH)),
+            localTangent, localUp, localSide,
+            halfLength, verticalHalfHeight, FRAME_HALF_THICKNESS);
+        }
+
+        private static void appendOrientedBox(CollisionList.Populate populate, Vec3 center,
+            Vec3 tangent, Vec3 up, Vec3 side,
+            double halfLength, double halfHeight, double halfWidth) {
         populate.append(
-                localCenter.x,
-                localCenter.y,
-                localCenter.z,
-                axisExtent(localTangent.x, localUp.x, localSide.x, halfLength, halfHeight, halfWidth),
-                axisExtent(localTangent.y, localUp.y, localSide.y, halfLength, halfHeight, halfWidth),
-                axisExtent(localTangent.z, localUp.z, localSide.z, halfLength, halfHeight, halfWidth));
+            center.x,
+            center.y,
+            center.z,
+            axisExtent(tangent.x, up.x, side.x, halfLength, halfHeight, halfWidth),
+            axisExtent(tangent.y, up.y, side.y, halfLength, halfHeight, halfWidth),
+            axisExtent(tangent.z, up.z, side.z, halfLength, halfHeight, halfWidth));
     }
 
     private static double axisExtent(double tangent, double up, double side,
