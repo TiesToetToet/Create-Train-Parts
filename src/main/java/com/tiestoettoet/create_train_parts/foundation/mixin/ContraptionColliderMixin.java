@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
 import com.simibubi.create.content.contraptions.Contraption;
 import com.simibubi.create.content.contraptions.ContraptionCollider;
@@ -14,6 +15,7 @@ import com.simibubi.create.foundation.collision.CollisionList;
 import com.tiestoettoet.create_train_parts.foundation.collision.BellowCollisionGeometry;
 import com.tiestoettoet.create_train_parts.foundation.collision.BellowSegment;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
 @Mixin(ContraptionCollider.class)
@@ -36,7 +38,8 @@ public abstract class ContraptionColliderMixin {
                     value = "INVOKE",
                     target = "Lcom/simibubi/create/content/contraptions/Contraption;getSimplifiedEntityColliders()Lcom/simibubi/create/foundation/collision/CollisionList;"))
     private static CollisionList createTrainParts$addBellowColliders(
-            CollisionList original, AbstractContraptionEntity contraptionEntity) {
+            CollisionList original, AbstractContraptionEntity contraptionEntity,
+            @Local Entity collidingEntity) {
         if (!(contraptionEntity instanceof CarriageContraptionEntity carriageEntity))
             return original;
 
@@ -52,12 +55,13 @@ public abstract class ContraptionColliderMixin {
         }
 
         for (BellowSegment segment : segments)
-            appendSegment(populate, contraptionEntity, segment);
+            appendSegment(populate, contraptionEntity, collidingEntity, segment);
         return combined;
     }
 
     private static void appendSegment(CollisionList.Populate populate,
-            AbstractContraptionEntity contraptionEntity, BellowSegment segment) {
+            AbstractContraptionEntity contraptionEntity, Entity collidingEntity,
+            BellowSegment segment) {
         Vec3 worldCenter = segment.center();
         Vec3 localCenter = ContraptionCollider.worldToLocalPos(worldCenter, contraptionEntity);
         Vec3 localTangent = ContraptionCollider.worldToLocalPos(
@@ -84,10 +88,18 @@ public abstract class ContraptionColliderMixin {
             localCenter.add(localUp.scale(FRAME_BOTTOM)),
             localTangent, localUp, localSide,
             halfLength, FRAME_HALF_THICKNESS, FRAME_HALF_WIDTH);
-        appendOrientedBox(populate,
-            localCenter.add(localUp.scale(FRAME_TOP)),
-            localTangent, localUp, localSide,
-            halfLength, FRAME_HALF_THICKNESS, FRAME_HALF_WIDTH);
+        // Create treats every vertical collider contact as a floor contact. If
+        // the top member is present while a player jumps into it from below,
+        // that ceiling contact repeatedly toggles onGround and causes severe
+        // correction jitter. Make this member one-way: it remains solid when
+        // approached from above, but is omitted for an entity below it.
+        double renderedTopY = worldCenter.y + RENDER_Y_OFFSET + FRAME_TOP;
+        if (collidingEntity.getBoundingBox().minY >= renderedTopY - FRAME_HALF_THICKNESS * 2) {
+            appendOrientedBox(populate,
+                localCenter.add(localUp.scale(FRAME_TOP)),
+                localTangent, localUp, localSide,
+                halfLength, FRAME_HALF_THICKNESS, FRAME_HALF_WIDTH);
+        }
 
         // Left and right vertical members. Their centers are raised to match
         // the actual rendered model instead of being centred on the curve.
