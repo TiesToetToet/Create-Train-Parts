@@ -12,6 +12,7 @@ import com.simibubi.create.content.trains.entity.Train;
 import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlock;
 
 import com.tiestoettoet.create_train_parts.foundation.collision.BellowBezier;
+import com.tiestoettoet.create_train_parts.foundation.collision.BellowCollisionGeometry;
 import com.tiestoettoet.create_train_parts.foundation.collision.BellowSegment;
 
 import net.createmod.catnip.animation.AnimationTickHolder;
@@ -257,8 +258,8 @@ public class BellowRenderer {
                                                                             // direction)
                     );
 
-					List<BellowSegment> segments =
-						BellowBezier.buildSegments(couplingSegments, adjustedAnchor, control, control2, adjustedAnchor2);
+                    List<BellowSegment> segments =
+                        BellowCollisionGeometry.buildSegments(entity, partialTicks);
 
 //					BellowSegment(
 //						curvePosition,

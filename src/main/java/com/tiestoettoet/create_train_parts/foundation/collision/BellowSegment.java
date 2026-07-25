@@ -31,14 +31,14 @@ public class BellowSegment {
 	 * Half-width of the bellows.
 	 */
 	public double extentX() {
-		return Math.abs(tangent.x) * (stretch / 2.0) + 0.25;
+		return Math.abs(tangent.x) * (stretch / 16.0) + 0.25;
 	}
 
 	public double extentY() {
-		return Math.abs(tangent.y) * (stretch / 2.0) + 1.0;
+		return Math.abs(tangent.y) * (stretch / 16.0) + 1.0;
 	}
 
 	public double extentZ() {
-		return Math.abs(tangent.z) * (stretch / 2.0) + 0.25;
+		return Math.abs(tangent.z) * (stretch / 16.0) + 0.25;
 	}
 }
