@@ -10,7 +10,9 @@ import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import com.simibubi.create.content.trains.entity.Train;
 import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlock;
-import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowCollisionManager;
+
+import com.tiestoettoet.create_train_parts.foundation.collision.BellowBezier;
+import com.tiestoettoet.create_train_parts.foundation.collision.BellowSegment;
 
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.animation.LerpedFloat;
@@ -41,7 +43,10 @@ import java.util.Map;
 import com.simibubi.create.content.contraptions.Contraption;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 
+import static com.mojang.text2speech.Narrator.LOGGER;
 import static com.tiestoettoet.create_train_parts.AllBlocks.BELLOW;
+import static com.tiestoettoet.create_train_parts.foundation.collision.BellowBezier.cubicBezier;
+import static com.tiestoettoet.create_train_parts.foundation.collision.BellowBezier.cubicBezierDerivative;
 
 public class BellowRenderer {
 
@@ -252,65 +257,113 @@ public class BellowRenderer {
                                                                             // direction)
                     );
 
+					List<BellowSegment> segments =
+						BellowBezier.buildSegments(couplingSegments, adjustedAnchor, control, control2, adjustedAnchor2);
+
+//					BellowSegment(
+//						curvePosition,
+//						tangent,
+//						segmentStretch
+//					)
+
+					for (BellowSegment segment : segments) {
+						Vec3 tangent = segment.tangent();
+						Vec3 curvePosition = segment.center();
+						float segmentStretch = segment.stretch();
+
+						float segmentYRot = AngleHelper.deg(Mth.atan2(tangent.z, tangent.x)) - 90;
+						float segmentXRot = AngleHelper
+							.deg(Math.atan2(tangent.y, Math.sqrt(tangent.x * tangent.x + tangent.z * tangent.z)));
+
+						ms.pushPose();
+
+						// Translate to the curve position
+						ms.translate(
+							curvePosition.x - anchor.x,
+							curvePosition.y - anchor.y,
+							curvePosition.z - anchor.z);
+
+						CachedBuffers.partial(AllPartialModels.BELLOW_CABLE, air)
+							.rotateYDegrees(-segmentYRot)
+							.rotateXDegrees(segmentXRot)
+							.scale(1, 1, segmentStretch)
+							.translate(0, 1, 0)
+							.light(lightCoords)
+							.renderInto(ms, vb);
+
+//						Contraption contraption = entity.getContraption();
+//
+//						LOGGER.info("Updating bellows");
+//
+//						BellowCollisionManager.INSTANCE.update(
+//							contraption,
+//							entity,
+//							segments
+//						);
+//						LOGGER.info("Contraption {}", System.identityHashCode(contraption));
+
+
+						// if (logBoxes) {
+						// logSegmentBoxes(j, curvePosition, segmentYRot, segmentXRot);
+						// }
+
+						ms.popPose();
+					}
+
                     // Render segments along the cubic Bezier curve
-                    for (int j = 0; j < couplingSegments; j++) {
-                        float t = (float) j / (float) (couplingSegments - 1); // Parameter along curve (0 to 1)
-
-                        // Calculate position on the Bezier curve
-                        Vec3 curvePosition = cubicBezier(adjustedAnchor, control, control2, adjustedAnchor2, t);
-
-                        // Calculate tangent direction for rotation
-                        Vec3 tangent = cubicBezierDerivative(adjustedAnchor, control, control2, adjustedAnchor2, t)
-                                .normalize();
-
-                        // Calculate the distance to the next segment to determine proper scaling
-                        float segmentStretch;
-                        if (j < couplingSegments - 1) {
-                            float nextT = (float) (j + 1) / (float) (couplingSegments - 1);
-                            Vec3 nextPosition = cubicBezier(adjustedAnchor, control, control2, adjustedAnchor2, nextT);
-                            segmentStretch = (float) (curvePosition.distanceTo(nextPosition) * 8); // Scale
-                            // overlap
-                        } else {
-                            // For the last segment, use the previous segment's stretch to avoid gaps
-                            float prevT = (float) (j - 1) / (float) (couplingSegments - 1);
-                            Vec3 prevPosition = cubicBezier(adjustedAnchor, control, control2, adjustedAnchor2, prevT);
-                            segmentStretch = (float) (prevPosition.distanceTo(curvePosition) * 8);
-                        }
-
-                        // Calculate rotation from tangent
-                        float segmentYRot = AngleHelper.deg(Mth.atan2(tangent.z, tangent.x)) - 90;
-                        float segmentXRot = AngleHelper
-                                .deg(Math.atan2(tangent.y, Math.sqrt(tangent.x * tangent.x + tangent.z * tangent.z)));
-
-                        ms.pushPose();
-
-                        // Translate to the curve position
-                        ms.translate(
-                                curvePosition.x - anchor.x,
-                                curvePosition.y - anchor.y,
-                                curvePosition.z - anchor.z);
-
-                        CachedBuffers.partial(AllPartialModels.BELLOW_CABLE, air)
-                                .rotateYDegrees(-segmentYRot)
-                                .rotateXDegrees(segmentXRot)
-                                .scale(1, 1, segmentStretch)
-                                .translate(0, 1, 0)
-                                .light(lightCoords)
-                                .renderInto(ms, vb);
-
-
-
-                        // if (logBoxes) {
-                        // logSegmentBoxes(j, curvePosition, segmentYRot, segmentXRot);
-                        // }
-						BellowCollisionManager.addSegment(
-							curvePosition,
-							tangent,
-							segmentStretch
-						);
-
-                        ms.popPose();
-                    }
+//                    for (int j = 0; j < couplingSegments; j++) {
+//                        float t = (float) j / (float) (couplingSegments - 1); // Parameter along curve (0 to 1)
+//
+//                        // Calculate position on the Bézier curve
+//                        Vec3 curvePosition = cubicBezier(adjustedAnchor, control, control2, adjustedAnchor2, t);
+//
+//                        // Calculate tangent direction for rotation
+//                        Vec3 tangent = cubicBezierDerivative(adjustedAnchor, control, control2, adjustedAnchor2, t)
+//                                .normalize();
+//
+//                        // Calculate the distance to the next segment to determine proper scaling
+//                        float segmentStretch;
+//                        if (j < couplingSegments - 1) {
+//                            float nextT = (float) (j + 1) / (float) (couplingSegments - 1);
+//                            Vec3 nextPosition = cubicBezier(adjustedAnchor, control, control2, adjustedAnchor2, nextT);
+//                            segmentStretch = (float) (curvePosition.distanceTo(nextPosition) * 8); // Scale
+//                            // overlap
+//                        } else {
+//                            // For the last segment, use the previous segment's stretch to avoid gaps
+//                            float prevT = (float) (j - 1) / (float) (couplingSegments - 1);
+//                            Vec3 prevPosition = cubicBezier(adjustedAnchor, control, control2, adjustedAnchor2, prevT);
+//                            segmentStretch = (float) (prevPosition.distanceTo(curvePosition) * 8);
+//                        }
+//
+//                        // Calculate rotation from tangent
+//                        float segmentYRot = AngleHelper.deg(Mth.atan2(tangent.z, tangent.x)) - 90;
+//                        float segmentXRot = AngleHelper
+//                                .deg(Math.atan2(tangent.y, Math.sqrt(tangent.x * tangent.x + tangent.z * tangent.z)));
+//
+//                        ms.pushPose();
+//
+//                        // Translate to the curve position
+//                        ms.translate(
+//                                curvePosition.x - anchor.x,
+//                                curvePosition.y - anchor.y,
+//                                curvePosition.z - anchor.z);
+//
+//                        CachedBuffers.partial(AllPartialModels.BELLOW_CABLE, air)
+//                                .rotateYDegrees(-segmentYRot)
+//                                .rotateXDegrees(segmentXRot)
+//                                .scale(1, 1, segmentStretch)
+//                                .translate(0, 1, 0)
+//                                .light(lightCoords)
+//                                .renderInto(ms, vb);
+//
+//
+//
+//                        // if (logBoxes) {
+//                        // logSegmentBoxes(j, curvePosition, segmentYRot, segmentXRot);
+//                        // }
+//
+//                        ms.popPose();
+//                    }
                     ms.popPose();
                 }
 
@@ -347,38 +400,7 @@ public class BellowRenderer {
         return pEntity.isOnFire() ? 15 : pEntity.level().getBrightness(LightLayer.BLOCK, pPos);
     }
 
-    /**
-     * Calculate a point on a cubic Bezier curve given the parameter t (0 to 1)
-     * P(t) = (1-t)³P0 + 3(1-t)²tP1 + 3(1-t)t²P2 + t³P3
-     */
-    private static Vec3 cubicBezier(Vec3 p0, Vec3 p1, Vec3 p2, Vec3 p3, float t) {
-        float oneMinusT = 1.0f - t;
-        float oneMinusTSquared = oneMinusT * oneMinusT;
-        float oneMinusTCubed = oneMinusTSquared * oneMinusT;
-        float tSquared = t * t;
-        float tCubed = tSquared * t;
 
-        return p0.scale(oneMinusTCubed)
-                .add(p1.scale(3 * oneMinusTSquared * t))
-                .add(p2.scale(3 * oneMinusT * tSquared))
-                .add(p3.scale(tCubed));
-    }
-
-    /**
-     * Calculate the derivative (tangent) of a cubic Bezier curve at parameter t
-     * P'(t) = 3(1-t)²(P1-P0) + 6(1-t)t(P2-P1) + 3t²(P3-P2)
-     */
-    private static Vec3 cubicBezierDerivative(Vec3 p0, Vec3 p1, Vec3 p2, Vec3 p3, float t) {
-        float oneMinusT = 1.0f - t;
-        float oneMinusTSquared = oneMinusT * oneMinusT;
-        float tSquared = t * t;
-
-        Vec3 term1 = p1.subtract(p0).scale(3 * oneMinusTSquared);
-        Vec3 term2 = p2.subtract(p1).scale(6 * oneMinusT * t);
-        Vec3 term3 = p3.subtract(p2).scale(3 * tSquared);
-
-        return term1.add(term2).add(term3);
-    }
 
     // private static Vec3 getDisplacement(Carriage carriage) {
     // CarriageContraptionEntity entity = carriage.anyAvailableEntity();
@@ -400,7 +422,7 @@ public class BellowRenderer {
 
     // private static List<Map<BlockPos, BellowBlock>> findBellows(Carriage
     // carriage) {
-    private static List<BellowInfo> findBellows(Carriage carriage, float partialTicks) {
+    public static List<BellowInfo> findBellows(Carriage carriage, float partialTicks) {
         CarriageContraptionEntity entity = carriage.anyAvailableEntity();
         if (entity == null)
             return new ArrayList<>();
@@ -439,8 +461,8 @@ public class BellowRenderer {
      * Find the closest bellow pairs between two sets of bellows
      * This uses a greedy approach to pair up bellows by shortest distance
      */
-    private static BellowPair findClosestBellowPair(List<BellowInfo> bellows1,
-            List<BellowInfo> bellows2) {
+    public static BellowPair findClosestBellowPair(List<BellowInfo> bellows1,
+												   List<BellowInfo> bellows2) {
         if (bellows1.isEmpty() || bellows2.isEmpty()) {
             return null;
         }
