@@ -6,7 +6,9 @@
   "refmap": "create_train_parts.refmap.json",
   "mixins": [
     "BuilderTransformersMixin",
+    "CarriageBogeyAccessor",
     "ContraptionMixin",
+    "ContraptionColliderMixin",
     "ScrollValueRendererMixin"
   ],
   "client": [],
