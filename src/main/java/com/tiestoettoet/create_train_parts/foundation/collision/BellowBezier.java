@@ -44,7 +44,7 @@ public class BellowBezier {
 		return term1.add(term2).add(term3);
 	}
 
-	public static List<BellowSegment> buildSegments(int couplingSegments, Vec3 adjustedAnchor, Vec3 control, Vec3 control2, Vec3 adjustedAnchor2) {
+	public static List<BellowSegment> buildSegments(int couplingSegments, Vec3 adjustedAnchor, Vec3 control, Vec3 control2, Vec3 adjustedAnchor2, BellowSize size) {
 		List<BellowSegment> segments = new ArrayList<>(couplingSegments);
 		for (int j = 0; j < couplingSegments; j++) {
 			float t = (float) j / (float) (couplingSegments - 1); // Parameter along curve (0 to 1)
@@ -78,7 +78,8 @@ public class BellowBezier {
 			segments.add(new BellowSegment(
 				curvePosition,
 				tangent,
-				segmentStretch
+				segmentStretch,
+				size
 			));
 		}
 		return segments;

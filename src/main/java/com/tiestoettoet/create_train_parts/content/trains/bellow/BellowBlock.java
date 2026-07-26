@@ -8,6 +8,7 @@ import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
 import com.simibubi.create.content.contraptions.Contraption;
 import com.simibubi.create.content.contraptions.ContraptionWorld;
 import com.tiestoettoet.create_train_parts.AllBlockEntityTypes;
+import com.tiestoettoet.create_train_parts.foundation.collision.BellowSize;
 import com.simibubi.create.foundation.block.IBE;
 
 import net.createmod.catnip.animation.AnimationTickHolder;
@@ -30,6 +31,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -49,30 +51,47 @@ import static net.minecraft.world.level.block.Block.box;
 
 public class BellowBlock extends HorizontalDirectionalBlock implements IHaveBigOutline, IBE<BellowBlockEntity> {
     public static final BooleanProperty VISIBLE = BooleanProperty.create("visible");
+    public static final IntegerProperty WIDTH = IntegerProperty.create("width", BellowSize.MIN, BellowSize.MAX);
+    public static final IntegerProperty HEIGHT = IntegerProperty.create("height", BellowSize.MIN, BellowSize.MAX);
 
-    protected static final VoxelShape NORTH;
-    protected static final VoxelShape EAST;
-    protected static final VoxelShape SOUTH;
-    protected static final VoxelShape WEST;
+    private final BellowSize size;
+    /** Outline of this bellow, indexed by horizontal facing. */
+    private final VoxelShape[] shapes;
 
     @Override
     protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return null;
     }
 
-    public BellowBlock(Properties properties) {
+    public BellowBlock(Properties properties, BellowSize size) {
         super(properties);
+        this.size = size;
+        this.shapes = buildShapes(size);
+        registerDefaultState(stateDefinition.any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(VISIBLE, true)
+                .setValue(WIDTH, size.width())
+                .setValue(HEIGHT, size.height()));
+    }
+
+    public BellowSize getSize() {
+        return size;
+    }
+
+    public static BellowSize getSize(BlockState state) {
+        if (state.hasProperty(WIDTH) && state.hasProperty(HEIGHT))
+            return new BellowSize(state.getValue(WIDTH), state.getValue(HEIGHT));
+        return state.getBlock() instanceof BellowBlock bellow ? bellow.size : BellowSize.DEFAULT;
     }
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        VoxelShape shape = switch (state.getValue(FACING)) {
-            case NORTH -> NORTH;
-            case EAST -> EAST;
-            case SOUTH -> SOUTH;
-            case WEST -> WEST;
-            default -> Shapes.block();
-        };
+        Direction facing = state.getValue(FACING);
+        if (facing.getAxis()
+                .isVertical())
+            return Shapes.block();
+
+        VoxelShape shape = shapes[facing.get2DDataValue()];
 
 		if (!(level instanceof ContraptionWorld cw))
 			return shape;
@@ -113,7 +132,7 @@ public class BellowBlock extends HorizontalDirectionalBlock implements IHaveBigO
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, VISIBLE);
+        builder.add(FACING, VISIBLE, WIDTH, HEIGHT);
     }
 
     protected BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level,
@@ -122,36 +141,53 @@ public class BellowBlock extends HorizontalDirectionalBlock implements IHaveBigO
         return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
     }
 
-    static {
-        NORTH = Stream.of(
-                Block.box(0, 0, 9, 16, 1, 13),
-                Block.box(15, 1, 9, 16, 31, 13),
-                Block.box(0, 1, 9, 1, 31, 13),
-                Block.box(0, 31, 9, 16, 32, 13)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+    private static VoxelShape[] buildShapes(BellowSize size) {
+        Direction[] clockwiseFromNorth = { Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST };
+        VoxelShape[] shapes = new VoxelShape[4];
+        double[][] boxes = northBoxes(size.width(), size.height());
+        for (Direction facing : clockwiseFromNorth) {
+            shapes[facing.get2DDataValue()] = toShape(boxes);
+            boxes = rotateClockwise(boxes);
+        }
+        return shapes;
+    }
 
-        EAST = Stream.of(
-                Block.box(3, 0, 0, 7, 1, 16),
-                Block.box(3, 1, 15, 7, 31, 16),
-                Block.box(3, 1, 0, 7, 31, 1),
-                Block.box(3, 31, 0, 7, 32, 16)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+    /** Frame boxes for a north facing bellow, in sixteenths of a block. */
+    private static double[][] northBoxes(int width, int height) {
+        double left = 8 - 8 * width;
+        double right = 8 + 8 * width;
+        double top = 16 * height;
+        return new double[][] {
+                { left, 0, 9, right, 1, 13 },
+                { right - 1, 1, 9, right, top - 1, 13 },
+                { left, 1, 9, left + 1, top - 1, 13 },
+                { left, top - 1, 9, right, top, 13 }
+        };
+    }
 
-        SOUTH = Stream.of(
-                Block.box(0, 0, 3, 16, 1, 7),
-                Block.box(0, 1, 3, 1, 31, 7),
-                Block.box(15, 1, 3, 16, 31, 7),
-                Block.box(0, 31, 3, 16, 32, 7)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+    private static double[][] rotateClockwise(double[][] boxes) {
+        double[][] rotated = new double[boxes.length][];
+        for (int i = 0; i < boxes.length; i++) {
+            double[] box = boxes[i];
+            double x1 = 16 - box[5];
+            double x2 = 16 - box[2];
+            rotated[i] = new double[] { Math.min(x1, x2), box[1], box[0], Math.max(x1, x2), box[4], box[3] };
+        }
+        return rotated;
+    }
 
-        WEST = Stream.of(
-                Block.box(9, 0, 0, 13, 1, 16),
-                Block.box(9, 1, 0, 13, 31, 1),
-                Block.box(9, 1, 15, 13, 31, 16),
-                Block.box(9, 31, 0, 13, 32, 16)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+    private static VoxelShape toShape(double[][] boxes) {
+        return Stream.of(boxes)
+                .map(box -> Block.box(box[0], box[1], box[2], box[3], box[4], box[5]))
+                .reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR))
+                .orElseGet(Shapes::block);
     }
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
-        return state.getValue(VISIBLE) ? RenderShape.MODEL : RenderShape.ENTITYBLOCK_ANIMATED;
-        // RenderShape.ENTITYBLOCK_ANIMATED;
+        // The frame is drawn by the block entity renderer so it can be scaled to
+        // the configured size without needing one block model per size.
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Nullable

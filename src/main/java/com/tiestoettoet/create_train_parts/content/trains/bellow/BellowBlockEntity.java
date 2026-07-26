@@ -1,36 +1,14 @@
 package com.tiestoettoet.create_train_parts.content.trains.bellow;
 
-import com.ibm.icu.impl.Pair;
-import com.simibubi.create.Create;
-import com.simibubi.create.content.trains.entity.Carriage;
-import com.simibubi.create.content.trains.entity.CarriageBogey;
-import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
-import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
-import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlock;
-import net.createmod.catnip.animation.AnimationTickHolder;
-import net.createmod.catnip.animation.LerpedFloat;
-import net.createmod.catnip.math.AngleHelper;
+import com.tiestoettoet.create_train_parts.foundation.collision.BellowSize;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.util.Mth;
 
-import com.simibubi.create.content.contraptions.Contraption;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import static com.tiestoettoet.create_train_parts.AllBlocks.BELLOW;
 
 public class BellowBlockEntity extends SmartBlockEntity {
 
@@ -40,6 +18,17 @@ public class BellowBlockEntity extends SmartBlockEntity {
 
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+    }
+
+    public BellowSize getSize() {
+        return BellowBlock.getSize(getBlockState());
+    }
+
+    @Override
+    protected AABB createRenderBoundingBox() {
+        BellowSize size = getSize();
+        return new AABB(worldPosition).inflate(size.width(), 0, size.width())
+                .expandTowards(0, size.height(), 0);
     }
 
     @Override

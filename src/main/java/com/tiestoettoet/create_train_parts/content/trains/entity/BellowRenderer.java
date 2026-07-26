@@ -14,6 +14,7 @@ import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlock;
 import com.tiestoettoet.create_train_parts.foundation.collision.BellowBezier;
 import com.tiestoettoet.create_train_parts.foundation.collision.BellowCollisionGeometry;
 import com.tiestoettoet.create_train_parts.foundation.collision.BellowSegment;
+import com.tiestoettoet.create_train_parts.foundation.collision.BellowSize;
 
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.animation.LerpedFloat;
@@ -45,7 +46,6 @@ import com.simibubi.create.content.contraptions.Contraption;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 
 import static com.mojang.text2speech.Narrator.LOGGER;
-import static com.tiestoettoet.create_train_parts.AllBlocks.BELLOW;
 import static com.tiestoettoet.create_train_parts.foundation.collision.BellowBezier.cubicBezier;
 import static com.tiestoettoet.create_train_parts.foundation.collision.BellowBezier.cubicBezierDerivative;
 
@@ -271,6 +271,7 @@ public class BellowRenderer {
 						Vec3 tangent = segment.tangent();
 						Vec3 curvePosition = segment.center();
 						float segmentStretch = segment.stretch();
+						BellowSize segmentSize = segment.size();
 
 						float segmentYRot = AngleHelper.deg(Mth.atan2(tangent.z, tangent.x)) - 90;
 						float segmentXRot = AngleHelper
@@ -287,8 +288,8 @@ public class BellowRenderer {
 						CachedBuffers.partial(AllPartialModels.BELLOW_CABLE, air)
 							.rotateYDegrees(-segmentYRot)
 							.rotateXDegrees(segmentXRot)
-							.scale(1, 1, segmentStretch)
-							.translate(0, 1, 0)
+							.scale(segmentSize.widthScale(), segmentSize.heightScale(), segmentStretch)
+							.translate(0, segmentSize.localVerticalOffset(), 0)
 							.light(lightCoords)
 							.renderInto(ms, vb);
 
@@ -440,7 +441,7 @@ public class BellowRenderer {
 
         for (Map.Entry<BlockPos, StructureBlockInfo> entry : blocks.entrySet()) {
             StructureBlockInfo info = entry.getValue();
-            if (info.state().getBlock() == BELLOW.get()) {
+            if (info.state().getBlock() instanceof BellowBlock bellowBlock) {
                 BlockPos localPos = entry.getKey(); // This is local position in contraption
 
                 // Convert local position to world position
@@ -450,7 +451,6 @@ public class BellowRenderer {
 
                 // System.out.println("Found bellow at local " + localPos + " -> world " +
                 // worldPos);
-                BellowBlock bellowBlock = (BellowBlock) info.state().getBlock();
                 Direction facing = info.state().getValue(HorizontalDirectionalBlock.FACING);
                 bellows.add(new BellowInfo(worldVec3, bellowBlock, facing));
             }

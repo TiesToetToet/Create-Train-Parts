@@ -18,6 +18,7 @@ import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlock;
 import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowMovementBehaviour;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.ArmExtenderBlock;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlock;
+import com.tiestoettoet.create_train_parts.foundation.collision.BellowSize;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.MapColor;
@@ -145,11 +146,21 @@ public class AllBlocks {
 		.transform(BuilderTransformers.pole())
 		.register();
 
-	public static final BlockEntry<BellowBlock> BELLOW = REGISTRATE.block("bellow", BellowBlock::new)
-					.properties(p -> p.mapColor(MapColor.COLOR_BLACK)
-									.sound(SoundType.WOOL))
-					.transform(BuilderTransformers.bellow())
-					.register();
+	public static final BlockEntry<BellowBlock> BELLOW_1X2 = bellow(1, 2);
+	public static final BlockEntry<BellowBlock> BELLOW_2X2 = bellow(2, 2);
+	public static final BlockEntry<BellowBlock> BELLOW_2X3 = bellow(2, 3);
+	public static final BlockEntry<BellowBlock> BELLOW_3X2 = bellow(3, 2);
+	public static final BlockEntry<BellowBlock> BELLOW_3X3 = bellow(3, 3);
+
+	private static BlockEntry<BellowBlock> bellow(int width, int height) {
+		BellowSize size = new BellowSize(width, height);
+		return REGISTRATE.block("bellow_" + size.format(), p -> new BellowBlock(p, size))
+						.properties(p -> p.mapColor(MapColor.COLOR_BLACK)
+										.sound(SoundType.WOOL))
+						.transform(BuilderTransformers.bellow(size))
+						.lang("Bellow " + size.format())
+						.register();
+	}
 
 
 
