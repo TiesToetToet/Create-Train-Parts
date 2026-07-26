@@ -1,7 +1,5 @@
 package com.tiestoettoet.create_train_parts.foundation.collision;
 
-import static com.tiestoettoet.create_train_parts.AllBlocks.BELLOW;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +9,7 @@ import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.CarriageBogey;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import com.tiestoettoet.create_train_parts.foundation.mixin.CarriageBogeyAccessor;
+import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlock;
 
 import net.createmod.catnip.animation.LerpedFloat;
 import net.minecraft.core.BlockPos;
@@ -29,10 +28,10 @@ public final class BellowCollisionGeometry {
     private BellowCollisionGeometry() {
     }
 
-    private record BellowInfo(Vec3 position, Direction facing) {
+    private record BellowInfo(Vec3 position, Direction facing, BellowSize size) {
     }
 
-    private record BellowPair(Vec3 first, Vec3 second, double distance) {
+    private record BellowPair(Vec3 first, Vec3 second, double distance, BellowSize size) {
     }
 
     /**
@@ -95,7 +94,7 @@ public final class BellowCollisionGeometry {
 
         int segmentCount = Math.max(2, (int) Math.round(pair.distance() * 10) + 1);
         return BellowBezier.buildSegments(
-                segmentCount, adjustedAnchor, control, control2, adjustedAnchor2);
+                segmentCount, adjustedAnchor, control, control2, adjustedAnchor2, pair.size());
     }
 
     private static List<BellowInfo> findBellows(CarriageContraptionEntity entity, float partialTicks) {
@@ -109,13 +108,13 @@ public final class BellowCollisionGeometry {
 
         for (Map.Entry<BlockPos, StructureBlockInfo> entry : contraption.getBlocks().entrySet()) {
             StructureBlockInfo info = entry.getValue();
-            if (info.state().getBlock() != BELLOW.get())
+            if (!(info.state().getBlock() instanceof BellowBlock))
                 continue;
 
             Vec3 worldPosition = entity.toGlobalVector(entry.getKey().getCenter(), partialTicks)
                     .add(interpolatedAnchor.subtract(anchor));
             Direction facing = info.state().getValue(HorizontalDirectionalBlock.FACING);
-            bellows.add(new BellowInfo(worldPosition, facing));
+            bellows.add(new BellowInfo(worldPosition, facing, BellowBlock.getSize(info.state())));
         }
         return bellows;
     }
@@ -128,6 +127,8 @@ public final class BellowCollisionGeometry {
             for (BellowInfo secondBellow : second) {
                 if (firstBellow.facing() != secondBellow.facing().getOpposite())
                     continue;
+                if (!firstBellow.size().equals(secondBellow.size()))
+                    continue;
 
                 double distanceSqr = firstBellow.position().distanceToSqr(secondBellow.position());
                 if (distanceSqr >= closestDistanceSqr)
@@ -137,7 +138,8 @@ public final class BellowCollisionGeometry {
                 closest = new BellowPair(
                         firstBellow.position(),
                         secondBellow.position(),
-                        Math.sqrt(distanceSqr));
+                        Math.sqrt(distanceSqr),
+                        firstBellow.size());
             }
         }
         return closest;

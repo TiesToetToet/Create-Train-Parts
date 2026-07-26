@@ -52,7 +52,15 @@ public class AllBlockEntityTypes {
             .renderer(() -> ShaftRenderer::new)
             .register();
 
-    public static void register() {
+
+	public static final BlockEntityEntry<BellowBlockEntity> BELLOW = REGISTRATE
+					.blockEntity("bellow", BellowBlockEntity::new)
+					.validBlocks(AllBlocks.BELLOW_1X2, AllBlocks.BELLOW_2X2, AllBlocks.BELLOW_2X3,
+									AllBlocks.BELLOW_3X2, AllBlocks.BELLOW_3X3)
+					.renderer(() -> AllBlockEntityRenderers::bellowRenderer)
+					.register();
+
+	public static void register() {
 
     }
 }

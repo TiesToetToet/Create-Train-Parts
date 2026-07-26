@@ -27,3 +27,4 @@ forge*changelog.txt
 .idea/misc.xml
 
 create-*.jar
+.vscode/launch.json
