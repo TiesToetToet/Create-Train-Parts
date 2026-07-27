@@ -67,7 +67,7 @@
   "step.mode.slide": "Extend Slide",
   "step.mode.no_slide": "Don't Extend Slide",
   "create_train_parts.crossing.mode": "Crossing Mode",
-  "step.mode.no_barrier": "Normal",
-  "step.mode.barrier": "Barrier",
+  "crossing.mode.no_barrier": "Normal",
+  "crossing.mode.barrier": "Barrier",
   "itemGroup.create_train_parts.base": "Create Train Parts"
 }
