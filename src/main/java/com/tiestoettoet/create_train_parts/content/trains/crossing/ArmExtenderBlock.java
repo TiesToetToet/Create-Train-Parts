@@ -101,9 +101,13 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         Boolean barrier = state.getValue(BARRIER);
+		Boolean open = state.getValue(OPEN);
         if (!barrier) {
             return state.getShape(level, pos);
         }
+		if (!open) {
+			return state.getShape(level, pos);
+		}
         Direction facing = state.getValue(HORIZONTAL_FACING);
         boolean flipped = state.getValue(FLIPPED);
 
