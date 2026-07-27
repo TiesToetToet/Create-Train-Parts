@@ -14,6 +14,8 @@
   "block.create_train_parts.train_sliding_window": "列车滑动窗",
   "block.create_train_parts.crossing": "道口闸门",
   "block.create_train_parts.arm_extender": "道闸延长杆",
+  "block.create_train_parts.pole": "道闸基座",
+  "block.create_train_parts.pole.tooltip.summary": "用于抬高 _道口闸门_ 基座的杆子",
 
   "create_train_parts.ponder.train_assembly.header": "列车台阶与伸缩踏板",
   "create_train_parts.ponder.train_assembly.text_1": "有时列车离站台太远，无法直接上车",
@@ -40,7 +42,19 @@
   "create_train_parts.ponder.crossing.header": "道口闸门",
   "create_train_parts.ponder.crossing.text_1": "道口闸门需要应力才能运行",
   "create_train_parts.ponder.crossing.text_2": "反转应力可以改变闸门的方向",
-  "create_train_parts.ponder.crossing.text_3": "如果你想延长道口闸门，只需放置道闸延长杆即可",
+  "create_train_parts.ponder.crossing.text_3": "如果你想延长道闸，只需放置道闸延长杆即可",
+  "create_train_parts.ponder.crossing.text_4": "为了给玩家声音提醒, 你可以在道闸上加一个铃铛",
+  "create_train_parts.ponder.crossing.text_5": "手持钟右键道口闸门即可添加",
+  "create_train_parts.ponder.crossing.text_6": "现在，当道闸降下时，铃铛会响起以提醒玩家",
+  "create_train_parts.ponder.crossing_colours.header": "道口闸门的颜色",
+  "create_train_parts.ponder.crossing_colours.text_1": "道口闸门可以配置成多种颜色",
+  "create_train_parts.ponder.crossing_colours.text_2": "用染料右键道闸或延迟杆可以改变其颜色",
+  "create_train_parts.ponder.crossing_colours.text_3": "按住 Ctrl 会改变整个闸杆的颜色",
+
+  "create_train_parts.ponder.crossing_modes.header": "闸门模式",
+  "create_train_parts.ponder.crossing_modes.text_1": "在正常模式，玩家可以跳过道闸",
+  "create_train_parts.ponder.crossing_modes.text_2": "但这可以用扳手配置",
+  "create_train_parts.ponder.crossing_modes.text_3": "屏障功能是用不可见的碰撞箱实现的",
 
   "create_train_parts.ponder.railway_crossing.header": "道口闸门",
   "create_train_parts.ponder.railway_crossing.text_1": "将道口闸门与信号系统结合使用，你就可以建造一个安全的铁路道口",
@@ -53,5 +67,8 @@
   "create_train_parts.train_step.mode": "踏板伸缩模式",
   "step.mode.slide": "伸出踏板",
   "step.mode.no_slide": "不伸出踏板",
+  "create_train_parts.crossing.mode": "闸门模式",
+  "crossing.mode.no_barrier": "正常模式",
+  "crossing.mode.barrier": "屏障模式",
   "itemGroup.create_train_parts.base": "机械动力：列车部件"
 }
