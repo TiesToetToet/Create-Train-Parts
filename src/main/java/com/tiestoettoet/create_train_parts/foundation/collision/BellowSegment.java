@@ -7,13 +7,13 @@ public class BellowSegment {
 
 	private final Vec3 center;
 	private final Vec3 tangent;
-	private final float stretch;
+	private final float length;
 	private final BellowSize size;
 
-	public BellowSegment(Vec3 center, Vec3 tangent, float stretch, BellowSize size) {
+	public BellowSegment(Vec3 center, Vec3 tangent, float length, BellowSize size) {
 		this.center = center;
 		this.tangent = tangent.normalize();
-		this.stretch = stretch;
+		this.length = length;
 		this.size = size;
 	}
 
@@ -25,8 +25,9 @@ public class BellowSegment {
 		return tangent;
 	}
 
-	public float stretch() {
-		return stretch;
+	/** Length of this segment along the curve, in blocks. */
+	public float length() {
+		return length;
 	}
 
 	public BellowSize size() {
@@ -37,14 +38,14 @@ public class BellowSegment {
 	 * Half-width of the bellows.
 	 */
 	public double extentX() {
-		return Math.abs(tangent.x) * (stretch / 16.0) + size.halfWidth();
+		return Math.abs(tangent.x) * (length / 2.0) + size.halfWidth();
 	}
 
 	public double extentY() {
-		return Math.abs(tangent.y) * (stretch / 16.0) + (size.top() - size.bottom()) / 2.0;
+		return Math.abs(tangent.y) * (length / 2.0) + (size.top() - size.bottom()) / 2.0;
 	}
 
 	public double extentZ() {
-		return Math.abs(tangent.z) * (stretch / 16.0) + size.halfWidth();
+		return Math.abs(tangent.z) * (length / 2.0) + size.halfWidth();
 	}
 }

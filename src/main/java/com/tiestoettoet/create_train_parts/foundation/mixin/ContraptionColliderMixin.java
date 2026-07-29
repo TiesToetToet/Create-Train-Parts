@@ -77,11 +77,11 @@ public abstract class ContraptionColliderMixin {
         double frameHalfWidth = size.halfWidth();
         double frameBottom = size.bottom();
         double frameTop = size.top();
-        double thickness = BellowSize.MEMBER_HALF_THICKNESS;
+        double halfThickness = BellowSize.MEMBER_HALF_THICKNESS;
         double verticalOffset = size.verticalOffset();
         localCenter = localCenter.add(localUp.scale(verticalOffset));
 
-        double halfLength = segment.stretch() / 16.0;
+        double halfLength = segment.length() / 2.0;
         double verticalCenter = (frameBottom + frameTop) / 2.0;
         double verticalHalfHeight = (frameTop - frameBottom) / 2.0;
 
@@ -89,33 +89,33 @@ public abstract class ContraptionColliderMixin {
         // interior, so a collision can only ever push an entity away from the
         // passage instead of sideways through it.
         appendOrientedBox(populate,
-            localCenter.add(localUp.scale(frameBottom - thickness)),
+            localCenter.add(localUp.scale(frameBottom - halfThickness)),
             localTangent, localUp, localSide,
-            halfLength, thickness, frameHalfWidth + 2 * thickness);
+            halfLength, halfThickness, frameHalfWidth + 2 * halfThickness);
         // Create treats every vertical collider contact as a floor contact. If
         // the top member is present while a player jumps into it from below,
         // that ceiling contact repeatedly toggles onGround and causes severe
         // correction jitter. Make this member one-way: it remains solid when
         // approached from above, but is omitted for an entity below it.
         double renderedTopY = worldCenter.y + verticalOffset + frameTop;
-        if (collidingEntity.getBoundingBox().minY >= renderedTopY - thickness) {
+        if (collidingEntity.getBoundingBox().minY >= renderedTopY - halfThickness) {
             appendOrientedBox(populate,
-                localCenter.add(localUp.scale(frameTop + thickness)),
+                localCenter.add(localUp.scale(frameTop + halfThickness)),
                 localTangent, localUp, localSide,
-                halfLength, thickness, frameHalfWidth + 2 * thickness);
+                halfLength, halfThickness, frameHalfWidth + 2 * halfThickness);
         }
 
         // Left and right walls, again offset so their inner faces line up with
         // the rendered frame.
         Vec3 verticalOffsetVec = localUp.scale(verticalCenter);
         appendOrientedBox(populate,
-            localCenter.add(verticalOffsetVec).add(localSide.scale(frameHalfWidth + thickness)),
+            localCenter.add(verticalOffsetVec).add(localSide.scale(frameHalfWidth + halfThickness)),
             localTangent, localUp, localSide,
-            halfLength, verticalHalfHeight, thickness);
+            halfLength, verticalHalfHeight, halfThickness);
         appendOrientedBox(populate,
-            localCenter.add(verticalOffsetVec).subtract(localSide.scale(frameHalfWidth + thickness)),
+            localCenter.add(verticalOffsetVec).subtract(localSide.scale(frameHalfWidth + halfThickness)),
             localTangent, localUp, localSide,
-            halfLength, verticalHalfHeight, thickness);
+            halfLength, verticalHalfHeight, halfThickness);
         }
 
         private static void appendOrientedBox(CollisionList.Populate populate, Vec3 center,

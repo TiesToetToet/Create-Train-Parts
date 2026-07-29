@@ -863,8 +863,9 @@ public class CrossingBlock extends HorizontalKineticBlock
 	}
 
     private static VoxelShape bell(BlockState state) {
+
         boolean bell = state.getValue(BELL);
-        if (!bell) {
+        if (!bell || bell) {
             return Shapes.empty();
         }
         Direction facing = state.getValue(HORIZONTAL_FACING);

@@ -12,6 +12,7 @@ import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollOp
 import com.tiestoettoet.create_train_parts.foundation.gui.AllIcons;
 import com.tiestoettoet.create_train_parts.foundation.sound.SoundScapes;
 import com.tiestoettoet.create_train_parts.foundation.utility.CreateTrainPartsLang;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.createmod.catnip.animation.LerpedFloat;
 import net.createmod.catnip.lang.Lang;
 import net.createmod.catnip.math.VecHelper;
@@ -388,24 +389,60 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
 	}
 
     private void onBarrierModeChanged() {
+        if (level == null)
+            return;
+
         Direction facing = getBlockState().getValue(HORIZONTAL_FACING);
-        Level world = level;
-        Boolean barrierModeActive = barrierMode.get() == CrossingBarrierMode.BARRIER;
+        boolean barrierModeActive = barrierMode.get() == CrossingBarrierMode.BARRIER;
         Direction direction = facing.getClockWise(); // Arms are always placed in the clockwise direction relative to facing
-        BlockPos armPos = worldPosition.relative(direction);
-        while (world.getBlockState(armPos).getBlock() instanceof ArmExtenderBlock) {
-            BlockState currentArmState = world.getBlockState(armPos);
-            BlockState newArmState = currentArmState
-                    .setValue(ArmExtenderBlock.BARRIER, barrierModeActive);
-//                    .setValue(ArmExtenderBlock.FLIPPED, newFlipped);
-            world.setBlock(armPos, newArmState, 3);
-            armPos = armPos.relative(direction);
-        }
+
+        // While assembled the arms no longer exist in the world, so the change
+        // has to be applied to the copies the contraption is carrying.
+        if (movedContraption != null)
+            updateArmsInContraption(direction, barrierModeActive);
+        else
+            updateArmsInWorld(direction, barrierModeActive);
 
         //set the barrier mode to the blockstate aswell
-        BlockState blockState = world.getBlockState(worldPosition);
+        BlockState blockState = level.getBlockState(worldPosition);
         if (blockState.getBlock() instanceof CrossingBlock) {
-            world.setBlock(worldPosition, blockState.setValue(CrossingBlock.BARRIER, barrierModeActive), 3);
+            level.setBlock(worldPosition, blockState.setValue(CrossingBlock.BARRIER, barrierModeActive), 3);
+        }
+    }
+
+    private void updateArmsInWorld(Direction direction, boolean barrierModeActive) {
+        BlockPos armPos = worldPosition.relative(direction);
+        while (level.getBlockState(armPos).getBlock() instanceof ArmExtenderBlock) {
+            BlockState currentArmState = level.getBlockState(armPos);
+            BlockState newArmState = currentArmState
+                    .setValue(ArmExtenderBlock.BARRIER, barrierModeActive);
+            level.setBlock(armPos, newArmState, 3);
+            armPos = armPos.relative(direction);
+        }
+    }
+
+    private void updateArmsInContraption(Direction direction, boolean barrierModeActive) {
+        if (level.isClientSide())
+            return;
+
+        Contraption contraption = movedContraption.getContraption();
+        if (contraption == null)
+            return;
+
+        // The crossing anchors the contraption, so its arms sit at plain
+        // offsets from the origin of the stored block map.
+        for (BlockPos localPos = BlockPos.ZERO.relative(direction);; localPos = localPos.relative(direction)) {
+            StructureTemplate.StructureBlockInfo info = contraption.getBlocks()
+                    .get(localPos);
+            if (info == null || !(info.state().getBlock() instanceof ArmExtenderBlock))
+                return;
+            if (!info.state().hasProperty(ArmExtenderBlock.BARRIER))
+                return;
+
+            BlockState newState = info.state()
+                    .setValue(ArmExtenderBlock.BARRIER, barrierModeActive);
+            movedContraption.setBlock(localPos,
+                    new StructureTemplate.StructureBlockInfo(info.pos(), newState, info.nbt()));
         }
     }
 

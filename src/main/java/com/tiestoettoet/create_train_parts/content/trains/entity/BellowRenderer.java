@@ -270,8 +270,8 @@ public class BellowRenderer {
 					for (BellowSegment segment : segments) {
 						Vec3 tangent = segment.tangent();
 						Vec3 curvePosition = segment.center();
-						float segmentStretch = segment.stretch();
 						BellowSize segmentSize = segment.size();
+						float segmentStretch = (float) (segment.length() / BellowSize.MODEL_DEPTH);
 
 						float segmentYRot = AngleHelper.deg(Mth.atan2(tangent.z, tangent.x)) - 90;
 						float segmentXRot = AngleHelper

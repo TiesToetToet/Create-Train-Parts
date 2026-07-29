@@ -39,6 +39,6 @@ public class BellowGenerator extends SpecialBlockStateGen {
     public <T extends Block> ModelFile getModel(DataGenContext<Block, T> ctx, RegistrateBlockstateProvider prov,
             BlockState state) {
         return prov.models()
-                .getExistingFile(prov.modLoc("block/bellow/bellow_end"));
+                .getExistingFile(prov.modLoc("block/bellow/bellow_end_bottom"));
     }
 }

@@ -64,7 +64,10 @@ public class AllPartialModels {
 	public static final PartialModel BELL_HOLDER = block("crossing/bell_holder");
 	public static final PartialModel BELL = block("crossing/bell");
     public static final PartialModel BELLOW_CABLE = block("bellow/bellow_cable");
-    public static final PartialModel BELLOW_END = block("bellow/bellow_end");
+    public static final PartialModel BELLOW_END_BOTTOM = block("bellow/bellow_end_bottom");
+    public static final PartialModel BELLOW_END_TOP = block("bellow/bellow_end_top");
+    public static final PartialModel BELLOW_END_LEFT = block("bellow/bellow_end_left");
+    public static final PartialModel BELLOW_END_RIGHT = block("bellow/bellow_end_right");
 
     static {
         putTrainStep("train_step_andesite");

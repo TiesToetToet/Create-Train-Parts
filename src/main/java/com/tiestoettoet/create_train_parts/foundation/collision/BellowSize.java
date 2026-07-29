@@ -16,12 +16,16 @@ public record BellowSize(int width, int height) {
     private static final double MODEL_BOTTOM = -3.5 / 16.0;
     private static final double MODEL_TOP = 28.5 / 16.0;
 
+    /** Depth of the authored cable model along the curve, in blocks. */
+    public static final double MODEL_DEPTH = 4 / 16.0;
+
     /**
-     * Half thickness of a collision member. The members are pushed outwards by
-     * this amount so that the walkable interior of the bellow stays clear and
-     * collisions always resolve away from it.
+     * Half thickness of a collision member, so the members themselves are two
+     * pixels thick. They are pushed outwards by this amount so that the
+     * walkable interior of the bellow stays clear and collisions always
+     * resolve away from the passage.
      */
-    public static final double MEMBER_HALF_THICKNESS = 0.25;
+    public static final double MEMBER_HALF_THICKNESS = 1 / 16.0;
 
     /** Vertical offset of the authored model relative to its curve anchor. */
     private static final double BASE_VERTICAL_OFFSET = 1.0;
@@ -59,5 +63,11 @@ public record BellowSize(int width, int height) {
     /** Vertical offset expressed in the scaled model's own space. */
     public double localVerticalOffset() {
         return verticalOffset() / heightScale();
+    }
+
+    /** Largest distance from the curve to any part of the frame, in blocks. */
+    public double frameReach() {
+        double offset = verticalOffset();
+        return Math.max(halfWidth(), Math.max(Math.abs(offset + top()), Math.abs(offset + bottom())));
     }
 }
