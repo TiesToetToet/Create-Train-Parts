@@ -44,44 +44,54 @@ public class BellowBezier {
 		return term1.add(term2).add(term3);
 	}
 
+	/**
+	 * Splits the curve into segments. Straight runs meet exactly end to end,
+	 * because overlapping segments would draw the same surfaces twice with
+	 * different texture offsets and z-fight. Where the curve bends, each segment
+	 * grows just far enough to close the wedge its neighbour would leave open.
+	 */
 	public static List<BellowSegment> buildSegments(int couplingSegments, Vec3 adjustedAnchor, Vec3 control, Vec3 control2, Vec3 adjustedAnchor2, BellowSize size) {
-		List<BellowSegment> segments = new ArrayList<>(couplingSegments);
-		for (int j = 0; j < couplingSegments; j++) {
-			float t = (float) j / (float) (couplingSegments - 1); // Parameter along curve (0 to 1)
+		int sampleCount = Math.max(2, couplingSegments);
+		List<Vec3> centers = new ArrayList<>(sampleCount);
+		List<Vec3> tangents = new ArrayList<>(sampleCount);
+		List<Double> lengths = new ArrayList<>(sampleCount);
 
-			// Calculate position on the Bézier curve
-			Vec3 curvePosition = cubicBezier(adjustedAnchor, control, control2, adjustedAnchor2, t);
+		Vec3 start = cubicBezier(adjustedAnchor, control, control2, adjustedAnchor2, 0);
+		for (int j = 1; j < sampleCount; j++) {
+			float t = (float) j / (float) (sampleCount - 1); // Parameter along curve (0 to 1)
+			Vec3 end = cubicBezier(adjustedAnchor, control, control2, adjustedAnchor2, t);
 
-			// Calculate tangent direction for rotation
-			Vec3 tangent = cubicBezierDerivative(adjustedAnchor, control, control2, adjustedAnchor2, t)
-				.normalize();
+			Vec3 delta = end.subtract(start);
+			double length = delta.length();
+			if (length < 1.0e-6)
+				continue;
 
-			// Calculate the distance to the next segment to determine proper scaling
-			float segmentStretch;
-			if (j < couplingSegments - 1) {
-				float nextT = (float) (j + 1) / (float) (couplingSegments - 1);
-				Vec3 nextPosition = cubicBezier(adjustedAnchor, control, control2, adjustedAnchor2, nextT);
-				segmentStretch = (float) (curvePosition.distanceTo(nextPosition) * 8); // Scale
-				// overlap
-			} else {
-				// For the last segment, use the previous segment's stretch to avoid gaps
-				float prevT = (float) (j - 1) / (float) (couplingSegments - 1);
-				Vec3 prevPosition = cubicBezier(adjustedAnchor, control, control2, adjustedAnchor2, prevT);
-				segmentStretch = (float) (prevPosition.distanceTo(curvePosition) * 8);
-			}
+			centers.add(start.add(end).scale(0.5));
+			tangents.add(delta.scale(1 / length));
+			lengths.add(length);
+			start = end;
+		}
 
-			// Calculate rotation from tangent
-			float segmentYRot = AngleHelper.deg(Mth.atan2(tangent.z, tangent.x)) - 90;
-			float segmentXRot = AngleHelper
-				.deg(Math.atan2(tangent.y, Math.sqrt(tangent.x * tangent.x + tangent.z * tangent.z)));
+		double reach = size.frameReach();
+		List<BellowSegment> segments = new ArrayList<>(centers.size());
+		for (int j = 0; j < centers.size(); j++) {
+			Vec3 tangent = tangents.get(j);
+			double startOverlap = j == 0 ? 0 : overlap(reach, tangents.get(j - 1), tangent);
+			double endOverlap = j == centers.size() - 1 ? 0 : overlap(reach, tangent, tangents.get(j + 1));
 
 			segments.add(new BellowSegment(
-				curvePosition,
+				centers.get(j).add(tangent.scale((endOverlap - startOverlap) / 2)),
 				tangent,
-				segmentStretch,
+				(float) (lengths.get(j) + startOverlap + endOverlap),
 				size
 			));
 		}
 		return segments;
+	}
+
+	/** How far a segment must reach past a joint to keep it closed. */
+	private static double overlap(double reach, Vec3 tangent, Vec3 nextTangent) {
+		double angle = Math.acos(Mth.clamp(tangent.dot(nextTangent), -1, 1));
+		return reach * Math.tan(angle / 2);
 	}
 }
