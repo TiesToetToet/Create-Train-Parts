@@ -165,7 +165,8 @@ public class BuilderTransformers {
 			.transform(pickaxeOnly())
 			.onRegister(movementBehaviour(new BellowMovementBehaviour()))
 			.item()
-			.model(AssetLookup.customBlockItemModel("bellow", "item_" + size.format()))
+//			.model(AssetLookup.customBlockItemModel("bellow", "item_" + size.format()))
+			.model((c, p) -> p.blockSprite(c, p.modLoc("item/bellow/" + size.width() + "x" + size.height())))
 			.build();
 	}
 

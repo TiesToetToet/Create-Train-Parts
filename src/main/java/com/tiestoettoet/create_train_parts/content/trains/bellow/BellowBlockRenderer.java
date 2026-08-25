@@ -33,7 +33,7 @@ public class BellowBlockRenderer implements BlockEntityRenderer<BellowBlockEntit
 
         BellowSize size = BellowBlock.getSize(state);
         Direction facing = state.getValue(BellowBlock.FACING);
-        VertexConsumer vb = buffer.getBuffer(RenderType.solid());
+        VertexConsumer vb = buffer.getBuffer(RenderType.cutoutMipped());
 
         int width = size.width();
         int height = size.height();
@@ -42,6 +42,9 @@ public class BellowBlockRenderer implements BlockEntityRenderer<BellowBlockEntit
         double frameLeft = 0.5 - 0.5 * width;
         double frameRight = 0.5 * width - 0.5;
         double topBar = height - BAR_HEIGHT;
+
+
+		part(AllPartialModels.BELLOW_ARROW, state, facing, 0, 1/16f, 1, 1, light, ms, vb);
 
         for (int column = 0; column < width; column++) {
             double x = frameLeft + column;
@@ -64,15 +67,20 @@ public class BellowBlockRenderer implements BlockEntityRenderer<BellowBlockEntit
 
     private static void part(PartialModel model, BlockState state, Direction facing, double x, double y,
             float verticalScale, int light, PoseStack ms, VertexConsumer vb) {
-        CachedBuffers.partial(model, state)
-                .translate(0.5, 0, 0.5)
-                .rotateYDegrees(-(facing.toYRot() + 180))
-                .translate(-0.5, 0, -0.5)
-                .translate(x, y, 0)
-                .scale(1, verticalScale, 1)
-                .light(light)
-                .renderInto(ms, vb);
+        part(model, state, facing, x, y, 0, verticalScale, light, ms, vb);
     }
+
+	private static void part(PartialModel model, BlockState state, Direction facing, double x, double y, double z,
+							 float verticalScale, int light, PoseStack ms, VertexConsumer vb) {
+		CachedBuffers.partial(model, state)
+			.translate(0.5, 0, 0.5)
+			.rotateYDegrees(-(facing.toYRot() + 180))
+			.translate(-0.5, 0, -0.5)
+			.translate(x, y, z)
+			.scale(1, verticalScale, 1)
+			.light(light)
+			.renderInto(ms, vb);
+	}
 
     @Override
     public boolean shouldRenderOffScreen(BellowBlockEntity be) {

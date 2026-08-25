@@ -1,3 +1,6 @@
 {
-  "parent": "create_train_parts:block/bellow/item_2x2"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "create_train_parts:item/bellow/2x2"
+  }
 }

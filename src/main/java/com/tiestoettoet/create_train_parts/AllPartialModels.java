@@ -68,6 +68,7 @@ public class AllPartialModels {
     public static final PartialModel BELLOW_END_TOP = block("bellow/bellow_end_top");
     public static final PartialModel BELLOW_END_LEFT = block("bellow/bellow_end_left");
     public static final PartialModel BELLOW_END_RIGHT = block("bellow/bellow_end_right");
+	public static final PartialModel BELLOW_ARROW = block("bellow/arrow");
 
     static {
         putTrainStep("train_step_andesite");
