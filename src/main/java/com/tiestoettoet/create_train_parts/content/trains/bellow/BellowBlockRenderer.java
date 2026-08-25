@@ -2,6 +2,7 @@ package com.tiestoettoet.create_train_parts.content.trains.bellow;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.simibubi.create.foundation.virtualWorld.VirtualRenderWorld;
 import com.tiestoettoet.create_train_parts.AllPartialModels;
 import com.tiestoettoet.create_train_parts.foundation.collision.BellowSize;
 
@@ -12,6 +13,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 /**
  * Draws the bellow frame by tiling the authored parts, so every width and
@@ -28,9 +30,6 @@ public class BellowBlockRenderer implements BlockEntityRenderer<BellowBlockEntit
     public void render(BellowBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light,
             int overlay) {
         BlockState state = be.getBlockState();
-        if (!state.hasProperty(BellowBlock.VISIBLE) || !state.getValue(BellowBlock.VISIBLE))
-            return;
-
         BellowSize size = BellowBlock.getSize(state);
         Direction facing = state.getValue(BellowBlock.FACING);
         VertexConsumer vb = buffer.getBuffer(RenderType.cutoutMipped());
@@ -44,7 +43,10 @@ public class BellowBlockRenderer implements BlockEntityRenderer<BellowBlockEntit
         double topBar = height - BAR_HEIGHT;
 
 
-		part(AllPartialModels.BELLOW_ARROW, state, facing, 0, 1/16f, 1, 1, light, ms, vb);
+		// The arrow only guides placement, so it is left out of contraptions,
+		// which render their block entities against a virtual level.
+		if (!(be.getLevel() instanceof VirtualRenderWorld))
+			part(AllPartialModels.BELLOW_ARROW, state, facing, 0, 1/16f, 1, 1, light, ms, vb);
 
         for (int column = 0; column < width; column++) {
             double x = frameLeft + column;
@@ -87,5 +89,13 @@ public class BellowBlockRenderer implements BlockEntityRenderer<BellowBlockEntit
         // The frame reaches above its own chunk section, which would otherwise
         // cull the whole bellow as soon as that section leaves the frustum.
         return true;
+    }
+
+    @Override
+    public AABB getRenderBoundingBox(BellowBlockEntity be) {
+        // Culling uses this box, not the one on the block entity, and it
+        // defaults to a single block. Without the frame's real size the bellow
+        // vanishes as soon as its own block leaves the view.
+        return be.getRenderBoundingBox();
     }
 }

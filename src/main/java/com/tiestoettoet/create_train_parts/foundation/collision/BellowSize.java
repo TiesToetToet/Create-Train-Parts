@@ -25,10 +25,10 @@ public record BellowSize(int width, int height) {
      * walkable interior of the bellow stays clear and collisions always
      * resolve away from the passage.
      */
-    public static final double MEMBER_HALF_THICKNESS = 1 / 16.0;
+    public static final double MEMBER_HALF_THICKNESS = 1 / 32.0;
 
     /** Vertical offset of the authored model relative to its curve anchor. */
-    private static final double BASE_VERTICAL_OFFSET = 1.0;
+    private static final double BASE_VERTICAL_OFFSET = 1.0 - 0.5 / 16.0;
 
     /** Width first, matching how the sizes are named in game. */
     public String format() {

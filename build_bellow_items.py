@@ -6,10 +6,28 @@ from pathlib import Path
 # and the display scales shrink so larger frames still fit an item slot.
 
 ROOT = Path(__file__).resolve().parent
-BASE = ROOT / "src" / "main" / "resources" / "assets" / "create_train_parts" / \
-       "models" / "item" / "bellow.json"
-OUT_DIR = ROOT / "src" / "main" / "resources" / "assets" / "create_train_parts" / \
-          "models" / "block" / "bellow"
+BASE = (
+    ROOT
+    / "src"
+    / "main"
+    / "resources"
+    / "assets"
+    / "create_train_parts"
+    / "models"
+    / "item"
+    / "bellow.json"
+)
+OUT_DIR = (
+    ROOT
+    / "src"
+    / "main"
+    / "resources"
+    / "assets"
+    / "create_train_parts"
+    / "models"
+    / "block"
+    / "bellow"
+)
 
 SIZES = [(1, 2), (2, 2), (2, 3), (3, 2), (3, 3)]
 
@@ -32,11 +50,13 @@ def elements(width, height):
     ]
     result = []
     for source, (x1, y1, x2, y2) in zip(FACES, boxes):
-        result.append({
-            "from": [x1, y1, 6],
-            "to": [x2, y2, 10],
-            "faces": source["faces"],
-        })
+        result.append(
+            {
+                "from": [x1, y1, 6],
+                "to": [x2, y2, 10],
+                "faces": source["faces"],
+            }
+        )
     return result
 
 

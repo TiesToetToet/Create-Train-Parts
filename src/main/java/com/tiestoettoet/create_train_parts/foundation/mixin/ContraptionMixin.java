@@ -49,10 +49,6 @@ public abstract class ContraptionMixin {
             state = state.setValue(SlidingWindowBlock.VISIBLE, false);
             modified = true;
         }
-        if (state.hasProperty(BellowBlock.VISIBLE)) {
-            state = state.setValue(BellowBlock.VISIBLE, false);
-            modified = true;
-        }
 
         if (modified) {
             cir.setReturnValue(Pair.of(
@@ -80,9 +76,6 @@ public abstract class ContraptionMixin {
         if (state.hasProperty(SlidingWindowBlock.VISIBLE)) {
             state = state.setValue(SlidingWindowBlock.VISIBLE, !state.getValue(SlidingWindowBlock.OPEN))
                     .setValue(SlidingWindowBlock.POWERED, false);
-        }
-        if (state.hasProperty(BellowBlock.VISIBLE)) {
-            state = state.setValue(BellowBlock.VISIBLE, true);
         }
         return state;
     }
