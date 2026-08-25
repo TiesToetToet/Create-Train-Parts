@@ -158,10 +158,10 @@ public class BellowBlock extends HorizontalDirectionalBlock implements IHaveBigO
         double right = 8 + 8 * width;
         double top = 16 * height;
         return new double[][] {
-                { left, 0, 9, right, 1, 13 },
-                { right - 1, 1, 9, right, top - 1, 13 },
-                { left, 1, 9, left + 1, top - 1, 13 },
-                { left, top - 1, 9, right, top, 13 }
+                { left, 0, 12, right, 1, 16 },
+                { right - 1, 1, 12, right, top - 1, 16 },
+                { left, 1, 12, left + 1, top - 1, 16 },
+                { left, top - 1, 12, right, top, 16 }
         };
     }
 

@@ -28,11 +28,11 @@ public abstract class ContraptionMixin {
     private void modifyCapturedState(Level world, BlockPos pos, CallbackInfoReturnable<Pair<StructureTemplate.StructureBlockInfo, BlockEntity>> cir) {
         Pair<StructureTemplate.StructureBlockInfo, BlockEntity> result = cir.getReturnValue();
         if (result == null) return;
-        
+
         StructureTemplate.StructureBlockInfo info = result.getLeft();
         BlockState state = info.state();
         boolean modified = false;
-        
+
         if (state.hasProperty(TrainStepBlock.VISIBLE)) {
             state = state.setValue(TrainStepBlock.VISIBLE, false);
             modified = true;
@@ -45,7 +45,6 @@ public abstract class ContraptionMixin {
             state = state.setValue(SlidingWindowBlock.VISIBLE, false);
             modified = true;
         }
-        
         if (modified) {
             cir.setReturnValue(Pair.of(
                 new StructureTemplate.StructureBlockInfo(info.pos(), state, info.nbt()),

@@ -15,6 +15,7 @@
   "block.create_train_parts.crossing": "Level Crossing Gate",
   "block.create_train_parts.arm_extender": "Arm Extender",
   "block.create_train_parts.pole": "Pole",
+  "block.create_train_parts.pole.tooltip.summary": "A pole that can be used to extend the base of a _Crossing Gate_",
   "create_train_parts.ponder.train_assembly.header": "Train Step and Slide",
   "create_train_parts.ponder.train_assembly.text_1": "Sometimes the Train is too far away from the Station to enter the Train",
   "create_train_parts.ponder.train_assembly.text_2": "Use Train Steps or Train Slides for easier access",

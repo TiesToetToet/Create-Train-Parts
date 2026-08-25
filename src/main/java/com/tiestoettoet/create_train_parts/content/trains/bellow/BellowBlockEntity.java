@@ -30,16 +30,4 @@ public class BellowBlockEntity extends SmartBlockEntity {
         return new AABB(worldPosition).inflate(size.width(), 0, size.width())
                 .expandTowards(0, size.height(), 0);
     }
-
-    @Override
-    public void tick() {
-        super.tick();
-        if (getBlockState().hasProperty(BellowBlock.VISIBLE)
-                && getBlockState().getValue(BellowBlock.VISIBLE)) {
-            return;
-        }
-        if (level == null || !level.isClientSide()) {
-            return;
-        }
-    }
 }
