@@ -57,25 +57,36 @@ public final class BellowCollisionGeometry {
         if (pair == null)
             return List.of();
 
-        // Both frames point straight at each other, so leaving along their own
-        // facing keeps the curve centred on them however the carriages sit.
-        // Anything derived from the chord between the two blocks drifts
-        // sideways as soon as the connection is angled.
+        return buildSegments(pair.first(), pair.firstOutward(), pair.second(), pair.secondOutward(), pair.size());
+    }
+
+    /**
+     * Builds the connection between two bellows that face each other. Both
+     * frames point straight at each other, so leaving along their own facing
+     * keeps the curve centred on them however they are angled. Anything derived
+     * from the chord between the two blocks drifts sideways instead.
+     *
+     * @param first          centre of the first bellow block
+     * @param firstOutward   unit vector the first frame faces
+     * @param second         centre of the second bellow block
+     * @param secondOutward  unit vector the second frame faces
+     */
+    public static List<BellowSegment> buildSegments(Vec3 first, Vec3 firstOutward, Vec3 second, Vec3 secondOutward,
+            BellowSize size) {
+        double distance = first.distanceTo(second);
         float gapFromAnchor = 5 / 16f;
-        Vec3 adjustedAnchor = pair.first()
-                .add(pair.firstOutward().scale(gapFromAnchor))
+        Vec3 adjustedAnchor = first.add(firstOutward.scale(gapFromAnchor))
                 .add(0, -20 / 16f, 0);
-        Vec3 adjustedAnchor2 = pair.second()
-                .add(pair.secondOutward().scale(gapFromAnchor))
+        Vec3 adjustedAnchor2 = second.add(secondOutward.scale(gapFromAnchor))
                 .add(0, -20 / 16f, 0);
 
-        double controlDistance = pair.distance() * 0.375;
-        Vec3 control = adjustedAnchor.add(pair.firstOutward().scale(controlDistance));
-        Vec3 control2 = adjustedAnchor2.add(pair.secondOutward().scale(controlDistance));
+        double controlDistance = distance * 0.375;
+        Vec3 control = adjustedAnchor.add(firstOutward.scale(controlDistance));
+        Vec3 control2 = adjustedAnchor2.add(secondOutward.scale(controlDistance));
 
-        int segmentCount = Math.max(2, (int) Math.round(pair.distance() * 10) + 1);
+        int segmentCount = Math.max(2, (int) Math.round(distance * 10) + 1);
         return BellowBezier.buildSegments(
-                segmentCount, adjustedAnchor, control, control2, adjustedAnchor2, pair.size());
+                segmentCount, adjustedAnchor, control, control2, adjustedAnchor2, size);
     }
 
     private static List<BellowInfo> findBellows(CarriageContraptionEntity entity, float partialTicks) {
