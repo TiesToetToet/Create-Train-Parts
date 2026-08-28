@@ -1,6 +1,7 @@
 package com.tiestoettoet.create_train_parts.infrastructure.ponder;
 
 import com.tiestoettoet.create_train_parts.AllBlocks;
+import com.tiestoettoet.create_train_parts.infrastructure.ponder.scenes.BellowScenes;
 import com.tiestoettoet.create_train_parts.infrastructure.ponder.scenes.CrossingScenes;
 import com.tiestoettoet.create_train_parts.infrastructure.ponder.scenes.SlidingWindowScenes;
 import com.tiestoettoet.create_train_parts.infrastructure.ponder.scenes.TrainStepSlideScenes;
@@ -33,6 +34,9 @@ public class AllCreateTrainPartsPonderScenes {
 
 		HELPER.forComponents(AllBlocks.ARM_EXTENDER)
 			.addStoryBoard("crossing/crossing_colours", CrossingScenes::colours);
+
+		HELPER.forComponents(AllBlocks.BELLOW_1X2, AllBlocks.BELLOW_2X2, AllBlocks.BELLOW_2X3, AllBlocks.BELLOW_3X2, AllBlocks.BELLOW_3X3)
+			.addStoryBoard("bellow/bellow", BellowScenes::bellow);
 
     }
 
