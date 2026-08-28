@@ -4,7 +4,9 @@ import com.tiestoettoet.create_train_parts.content.decoration.slidingWindow.Slid
 import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSlideBlockEntity;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlockEntity;
+import com.tiestoettoet.create_train_parts.foundation.instruction.AnimateBellowConnectionInstruction;
 import com.tiestoettoet.create_train_parts.foundation.instruction.AnimateWorldSectionInstructionCreateTrainParts;
+import com.tiestoettoet.create_train_parts.foundation.ponder.element.BellowConnectionElement;
 import net.createmod.ponder.api.element.ElementLink;
 import net.createmod.ponder.api.element.WorldSectionElement;
 import net.createmod.ponder.api.scene.SceneBuilder;
@@ -90,6 +92,35 @@ public class CreateTrainPartsSceneBuilder extends PonderSceneBuilder {
         public void animateSlidingWindow(BlockPos position, boolean open) {
             modifyBlockEntityNBT(getScene().getSceneBuildingUtil().select().position(position), SlidingWindowBlockEntity.class,
                     nbt -> nbt.putBoolean("ForceOpen", open));
+        }
+
+        /**
+         * Draws the flexible connection between two bellow blocks. Trains only
+         * exist in a real level, so a scene has to place this by hand.
+         *
+         * @param ticks how long the connection takes to grow from the first
+         *              bellow to the second, or 0 to show it at once
+         */
+        public ElementLink<BellowConnectionElement> connectBellows(BlockPos first, BlockPos second, int ticks) {
+            ElementLink<BellowConnectionElement> link = new ElementLinkImpl<>(BellowConnectionElement.class);
+            BellowConnectionElement element = new BellowConnectionElement(first, second);
+            addInstruction(scene -> {
+                scene.addElement(element);
+                scene.linkElement(element, link);
+                element.setVisible(true);
+                element.forceApplyFade(1);
+                element.connect(ticks);
+            });
+            return link;
+        }
+
+        /** Moves a connection along with the carriages carrying it. */
+        public void moveBellowConnection(ElementLink<BellowConnectionElement> link, Vec3 offset, int duration) {
+            addInstruction(AnimateBellowConnectionInstruction.move(link, offset, duration));
+        }
+
+        public void hideBellowConnection(ElementLink<BellowConnectionElement> link, Direction fadeOutDirection) {
+            addInstruction(new FadeOutOfSceneInstruction<>(15, fadeOutDirection, link));
         }
 
         @Override

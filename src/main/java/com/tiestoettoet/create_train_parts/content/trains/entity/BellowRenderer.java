@@ -261,37 +261,7 @@ public class BellowRenderer {
                     List<BellowSegment> segments =
                         BellowCollisionGeometry.buildSegments(entity, partialTicks);
 
-//					BellowSegment(
-//						curvePosition,
-//						tangent,
-//						segmentStretch
-//					)
-
-					for (BellowSegment segment : segments) {
-						Vec3 tangent = segment.tangent();
-						Vec3 curvePosition = segment.center();
-						BellowSize segmentSize = segment.size();
-						float segmentStretch = (float) (segment.length() / BellowSize.MODEL_DEPTH);
-
-						float segmentYRot = AngleHelper.deg(Mth.atan2(tangent.z, tangent.x)) - 90;
-						float segmentXRot = AngleHelper
-							.deg(Math.atan2(tangent.y, Math.sqrt(tangent.x * tangent.x + tangent.z * tangent.z)));
-
-						ms.pushPose();
-
-						// Translate to the curve position
-						ms.translate(
-							curvePosition.x - anchor.x,
-							curvePosition.y - anchor.y,
-							curvePosition.z - anchor.z);
-
-						CachedBuffers.partial(AllPartialModels.BELLOW_CABLE, air)
-							.rotateYDegrees(-segmentYRot)
-							.rotateXDegrees(segmentXRot)
-							.scale(segmentSize.widthScale(), segmentSize.heightScale(), segmentStretch)
-							.translate(0, segmentSize.localVerticalOffset(), 0)
-							.light(lightCoords)
-							.renderInto(ms, vb);
+					renderSegments(segments, anchor, lightCoords, ms, vb);
 
 //						Contraption contraption = entity.getContraption();
 //
@@ -308,9 +278,6 @@ public class BellowRenderer {
 						// if (logBoxes) {
 						// logSegmentBoxes(j, curvePosition, segmentYRot, segmentXRot);
 						// }
-
-						ms.popPose();
-					}
 
                     // Render segments along the cubic Bezier curve
 //                    for (int j = 0; j < couplingSegments; j++) {
@@ -389,8 +356,44 @@ public class BellowRenderer {
 
     }
 
-    public static int getPackedLightCoords(Entity pEntity, float pPartialTicks) {
-        BlockPos blockpos = BlockPos.containing(pEntity.getLightProbePosition(pPartialTicks));
+    /**
+     * Draws a prepared bellow curve. Positions are absolute, so pass the origin
+     * the pose stack is currently centred on, or {@link Vec3#ZERO} when it is
+     * already in world space.
+     */
+    public static void renderSegments(List<BellowSegment> segments, Vec3 origin, int light, PoseStack ms,
+            VertexConsumer vb) {
+        BlockState air = Blocks.AIR.defaultBlockState();
+
+        for (BellowSegment segment : segments) {
+            Vec3 tangent = segment.tangent();
+            Vec3 curvePosition = segment.center();
+            BellowSize segmentSize = segment.size();
+            float segmentStretch = (float) (segment.length() / BellowSize.MODEL_DEPTH);
+
+            float segmentYRot = AngleHelper.deg(Mth.atan2(tangent.z, tangent.x)) - 90;
+            float segmentXRot = AngleHelper
+                    .deg(Math.atan2(tangent.y, Math.sqrt(tangent.x * tangent.x + tangent.z * tangent.z)));
+
+            ms.pushPose();
+            ms.translate(
+                    curvePosition.x - origin.x,
+                    curvePosition.y - origin.y,
+                    curvePosition.z - origin.z);
+
+            CachedBuffers.partial(AllPartialModels.BELLOW_CABLE, air)
+                    .rotateYDegrees(-segmentYRot)
+                    .rotateXDegrees(segmentXRot)
+                    .scale(segmentSize.widthScale(), segmentSize.heightScale(), segmentStretch)
+                    .translate(0, segmentSize.localVerticalOffset(), 0)
+                    .light(light)
+                    .renderInto(ms, vb);
+
+            ms.popPose();
+        }
+    }
+
+    public static int getPackedLightCoords(Entity pEntity, float pPartialTicks) {        BlockPos blockpos = BlockPos.containing(pEntity.getLightProbePosition(pPartialTicks));
         return LightTexture.pack(getBlockLightLevel(pEntity, blockpos), getSkyLightLevel(pEntity, blockpos));
     }
 

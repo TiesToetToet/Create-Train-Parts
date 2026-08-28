@@ -5,6 +5,9 @@ import com.simibubi.create.content.trains.station.StationBlock;
 
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 
+import com.tiestoettoet.create_train_parts.foundation.ponder.CreateTrainPartsSceneBuilder;
+import com.tiestoettoet.create_train_parts.foundation.ponder.element.BellowConnectionElement;
+
 import net.createmod.ponder.api.PonderPalette;
 import net.createmod.ponder.api.element.ElementLink;
 import net.createmod.ponder.api.element.ParrotElement;
@@ -22,6 +25,7 @@ import net.minecraft.world.phys.Vec3;
 public class BellowScenes {
 	public static void bellow(SceneBuilder builder, SceneBuildingUtil util) {
 		CreateSceneBuilder scene = new CreateSceneBuilder(builder);
+		CreateTrainPartsSceneBuilder createScene = new CreateTrainPartsSceneBuilder(scene);
 		scene.title("bellow", "Bellows");
 		scene.configureBasePlate(1, 0, 12);
 		scene.scaleSceneView(.65f);
@@ -103,7 +107,8 @@ public class BellowScenes {
 		scene.world().cycleBlockProperty(stationPos, StationBlock.ASSEMBLING);
 		scene.effects().indicateSuccess(stationPos);
 		scene.world().animateTrainStation(stationPos, true);
-		//TODO: Animate the bellows connecting to each other
+		ElementLink<BellowConnectionElement> bellowConnection =
+			createScene.world().connectBellows(util.grid().at(9, 3, 6), util.grid().at(7, 3, 6), 15);
 
 		scene.idle(20);
 		scene.overlay().showText(70)
@@ -122,6 +127,7 @@ public class BellowScenes {
 		scene.world().moveSection(controlsElement, util.vector().of(18, 0, 0), 70);
 		scene.world().moveSection(trainElement1, util.vector().of(18, 0, 0), 70);
 		scene.world().moveSection(trainElement2, util.vector().of(18, 0, 0), 70);
+		createScene.world().moveBellowConnection(bellowConnection, util.vector().of(18, 0, 0), 70);
 		scene.world().animateBogey(util.grid().at(10, 2, 6), -18f, 70);
 		scene.world().animateBogey(util.grid().at(6, 2, 6), -18f, 70);
 		scene.world().animateBogey(util.grid().at(3, 2, 6), -18f, 70);
@@ -130,6 +136,7 @@ public class BellowScenes {
 		scene.idle(10);
 		scene.world().hideIndependentSection(controlsElement, null);
 		scene.world().hideIndependentSection(trainElement1, null);
+		createScene.world().hideBellowConnection(bellowConnection, null);
 		scene.special().hideElement(birb, null);
 		scene.idle(20);
 		scene.world().hideIndependentSection(trainElement2, null);
