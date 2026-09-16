@@ -86,8 +86,8 @@ public class BellowScenes {
 			.text("To connect a Bellow, place it facing the direction of the other bellow");
 
 		scene.idle(75);
-		scene.world().showSectionAndMerge(util.select().position(9, 3, 6), Direction.DOWN, trainElement2);
-		scene.idle(15);
+		scene.world().showSectionAndMerge(util.select().position(9, 3, 6), Direction.DOWN, trainElement1);
+		scene.idle(25);
 		scene.world().showSectionAndMerge(util.select().position(7, 3, 6), Direction.DOWN, trainElement2);
 		scene.idle(15);
 		scene.overlay().showText(80)
