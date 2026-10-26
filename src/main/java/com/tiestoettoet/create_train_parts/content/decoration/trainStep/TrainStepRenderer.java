@@ -236,9 +236,9 @@ public class TrainStepRenderer extends SafeBlockEntityRenderer<TrainStepBlockEnt
                 if (facing == Direction.WEST && face != Direction.UP && face != Direction.DOWN)
                     face = face.getClockWise();
 
+                // Key uses only facing+connected (face is only for CT UV, not model selection).
                 ResourceLocation resourceLocation = CreateTrainParts.asResource(
-                        blockTexturePath + "/" + facing.getSerializedName() + "_" + connectedState.getSerializedName()
-                                + "_" + face.getSerializedName());
+                        blockTexturePath + "/" + facing.getSerializedName() + "_" + connectedState.getSerializedName());
 
                 PartialModel move = AllPartialModels.TRAIN_STEP_MOVE.get(resourceLocation);
                 PartialModel flap = AllPartialModels.TRAIN_STEP_FLAP.get(resourceLocation);
@@ -504,9 +504,9 @@ public class TrainStepRenderer extends SafeBlockEntityRenderer<TrainStepBlockEnt
                 if (facing == Direction.WEST && face != Direction.UP && face != Direction.DOWN)
                     face = face.getClockWise();
 
+                // Key uses only facing+connected (face is only for CT UV, not model selection).
                 ResourceLocation resourceLocation = CreateTrainParts.asResource(
-                        blockTexturePath + "/" + facing.getSerializedName() + "_" + connectedState.getSerializedName()
-                                + "_" + face.getSerializedName());
+                        blockTexturePath + "/" + facing.getSerializedName() + "_" + connectedState.getSerializedName());
 
                 PartialModel move = AllPartialModels.TRAIN_STEP_MOVE.get(resourceLocation);
                 PartialModel flap = AllPartialModels.TRAIN_STEP_FLAP.get(resourceLocation);
