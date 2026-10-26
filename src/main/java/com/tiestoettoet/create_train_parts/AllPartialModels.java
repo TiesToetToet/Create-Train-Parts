@@ -89,38 +89,36 @@ public class AllPartialModels {
 
 
     private static void putTrainStep(String path) {
+        // Key uses only facing+connected — the old face dimension never selected a different
+        // model file; it was only used in the renderer for UV offset computation.
         for (Direction facing : Iterate.directions) {
             if (facing == Direction.UP || facing == Direction.DOWN)
                 continue;
-            for (Direction face : Iterate.directions) {
-                for (TrainStepBlock.ConnectedState state : TrainStepBlock.ConnectedState.values()) {
-
-                    TRAIN_STEP.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/steps_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_STEP_SLIDE.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/slide_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-//                    System.out.println("Model path: " + path + "/slide");
-                    TRAIN_STEP_PIVOT.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/pivot_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_STEP_MOVE.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/move_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_STEP_FLAP.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/flap_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                }
+            for (TrainStepBlock.ConnectedState state : TrainStepBlock.ConnectedState.values()) {
+                ResourceLocation key = CreateTrainParts.asResource(
+                        path + "/" + facing.getSerializedName() + "_" + state.getSerializedName());
+                TRAIN_STEP.put(key,       block(path + "/steps_" + facing.getSerializedName() + "_" + state.getSerializedName()));
+                TRAIN_STEP_SLIDE.put(key, block(path + "/slide_" + facing.getSerializedName() + "_" + state.getSerializedName()));
+                TRAIN_STEP_PIVOT.put(key, block(path + "/pivot_" + facing.getSerializedName() + "_" + state.getSerializedName()));
+                TRAIN_STEP_MOVE.put(key,  block(path + "/move_"  + facing.getSerializedName() + "_" + state.getSerializedName()));
+                TRAIN_STEP_FLAP.put(key,  block(path + "/flap_"  + facing.getSerializedName() + "_" + state.getSerializedName()));
             }
         }
 
     }
 
     private static void putTrainSlide(String path) {
+        // Key uses only facing+connected — face was never selecting a different model file.
         for (Direction facing : Iterate.directions) {
             if (facing == Direction.UP || facing == Direction.DOWN)
                 continue;
-            for (Direction face : Iterate.directions) {
-                for (TrainStepBlock.ConnectedState state : TrainStepBlock.ConnectedState.values()) {
-
-                    TRAIN_SLIDE.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/slide_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_SLIDE_TOP.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/top_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-//                    System.out.println("Model path: " + path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName());
-                    TRAIN_SLIDE_CENTRE.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/centre_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_SLIDE_BOTTOM.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/bottom_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-//                    TRAIN_STEP_FLAP.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/flap_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                }
+            for (TrainStepBlock.ConnectedState state : TrainStepBlock.ConnectedState.values()) {
+                ResourceLocation key = CreateTrainParts.asResource(
+                        path + "/" + facing.getSerializedName() + "_" + state.getSerializedName());
+                TRAIN_SLIDE.put(key,        block(path + "/slide_"  + facing.getSerializedName() + "_" + state.getSerializedName()));
+                TRAIN_SLIDE_TOP.put(key,    block(path + "/top_"    + facing.getSerializedName() + "_" + state.getSerializedName()));
+                TRAIN_SLIDE_CENTRE.put(key, block(path + "/centre_" + facing.getSerializedName() + "_" + state.getSerializedName()));
+                TRAIN_SLIDE_BOTTOM.put(key, block(path + "/bottom_" + facing.getSerializedName() + "_" + state.getSerializedName()));
             }
         }
     }
