@@ -130,9 +130,9 @@ public class TrainSlideRenderer extends SafeBlockEntityRenderer<TrainSlideBlockE
             if (facing == Direction.WEST && face != Direction.UP && face != Direction.DOWN)
                 face = face.getClockWise();
 
-            // Key uses only facing+connected (face is only for CT UV, not model selection).
             ResourceLocation resourceLocation = CreateTrainParts.asResource(
-                    blockTexturePath + "/" + facing.getSerializedName() + "_" + connectedState.getSerializedName());
+                    blockTexturePath + "/" + facing.getSerializedName() + "_" + connectedState.getSerializedName()
+                            + "_" + face.getSerializedName());
 
             PartialModel top = AllPartialModels.TRAIN_SLIDE_TOP.get(resourceLocation);
             PartialModel centre = AllPartialModels.TRAIN_SLIDE_CENTRE.get(resourceLocation);
