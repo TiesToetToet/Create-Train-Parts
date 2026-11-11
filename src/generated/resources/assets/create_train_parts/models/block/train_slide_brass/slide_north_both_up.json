@@ -16,15 +16,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    1,
-                    0,
-                    14
-                ]
-            },
             "faces": {
                 "up": {
                     "uv": [
@@ -35,6 +26,15 @@
                     ],
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    1,
+                    0,
+                    14
+                ]
             }
         },
         {
@@ -48,15 +48,6 @@
                 16,
                 15
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    1,
-                    14,
-                    0
-                ]
-            },
             "faces": {
                 "up": {
                     "uv": [
@@ -67,6 +58,15 @@
                     ],
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    1,
+                    14,
+                    0
+                ]
             }
         },
         {
@@ -80,15 +80,6 @@
                 1,
                 15
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    1,
-                    0,
-                    13
-                ]
-            },
             "faces": {
                 "up": {
                     "uv": [
@@ -99,6 +90,15 @@
                     ],
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    1,
+                    0,
+                    13
+                ]
             }
         }
     ],

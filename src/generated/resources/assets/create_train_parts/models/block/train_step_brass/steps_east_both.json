@@ -1,6 +1,5 @@
 {
     "render_type": "minecraft:cutout_mipped",
-    "credit": "Made with Blockbench",
     "textures": {
         "0": "create:block/brass_casing",
         "particle": "create:block/brass_casing"

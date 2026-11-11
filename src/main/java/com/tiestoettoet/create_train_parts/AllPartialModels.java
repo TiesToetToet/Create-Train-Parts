@@ -87,6 +87,13 @@ public class AllPartialModels {
         putSlidingWindow("train");
     }
 
+	private static boolean modelExists(String modelPath) {
+		// Builds the path to match your generated resources folder structure
+		String fullPath = "/assets/create_train_parts/models/block/" + modelPath + ".json";
+
+		// If getResource returns null, the file doesn't exist
+		return CreateTrainParts.class.getResource(fullPath) != null;
+	}
 
     private static void putTrainStep(String path) {
         for (Direction facing : Iterate.directions) {
@@ -94,13 +101,23 @@ public class AllPartialModels {
                 continue;
             for (Direction face : Iterate.directions) {
                 for (TrainStepBlock.ConnectedState state : TrainStepBlock.ConnectedState.values()) {
+					String suffix = facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName();
+					ResourceLocation key = CreateTrainParts.asResource(path + "/" + suffix);
 
-                    TRAIN_STEP.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/steps_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_STEP_SLIDE.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/slide_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-//                    System.out.println("Model path: " + path + "/slide");
-                    TRAIN_STEP_PIVOT.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/pivot_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_STEP_MOVE.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/move_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_STEP_FLAP.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/flap_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
+					String stepsPath = path + "/steps_" + suffix;
+					if (modelExists(stepsPath)) TRAIN_STEP.put(key, block(stepsPath));
+
+					String slidePath = path + "/slide_" + suffix;
+					if (modelExists(slidePath)) TRAIN_STEP_SLIDE.put(key, block(slidePath));
+
+					String pivotPath = path + "/pivot_" + suffix;
+					if (modelExists(pivotPath)) TRAIN_STEP_PIVOT.put(key, block(pivotPath));
+
+					String movePath = path + "/move_" + suffix;
+					if (modelExists(movePath)) TRAIN_STEP_MOVE.put(key, block(movePath));
+
+					String flapPath = path + "/flap_" + suffix;
+					if (modelExists(flapPath)) TRAIN_STEP_FLAP.put(key, block(flapPath));
                 }
             }
         }
@@ -113,13 +130,20 @@ public class AllPartialModels {
                 continue;
             for (Direction face : Iterate.directions) {
                 for (TrainStepBlock.ConnectedState state : TrainStepBlock.ConnectedState.values()) {
+					String suffix = facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName();
+					ResourceLocation key = CreateTrainParts.asResource(path + "/" + suffix);
 
-                    TRAIN_SLIDE.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/slide_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_SLIDE_TOP.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/top_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-//                    System.out.println("Model path: " + path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName());
-                    TRAIN_SLIDE_CENTRE.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/centre_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_SLIDE_BOTTOM.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/bottom_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-//                    TRAIN_STEP_FLAP.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/flap_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
+					String slidePath = path + "/slide_" + suffix;
+					if (modelExists(slidePath)) TRAIN_SLIDE.put(key, block(slidePath));
+
+					String topPath = path + "/top_" + suffix;
+					if (modelExists(topPath)) TRAIN_SLIDE_TOP.put(key, block(topPath));
+
+					String centrePath = path + "/centre_" + suffix;
+					if (modelExists(centrePath)) TRAIN_SLIDE_CENTRE.put(key, block(centrePath));
+
+					String bottomPath = path + "/bottom_" + suffix;
+					if (modelExists(bottomPath)) TRAIN_SLIDE_BOTTOM.put(key, block(bottomPath));
                 }
             }
         }

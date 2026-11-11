@@ -1,5 +1,5 @@
 {
-    "credit": "Made with Blockbench",
+    "credit": "",
     "textures": {
         "0": "create:block/brass_casing",
         "particle": "create:block/brass_casing"
@@ -16,15 +16,6 @@
                 6,
                 5
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    8,
-                    -8
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -36,10 +27,18 @@
                     "rotation": 270,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    8,
+                    -8
+                ]
             }
         },
         {
-            "name": "Flat",
             "from": [
                 1,
                 0,
@@ -50,15 +49,6 @@
                 1,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    8,
-                    -8
-                ]
-            },
             "faces": {
                 "north": {
                     "uv": [
@@ -80,6 +70,15 @@
                     "rotation": 270,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    8,
+                    -8
+                ]
             }
         },
         {
@@ -93,15 +92,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    0,
-                    8
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -113,6 +103,15 @@
                     "rotation": 270,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    0,
+                    8
+                ]
             }
         },
         {
@@ -126,15 +125,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    0,
-                    8
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -146,6 +136,15 @@
                     "rotation": 270,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    0,
+                    8
+                ]
             }
         },
         {
@@ -159,15 +158,6 @@
                 6,
                 5
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    8,
-                    -8
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -179,10 +169,18 @@
                     "rotation": 270,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    8,
+                    -8
+                ]
             }
         },
         {
-            "name": "Flat",
             "from": [
                 1,
                 0,
@@ -193,15 +191,6 @@
                 1,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    8,
-                    -8
-                ]
-            },
             "faces": {
                 "north": {
                     "uv": [
@@ -223,6 +212,15 @@
                     "rotation": 270,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    8,
+                    -8
+                ]
             }
         },
         {
@@ -236,15 +234,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    0,
-                    8
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -256,6 +245,15 @@
                     "rotation": 270,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    0,
+                    8
+                ]
             }
         },
         {
@@ -269,15 +267,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    0,
-                    8
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -289,6 +278,15 @@
                     "rotation": 270,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    0,
+                    8
+                ]
             }
         },
         {
@@ -302,15 +300,6 @@
                 6,
                 5
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    8,
-                    -8
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -322,10 +311,18 @@
                     "rotation": 270,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    8,
+                    -8
+                ]
             }
         },
         {
-            "name": "Flat",
             "from": [
                 1,
                 0,
@@ -336,15 +333,6 @@
                 1,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    8,
-                    -8
-                ]
-            },
             "faces": {
                 "north": {
                     "uv": [
@@ -366,6 +354,15 @@
                     "rotation": 270,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    8,
+                    -8
+                ]
             }
         },
         {
@@ -379,15 +376,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    0,
-                    8
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -399,6 +387,15 @@
                     "rotation": 270,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    0,
+                    8
+                ]
             }
         },
         {
@@ -412,15 +409,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    0,
-                    8
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -432,6 +420,15 @@
                     "rotation": 270,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    0,
+                    8
+                ]
             }
         }
     ],

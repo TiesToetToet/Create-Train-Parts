@@ -1,6 +1,5 @@
 {
     "render_type": "minecraft:cutout_mipped",
-    "credit": "Made with Blockbench",
     "textures": {
         "1": "create:block/railway_casing_side",
         "particle": "create:block/railway_casing"

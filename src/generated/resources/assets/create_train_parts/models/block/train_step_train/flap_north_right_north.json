@@ -1,5 +1,5 @@
 {
-    "credit": "Made with Blockbench",
+    "credit": "",
     "textures": {
         "3": "create:block/railway_casing_side",
         "particle": "create:block/railway_casing"
@@ -16,15 +16,6 @@
                 0.5,
                 0.5
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    0,
-                    0
-                ]
-            },
             "faces": {
                 "north": {
                     "uv": [
@@ -44,6 +35,15 @@
                     ],
                     "texture": "#3"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    0,
+                    0
+                ]
             }
         }
     ],

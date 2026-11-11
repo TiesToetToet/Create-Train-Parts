@@ -1,5 +1,5 @@
 {
-    "credit": "Made with Blockbench",
+    "credit": "",
     "textures": {
         "1": "create:block/railway_casing",
         "2": "create:block/railway_casing_side",
@@ -17,15 +17,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    0,
-                    8
-                ]
-            },
             "faces": {
                 "west": {
                     "uv": [
@@ -36,6 +27,15 @@
                     ],
                     "texture": "#2"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    0,
+                    8
+                ]
             }
         },
         {
@@ -49,15 +49,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    0,
-                    8
-                ]
-            },
             "faces": {
                 "west": {
                     "uv": [
@@ -68,6 +59,15 @@
                     ],
                     "texture": "#2"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    0,
+                    8
+                ]
             }
         },
         {
@@ -81,15 +81,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    0,
-                    8
-                ]
-            },
             "faces": {
                 "west": {
                     "uv": [
@@ -100,6 +91,15 @@
                     ],
                     "texture": "#2"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    0,
+                    8
+                ]
             }
         },
         {
@@ -113,15 +113,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    0,
-                    8
-                ]
-            },
             "faces": {
                 "west": {
                     "uv": [
@@ -132,6 +123,15 @@
                     ],
                     "texture": "#2"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    0,
+                    8
+                ]
             }
         },
         {
@@ -145,15 +145,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    0,
-                    8
-                ]
-            },
             "faces": {
                 "west": {
                     "uv": [
@@ -164,6 +155,15 @@
                     ],
                     "texture": "#2"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    0,
+                    8
+                ]
             }
         },
         {
@@ -177,15 +177,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    0,
-                    8
-                ]
-            },
             "faces": {
                 "west": {
                     "uv": [
@@ -196,6 +187,15 @@
                     ],
                     "texture": "#2"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    0,
+                    8
+                ]
             }
         }
     ],

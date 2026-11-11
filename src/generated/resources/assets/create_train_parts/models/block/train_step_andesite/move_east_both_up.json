@@ -1,5 +1,5 @@
 {
-    "credit": "Made with Blockbench",
+    "credit": "",
     "textures": {
         "0": "create:block/andesite_casing",
         "particle": "create:block/andesite_casing"
@@ -16,15 +16,6 @@
                 16,
                 6
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    9,
-                    13.5,
-                    2
-                ]
-            },
             "faces": {
                 "up": {
                     "uv": [
@@ -36,6 +27,15 @@
                     "rotation": 270,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    9,
+                    13.5,
+                    2
+                ]
             }
         }
     ],

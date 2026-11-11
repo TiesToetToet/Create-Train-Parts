@@ -38,6 +38,25 @@ actions = ["r", "g"]
 
 # if user
 
+def clean_element(element, new_faces):
+    """Returns a lightweight element containing only active faces."""
+    cleaned = {
+        "from": element["from"],
+        "to": element["to"],
+        "faces": new_faces
+    }
+    if "rotation" in element:
+        cleaned["rotation"] = element["rotation"]
+    if element.get("shade") is False:
+        cleaned["shade"] = False
+    return cleaned
+
+def clean_model_metadata(model_data):
+    """Replaces textures and removes Blockbench metadata (groups/credit)."""
+    # model_data.pop("groups", None)
+    model_data.pop("credit", None)
+    return model_data
+
 # Copy files from step_models to each block type folder
 for user_input in actions:
     for block_type, texture_replacement in block_types.items():
@@ -68,6 +87,7 @@ for user_input in actions:
                                 key: (texture_replacement if value == "create:block/andesite_casing" else value)
                                 for key, value in model_data["textures"].items()
                             }
+                            model_data = clean_model_metadata(model_data)
 
                         # Save the updated file
                         with open(target_file, 'w') as file:
@@ -254,8 +274,7 @@ for user_input in actions:
                                                 new_faces[direction] = element["faces"][direction]
 
                                         if new_faces:
-                                            new_element = element.copy()
-                                            new_element["faces"] = new_faces
+                                            new_element = clean_element(element, new_faces)
                                             new_model["elements"].append(new_element)
 
 
@@ -264,13 +283,12 @@ for user_input in actions:
                                     new_faces[direction] = element["faces"][direction]
 
                             if new_faces:
-                                new_element = element.copy()
-                                new_element["faces"] = new_faces
+                                new_element = clean_element(element, new_faces)
                                 new_model["elements"].append(new_element)
 
                         # If no elements are left, create an empty model
                         if not new_model["elements"]:
-                            new_model["elements"] = []
+                            continue
 
                         # Save the new model to a file
                         output_file = target_folder / f"{filename.stem}_{direction}.json"
@@ -350,12 +368,11 @@ for user_input in actions:
                                                 new_faces[direction] = element["faces"][direction]
 
                                     if new_faces:
-                                        new_element = element.copy()
-                                        new_element["faces"] = new_faces
+                                        new_element = clean_element(element, new_faces)
                                         new_model["elements"].append(new_element)
 
                                 if not new_model["elements"]:
-                                    new_model["elements"] = []
+                                    continue
 
                                 output_file = output_folder_path / f"{filename.stem}_{direction}.json"
                                 with open(output_file, 'w') as out_file:

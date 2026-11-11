@@ -17,15 +17,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    1,
-                    0,
-                    14
-                ]
-            },
             "faces": {
                 "south": {
                     "uv": [
@@ -36,6 +27,15 @@
                     ],
                     "texture": "#1"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    1,
+                    0,
+                    14
+                ]
             }
         },
         {
@@ -49,15 +49,6 @@
                 16,
                 15
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    1,
-                    14,
-                    0
-                ]
-            },
             "faces": {
                 "south": {
                     "uv": [
@@ -68,6 +59,15 @@
                     ],
                     "texture": "#missing"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    1,
+                    14,
+                    0
+                ]
             }
         },
         {
@@ -81,15 +81,6 @@
                 1,
                 15
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    1,
-                    0,
-                    13
-                ]
-            },
             "faces": {
                 "south": {
                     "uv": [
@@ -100,6 +91,15 @@
                     ],
                     "texture": "#missing"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    1,
+                    0,
+                    13
+                ]
             }
         }
     ],

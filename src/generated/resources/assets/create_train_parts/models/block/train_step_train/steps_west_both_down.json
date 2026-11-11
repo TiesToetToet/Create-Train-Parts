@@ -1,5 +1,5 @@
 {
-    "credit": "Made with Blockbench",
+    "credit": "",
     "textures": {
         "1": "create:block/railway_casing",
         "2": "create:block/railway_casing_side",
@@ -17,15 +17,6 @@
                 6,
                 5
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    8,
-                    -8
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -37,10 +28,18 @@
                     "rotation": 270,
                     "texture": "#1"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    8,
+                    -8
+                ]
             }
         },
         {
-            "name": "Flat",
             "from": [
                 0,
                 0,
@@ -51,15 +50,6 @@
                 1,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    8,
-                    -8
-                ]
-            },
             "faces": {
                 "north": {
                     "uv": [
@@ -81,6 +71,15 @@
                     "rotation": 270,
                     "texture": "#1"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    8,
+                    -8
+                ]
             }
         },
         {
@@ -94,15 +93,6 @@
                 6,
                 5
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    8,
-                    -8
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -114,10 +104,18 @@
                     "rotation": 270,
                     "texture": "#1"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    8,
+                    -8
+                ]
             }
         },
         {
-            "name": "Flat",
             "from": [
                 0,
                 0,
@@ -128,15 +126,6 @@
                 1,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    8,
-                    8,
-                    -8
-                ]
-            },
             "faces": {
                 "north": {
                     "uv": [
@@ -158,6 +147,15 @@
                     "rotation": 270,
                     "texture": "#1"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    8,
+                    -8
+                ]
             }
         }
     ],
