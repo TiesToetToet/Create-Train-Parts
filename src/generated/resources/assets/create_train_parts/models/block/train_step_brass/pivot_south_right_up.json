@@ -1,12 +1,11 @@
 {
-    "credit": "Made with Blockbench",
+    "credit": "",
     "textures": {
         "0": "create:block/brass_casing",
         "particle": "create:block/brass_casing"
     },
     "elements": [
         {
-            "name": "Turn",
             "from": [
                 0,
                 -0.5,
@@ -17,15 +16,6 @@
                 0.5,
                 0.5
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "x",
-                "origin": [
-                    8,
-                    0,
-                    0
-                ]
-            },
             "faces": {
                 "up": {
                     "uv": [
@@ -47,6 +37,15 @@
                     "rotation": 180,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "x",
+                "origin": [
+                    8,
+                    0,
+                    0
+                ]
             }
         }
     ],

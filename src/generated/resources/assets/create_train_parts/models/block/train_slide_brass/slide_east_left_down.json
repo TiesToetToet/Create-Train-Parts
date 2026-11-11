@@ -40,15 +40,6 @@
                 16,
                 16
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    1,
-                    0,
-                    14
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -60,6 +51,15 @@
                     "rotation": 90,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    1,
+                    0,
+                    14
+                ]
             }
         },
         {
@@ -73,15 +73,6 @@
                 16,
                 15
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    1,
-                    14,
-                    0
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -93,6 +84,15 @@
                     "rotation": 90,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    1,
+                    14,
+                    0
+                ]
             }
         },
         {
@@ -106,15 +106,6 @@
                 1,
                 15
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    1,
-                    0,
-                    13
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -126,6 +117,15 @@
                     "rotation": 90,
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    1,
+                    0,
+                    13
+                ]
             }
         }
     ],

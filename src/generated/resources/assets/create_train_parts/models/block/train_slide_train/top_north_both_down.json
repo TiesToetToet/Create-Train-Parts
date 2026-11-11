@@ -17,15 +17,6 @@
                 15,
                 5
             ],
-            "rotation": {
-                "angle": 0,
-                "axis": "y",
-                "origin": [
-                    0,
-                    12,
-                    12
-                ]
-            },
             "faces": {
                 "down": {
                     "uv": [
@@ -36,6 +27,15 @@
                     ],
                     "texture": "#0"
                 }
+            },
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    0,
+                    12,
+                    12
+                ]
             }
         }
     ],
