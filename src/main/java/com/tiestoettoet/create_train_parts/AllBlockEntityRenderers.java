@@ -6,6 +6,8 @@ import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSl
 import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSlideRenderer;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlockEntity;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepRenderer;
+import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlockEntity;
+import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlockRenderer;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.ArmExtenderBlockEntity;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.ArmExtenderRenderer;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.CrossingBlockEntity;
@@ -40,7 +42,11 @@ public class AllBlockEntityRenderers {
         return new CrossingRenderer(context);
     }
 
-	public static BlockEntityRenderer<ArmExtenderBlockEntity> armExtenderRenderer(BlockEntityRendererProvider.Context context) {
+	static BlockEntityRenderer<ArmExtenderBlockEntity> armExtenderRenderer(BlockEntityRendererProvider.Context context) {
 		return new ArmExtenderRenderer(context);
+	}
+
+	static BlockEntityRenderer<BellowBlockEntity> bellowRenderer(BlockEntityRendererProvider.Context context) {
+		return new BellowBlockRenderer();
 	}
 }

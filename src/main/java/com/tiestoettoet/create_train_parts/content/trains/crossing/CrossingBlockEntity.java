@@ -12,6 +12,7 @@ import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollOp
 import com.tiestoettoet.create_train_parts.foundation.gui.AllIcons;
 import com.tiestoettoet.create_train_parts.foundation.sound.SoundScapes;
 import com.tiestoettoet.create_train_parts.foundation.utility.CreateTrainPartsLang;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.createmod.catnip.animation.LerpedFloat;
 import net.createmod.catnip.lang.Lang;
 import net.createmod.catnip.math.VecHelper;
@@ -380,35 +381,68 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
         BlockState state = getBlockState();
-        boolean visible = !state.getValue(OPEN);
-        if (visible) {
-            barrierMode = new ScrollOptionBehaviour<>(CrossingBarrierMode.class,
-                    CreateTrainPartsLang.translateDirect("crossing.mode"), this, getBarrierModeSlot());
-            barrierMode.withCallback($ -> onBarrierModeChanged());
-            behaviours.add(barrierMode);
-            barrierMode.requiresWrench();
+		barrierMode = new ScrollOptionBehaviour<>(CrossingBarrierMode.class,
+			CreateTrainPartsLang.translateDirect("crossing.mode"), this, getBarrierModeSlot());
+		barrierMode.withCallback($ -> onBarrierModeChanged());
+		behaviours.add(barrierMode);
+		barrierMode.requiresWrench();
+	}
+
+    private void onBarrierModeChanged() {
+        if (level == null)
+            return;
+
+        Direction facing = getBlockState().getValue(HORIZONTAL_FACING);
+        boolean barrierModeActive = barrierMode.get() == CrossingBarrierMode.BARRIER;
+        Direction direction = facing.getClockWise(); // Arms are always placed in the clockwise direction relative to facing
+
+        // While assembled the arms no longer exist in the world, so the change
+        // has to be applied to the copies the contraption is carrying.
+        if (movedContraption != null)
+            updateArmsInContraption(direction, barrierModeActive);
+        else
+            updateArmsInWorld(direction, barrierModeActive);
+
+        //set the barrier mode to the blockstate aswell
+        BlockState blockState = level.getBlockState(worldPosition);
+        if (blockState.getBlock() instanceof CrossingBlock) {
+            level.setBlock(worldPosition, blockState.setValue(CrossingBlock.BARRIER, barrierModeActive), 3);
         }
     }
 
-    private void onBarrierModeChanged() {
-        Direction facing = getBlockState().getValue(HORIZONTAL_FACING);
-        Level world = level;
-        Boolean barrierModeActive = barrierMode.get() == CrossingBarrierMode.BARRIER;
-        Direction direction = facing.getClockWise(); // Arms are always placed in the clockwise direction relative to facing
+    private void updateArmsInWorld(Direction direction, boolean barrierModeActive) {
         BlockPos armPos = worldPosition.relative(direction);
-        while (world.getBlockState(armPos).getBlock() instanceof ArmExtenderBlock) {
-            BlockState currentArmState = world.getBlockState(armPos);
+        while (level.getBlockState(armPos).getBlock() instanceof ArmExtenderBlock) {
+            BlockState currentArmState = level.getBlockState(armPos);
             BlockState newArmState = currentArmState
                     .setValue(ArmExtenderBlock.BARRIER, barrierModeActive);
-//                    .setValue(ArmExtenderBlock.FLIPPED, newFlipped);
-            world.setBlock(armPos, newArmState, 3);
+            level.setBlock(armPos, newArmState, 3);
             armPos = armPos.relative(direction);
         }
+    }
 
-        //set the barrier mode to the blockstate aswell
-        BlockState blockState = world.getBlockState(worldPosition);
-        if (blockState.getBlock() instanceof CrossingBlock) {
-            world.setBlock(worldPosition, blockState.setValue(CrossingBlock.BARRIER, barrierModeActive), 3);
+    private void updateArmsInContraption(Direction direction, boolean barrierModeActive) {
+        if (level.isClientSide())
+            return;
+
+        Contraption contraption = movedContraption.getContraption();
+        if (contraption == null)
+            return;
+
+        // The crossing anchors the contraption, so its arms sit at plain
+        // offsets from the origin of the stored block map.
+        for (BlockPos localPos = BlockPos.ZERO.relative(direction);; localPos = localPos.relative(direction)) {
+            StructureTemplate.StructureBlockInfo info = contraption.getBlocks()
+                    .get(localPos);
+            if (info == null || !(info.state().getBlock() instanceof ArmExtenderBlock))
+                return;
+            if (!info.state().hasProperty(ArmExtenderBlock.BARRIER))
+                return;
+
+            BlockState newState = info.state()
+                    .setValue(ArmExtenderBlock.BARRIER, barrierModeActive);
+            movedContraption.setBlock(localPos,
+                    new StructureTemplate.StructureBlockInfo(info.pos(), newState, info.nbt()));
         }
     }
 
@@ -425,10 +459,9 @@ public class CrossingBlockEntity extends KineticBlockEntity implements IControlC
 
         public CrossingValueBoxTransform() {
             super((state, d) ->
-                    !state.getValue(OPEN) &&
-                            (d == state.getValue(HORIZONTAL_FACING)
-                                    || d == state.getValue(HORIZONTAL_FACING).getOpposite()
-                                    || d == state.getValue(HORIZONTAL_FACING).getClockWise()));
+				(d == state.getValue(HORIZONTAL_FACING)
+					|| d == state.getValue(HORIZONTAL_FACING).getOpposite()
+					|| d == state.getValue(HORIZONTAL_FACING).getClockWise()));
         }
 
         @Override

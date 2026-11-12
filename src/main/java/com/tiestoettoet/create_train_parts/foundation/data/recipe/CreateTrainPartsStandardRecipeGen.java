@@ -167,7 +167,39 @@ public final class CreateTrainPartsStandardRecipeGen extends BaseRecipeProvider 
 	POLE = create(AllBlocks.POLE).returns(4)
 		.unlockedBy(com.simibubi.create.AllBlocks.ANDESITE_CASING::get)
 		.viaShapeless(b -> b.requires(com.simibubi.create.AllBlocks.ANDESITE_CASING.get())
-			.requires(com.simibubi.create.AllBlocks.SHAFT));
+			.requires(com.simibubi.create.AllBlocks.SHAFT)),
+
+	BELLOW_1X2 = create(AllBlocks.BELLOW_1X2).returns(1)
+		.unlockedBy(AllItems.BELT_CONNECTOR::get)
+		.viaShaped(b -> b.define('B', AllItems.BELT_CONNECTOR)
+			.pattern("B")
+			.pattern("B")),
+
+	BELLOW_2X2 = create(AllBlocks.BELLOW_2X2).returns(1)
+		.unlockedBy(AllItems.BELT_CONNECTOR::get)
+		.viaShaped(b -> b.define('B', AllItems.BELT_CONNECTOR)
+			.pattern("BB")
+			.pattern("BB")),
+
+	BELLOW_2X3 = create(AllBlocks.BELLOW_2X3).returns(1)
+		.unlockedBy(AllItems.BELT_CONNECTOR::get)
+		.viaShaped(b -> b.define('B', AllItems.BELT_CONNECTOR)
+			.pattern("BB")
+			.pattern("BB")
+			.pattern("BB")),
+
+	BELLOW_3X2 = create(AllBlocks.BELLOW_3X2).returns(1)
+		.unlockedBy(AllItems.BELT_CONNECTOR::get)
+		.viaShaped(b -> b.define('B', AllItems.BELT_CONNECTOR)
+			.pattern("BBB")
+			.pattern("BBB")),
+
+	BELLOW_3X3 = create(AllBlocks.BELLOW_3X3).returns(1)
+		.unlockedBy(AllItems.BELT_CONNECTOR::get)
+		.viaShaped(b -> b.define('B', AllItems.BELT_CONNECTOR)
+			.pattern("BBB")
+			.pattern("BBB")
+			.pattern("BBB"));
 
 
 	/*

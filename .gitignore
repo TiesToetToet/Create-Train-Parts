@@ -5,7 +5,7 @@ bin
 .metadata
 .classpath
 .project
-
+.vscode
 # idea
 out
 *.ipr
@@ -28,5 +28,5 @@ repo
 # Files from Forge MDK
 forge*changelog.txt
 .idea/misc.xml
-
-create-1.21.1-6.0.10.jar/*
+create-*.jar
+.vscode/launch.json

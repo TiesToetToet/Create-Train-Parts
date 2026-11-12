@@ -21,6 +21,10 @@ import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSl
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepGenerator;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepMovementBehaviour;
+import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlock;
+import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowGenerator;
+import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowMovementBehaviour;
+import com.tiestoettoet.create_train_parts.foundation.collision.BellowSize;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.*;
 import com.tiestoettoet.create_train_parts.foundation.block.connected.HorizontalCTBehaviour;
 import com.tterrag.registrate.builders.BlockBuilder;
@@ -142,17 +146,28 @@ public class BuilderTransformers {
                 .model(AssetLookup.customBlockItemModel("crossing", "arm_item"))
                 .build();
     }
+	public static <B extends PoleBlock, P>NonNullUnaryOperator<BlockBuilder<B, P>> pole() {
+		return b -> b.initialProperties(SharedProperties::softMetal)
+			.properties(p -> p.mapColor(MapColor.COLOR_GRAY))
+			.properties(p -> p.sound(SoundType.NETHERITE_BLOCK))
+			.blockstate(new PoleGenerator()::generate)
+			.transform(axeOnly())
+			.item()
+			.model(AssetLookup.customBlockItemModel("crossing", "pole_item"))
+			.build();
+	}
 
-    public static <B extends PoleBlock, P>NonNullUnaryOperator<BlockBuilder<B, P>> pole() {
-        return b -> b.initialProperties(SharedProperties::softMetal)
-                .properties(p -> p.mapColor(MapColor.COLOR_GRAY))
-                .properties(p -> p.sound(SoundType.NETHERITE_BLOCK))
-                .blockstate(new PoleGenerator()::generate)
-                .transform(axeOnly())
-                .item()
-                .model(AssetLookup.customBlockItemModel("crossing", "pole_item"))
-                .build();
-    }
-
+    public static <B extends BellowBlock, P>NonNullUnaryOperator<BlockBuilder<B, P>> bellow(BellowSize size) {
+		return b -> b.initialProperties(SharedProperties::softMetal)
+			.properties(p -> p.mapColor(MapColor.COLOR_GRAY))
+			.properties(p -> p.sound(SoundType.NETHERITE_BLOCK))
+			.blockstate(new BellowGenerator()::generate)
+			.transform(pickaxeOnly())
+			.onRegister(movementBehaviour(new BellowMovementBehaviour()))
+			.item()
+//			.model(AssetLookup.customBlockItemModel("bellow", "item_" + size.format()))
+			.model((c, p) -> p.blockSprite(c, p.modLoc("item/bellow/" + size.width() + "x" + size.height())))
+			.build();
+	}
 
 }
