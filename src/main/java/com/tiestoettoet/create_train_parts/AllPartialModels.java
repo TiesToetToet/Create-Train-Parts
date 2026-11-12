@@ -12,12 +12,9 @@ import com.simibubi.create.content.kinetics.gantry.GantryShaftBlock;
 import com.simibubi.create.content.logistics.box.PackageStyles;
 import com.simibubi.create.content.logistics.box.PackageStyles.PackageStyle;
 
-import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.data.Couple;
-import net.createmod.catnip.data.Iterate;
 import net.createmod.catnip.lang.Lang;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 public class AllPartialModels {
@@ -86,42 +83,22 @@ public class AllPartialModels {
         putSlidingWindow("train");
     }
 
-
+    // Keyed by block id; each partial bundles all variants, see CTPartialModels
     private static void putTrainStep(String path) {
-        for (Direction facing : Iterate.directions) {
-            if (facing == Direction.UP || facing == Direction.DOWN)
-                continue;
-            for (Direction face : Iterate.directions) {
-                for (TrainStepBlock.ConnectedState state : TrainStepBlock.ConnectedState.values()) {
-
-                    TRAIN_STEP.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/steps_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_STEP_SLIDE.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/slide_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-//                    System.out.println("Model path: " + path + "/slide");
-                    TRAIN_STEP_PIVOT.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/pivot_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_STEP_MOVE.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/move_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_STEP_FLAP.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/flap_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                }
-            }
-        }
-
+        ResourceLocation key = CreateTrainParts.asResource(path);
+        TRAIN_STEP.put(key, block(path + "/partial/steps"));
+        TRAIN_STEP_SLIDE.put(key, block(path + "/partial/slide"));
+        TRAIN_STEP_PIVOT.put(key, block(path + "/partial/pivot"));
+        TRAIN_STEP_MOVE.put(key, block(path + "/partial/move"));
+        TRAIN_STEP_FLAP.put(key, block(path + "/partial/flap"));
     }
 
     private static void putTrainSlide(String path) {
-        for (Direction facing : Iterate.directions) {
-            if (facing == Direction.UP || facing == Direction.DOWN)
-                continue;
-            for (Direction face : Iterate.directions) {
-                for (TrainStepBlock.ConnectedState state : TrainStepBlock.ConnectedState.values()) {
-
-                    TRAIN_SLIDE.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/slide_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_SLIDE_TOP.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/top_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-//                    System.out.println("Model path: " + path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName());
-                    TRAIN_SLIDE_CENTRE.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/centre_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                    TRAIN_SLIDE_BOTTOM.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/bottom_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-//                    TRAIN_STEP_FLAP.put(CreateTrainParts.asResource(path + "/" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()), block(path + "/flap_" + facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName()));
-                }
-            }
-        }
+        ResourceLocation key = CreateTrainParts.asResource(path);
+        TRAIN_SLIDE.put(key, block(path + "/partial/slide"));
+        TRAIN_SLIDE_TOP.put(key, block(path + "/partial/top"));
+        TRAIN_SLIDE_CENTRE.put(key, block(path + "/partial/centre"));
+        TRAIN_SLIDE_BOTTOM.put(key, block(path + "/partial/bottom"));
     }
 
     private static void putSlidingWindow(String type) {

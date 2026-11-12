@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // 1.21.1	2026-09-16T22:11:18.1849011	Create Train Parts' Standard Recipes
+=======
+// 1.21.1	2026-07-21T22:27:35.9636549	Create Train Parts' Standard Recipes
+>>>>>>> origin/main
 18ecbebdaee956a327fc4b43a2421f806d84f8b3 data/create_train_parts/advancement/recipes/misc/crafting/materials/andesite_sliding_window.json
 a38a9203e1aebf2b1921ea6999359a0968727d6e data/create_train_parts/advancement/recipes/misc/crafting/materials/arm_extender.json
 0c6c4397fa9b5c163ea8c2e366b438965d920502 data/create_train_parts/advancement/recipes/misc/crafting/materials/bellow_1x2.json
