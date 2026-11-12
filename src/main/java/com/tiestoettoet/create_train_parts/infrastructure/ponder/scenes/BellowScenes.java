@@ -90,13 +90,13 @@ public class BellowScenes {
 		scene.idle(15);
 		scene.world().showSectionAndMerge(util.select().position(7, 3, 6), Direction.DOWN, trainElement2);
 		scene.idle(15);
-		scene.overlay().showText(80)
+		scene.overlay().showText(60)
 			.pointAt(util.vector().topOf(8, 2, 6))
 			.placeNearTarget()
 			.attachKeyFrame()
 			.text("Make sure the arrows face each-other");
 
-		scene.idle(90);
+		scene.idle(70);
 
 		scene.overlay().showText(70)
 			.pointAt(stationTop)
