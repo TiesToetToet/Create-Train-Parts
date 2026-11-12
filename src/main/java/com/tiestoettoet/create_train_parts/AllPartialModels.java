@@ -12,12 +12,9 @@ import com.simibubi.create.content.kinetics.gantry.GantryShaftBlock;
 import com.simibubi.create.content.logistics.box.PackageStyles;
 import com.simibubi.create.content.logistics.box.PackageStyles.PackageStyle;
 
-import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.data.Couple;
-import net.createmod.catnip.data.Iterate;
 import net.createmod.catnip.lang.Lang;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 public class AllPartialModels {
@@ -80,66 +77,22 @@ public class AllPartialModels {
         putSlidingWindow("train");
     }
 
-	private static boolean modelExists(String modelPath) {
-		// Builds the path to match your generated resources folder structure
-		String fullPath = "/assets/create_train_parts/models/block/" + modelPath + ".json";
-
-		// If getResource returns null, the file doesn't exist
-		return CreateTrainParts.class.getResource(fullPath) != null;
-	}
-
+    // Keyed by block id; each partial bundles all variants, see CTPartialModels
     private static void putTrainStep(String path) {
-        for (Direction facing : Iterate.directions) {
-            if (facing == Direction.UP || facing == Direction.DOWN)
-                continue;
-            for (Direction face : Iterate.directions) {
-                for (TrainStepBlock.ConnectedState state : TrainStepBlock.ConnectedState.values()) {
-					String suffix = facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName();
-					ResourceLocation key = CreateTrainParts.asResource(path + "/" + suffix);
-
-					String stepsPath = path + "/steps_" + suffix;
-					if (modelExists(stepsPath)) TRAIN_STEP.put(key, block(stepsPath));
-
-					String slidePath = path + "/slide_" + suffix;
-					if (modelExists(slidePath)) TRAIN_STEP_SLIDE.put(key, block(slidePath));
-
-					String pivotPath = path + "/pivot_" + suffix;
-					if (modelExists(pivotPath)) TRAIN_STEP_PIVOT.put(key, block(pivotPath));
-
-					String movePath = path + "/move_" + suffix;
-					if (modelExists(movePath)) TRAIN_STEP_MOVE.put(key, block(movePath));
-
-					String flapPath = path + "/flap_" + suffix;
-					if (modelExists(flapPath)) TRAIN_STEP_FLAP.put(key, block(flapPath));
-                }
-            }
-        }
-
+        ResourceLocation key = CreateTrainParts.asResource(path);
+        TRAIN_STEP.put(key, block(path + "/partial/steps"));
+        TRAIN_STEP_SLIDE.put(key, block(path + "/partial/slide"));
+        TRAIN_STEP_PIVOT.put(key, block(path + "/partial/pivot"));
+        TRAIN_STEP_MOVE.put(key, block(path + "/partial/move"));
+        TRAIN_STEP_FLAP.put(key, block(path + "/partial/flap"));
     }
 
     private static void putTrainSlide(String path) {
-        for (Direction facing : Iterate.directions) {
-            if (facing == Direction.UP || facing == Direction.DOWN)
-                continue;
-            for (Direction face : Iterate.directions) {
-                for (TrainStepBlock.ConnectedState state : TrainStepBlock.ConnectedState.values()) {
-					String suffix = facing.getSerializedName() + "_" + state.getSerializedName() + "_" + face.getSerializedName();
-					ResourceLocation key = CreateTrainParts.asResource(path + "/" + suffix);
-
-					String slidePath = path + "/slide_" + suffix;
-					if (modelExists(slidePath)) TRAIN_SLIDE.put(key, block(slidePath));
-
-					String topPath = path + "/top_" + suffix;
-					if (modelExists(topPath)) TRAIN_SLIDE_TOP.put(key, block(topPath));
-
-					String centrePath = path + "/centre_" + suffix;
-					if (modelExists(centrePath)) TRAIN_SLIDE_CENTRE.put(key, block(centrePath));
-
-					String bottomPath = path + "/bottom_" + suffix;
-					if (modelExists(bottomPath)) TRAIN_SLIDE_BOTTOM.put(key, block(bottomPath));
-                }
-            }
-        }
+        ResourceLocation key = CreateTrainParts.asResource(path);
+        TRAIN_SLIDE.put(key, block(path + "/partial/slide"));
+        TRAIN_SLIDE_TOP.put(key, block(path + "/partial/top"));
+        TRAIN_SLIDE_CENTRE.put(key, block(path + "/partial/centre"));
+        TRAIN_SLIDE_BOTTOM.put(key, block(path + "/partial/bottom"));
     }
 
     private static void putSlidingWindow(String type) {

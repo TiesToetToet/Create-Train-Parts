@@ -13,6 +13,7 @@ import com.tiestoettoet.create_train_parts.AllPartialModels;
 //import com.simibubi.create.foundation.render.
 import com.tiestoettoet.create_train_parts.CreateTrainParts;
 import com.tiestoettoet.create_train_parts.content.decoration.encasing.EncasedCTBehaviour;
+import com.tiestoettoet.create_train_parts.foundation.render.CTPartialModels;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.data.Iterate;
 import net.createmod.catnip.render.SuperByteBuffer;
@@ -524,16 +525,12 @@ public class TrainStepRenderer extends SafeBlockEntityRenderer<TrainStepBlockEnt
                 if (facing == Direction.WEST && face != Direction.UP && face != Direction.DOWN)
                     face = face.getClockWise();
 
-                ResourceLocation resourceLocation = CreateTrainParts.asResource(
-                        blockTexturePath + "/" + facing.getSerializedName() + "_" + connectedState.getSerializedName()
-                                + "_" + face.getSerializedName());
-
-                PartialModel move = AllPartialModels.TRAIN_STEP_MOVE.get(resourceLocation);
-                PartialModel flap = AllPartialModels.TRAIN_STEP_FLAP.get(resourceLocation);
-                PartialModel block = AllPartialModels.TRAIN_STEP.get(resourceLocation);
-
-                PartialModel slide = AllPartialModels.TRAIN_STEP_SLIDE.get(resourceLocation);
-                PartialModel pivot = AllPartialModels.TRAIN_STEP_PIVOT.get(resourceLocation);
+                int variant = CTPartialModels.variantCode(facing, connectedState, face);
+                SuperByteBuffer partial_move = CTPartialModels.get(AllPartialModels.TRAIN_STEP_MOVE.get(blockTexture), state, variant);
+                SuperByteBuffer partial_flap = CTPartialModels.get(AllPartialModels.TRAIN_STEP_FLAP.get(blockTexture), state, variant);
+                SuperByteBuffer partial_block = CTPartialModels.get(AllPartialModels.TRAIN_STEP.get(blockTexture), state, variant);
+                SuperByteBuffer partial_slide = CTPartialModels.get(AllPartialModels.TRAIN_STEP_SLIDE.get(blockTexture), state, variant);
+                SuperByteBuffer partial_pivot = CTPartialModels.get(AllPartialModels.TRAIN_STEP_PIVOT.get(blockTexture), state, variant);
 
 				float row = Math.floorDiv(textureIndex, 8);
 				float column = textureIndex % 8;
@@ -541,8 +538,7 @@ public class TrainStepRenderer extends SafeBlockEntityRenderer<TrainStepBlockEnt
 				float v = (row) / 8f;
 
 				// 1. RENDER BLOCK
-				if (block != null) {
-					SuperByteBuffer partial_block = CachedBuffers.partial(block, state);
+				if (partial_block != null) {
 					BlockPos blockPos = pos;
 					int blockLight = getSafeLight(world, blockPos, light);
 
@@ -557,8 +553,7 @@ public class TrainStepRenderer extends SafeBlockEntityRenderer<TrainStepBlockEnt
 				}
 
 				// 2. RENDER FLAP
-				if (flap != null) {
-					SuperByteBuffer partial_flap = CachedBuffers.partial(flap, state);
+				if (partial_flap != null) {
 					BlockPos flapPos = pos.offset((int) Math.round(movementF.x), (int) Math.round(movementF.y), (int) Math.round(movementF.z));
 					int flapLight = getSafeLight(world, flapPos, light);
 
@@ -575,8 +570,7 @@ public class TrainStepRenderer extends SafeBlockEntityRenderer<TrainStepBlockEnt
 				}
 
 				// 3. RENDER MOVE
-				if (move != null) {
-					SuperByteBuffer partial_move = CachedBuffers.partial(move, state);
+				if (partial_move != null) {
 					BlockPos movePos = pos.offset((int) Math.round(movementM.x), (int) Math.round(movementM.y), (int) Math.round(movementM.z));
 					int moveLight = getSafeLight(world, movePos, light);
 
@@ -592,13 +586,12 @@ public class TrainStepRenderer extends SafeBlockEntityRenderer<TrainStepBlockEnt
 				}
 
 				// 4. RENDER SLIDE
-				if (slide != null) {
+				if (partial_slide != null) {
 					BlockEntity be = world.getBlockEntity(pos);
 					if (be instanceof TrainStepBlockEntity ts) {
 						if (ts.getMode() == TrainStepBlockEntity.SlideMode.NO_SLIDE) moveOffset = Vec3.ZERO;
 					}
 
-					SuperByteBuffer partial_slide = CachedBuffers.partial(slide, state);
 					BlockPos slidePos = pos.offset((int) Math.round(moveOffset.x), (int) Math.round(moveOffset.y), (int) Math.round(moveOffset.z));
 					int slideLight = getSafeLight(world, slidePos, light);
 
@@ -614,8 +607,7 @@ public class TrainStepRenderer extends SafeBlockEntityRenderer<TrainStepBlockEnt
 				}
 
 				// 5. RENDER PIVOT
-				if (pivot != null) {
-					SuperByteBuffer partial_pivot = CachedBuffers.partial(pivot, state);
+				if (partial_pivot != null) {
 					BlockPos pivotPos = pos.offset((int) Math.round(moveOffsetP.x), (int) Math.round(15.5 / 16f), (int) Math.round(moveOffsetP.z));
 					int pivotLight = getSafeLight(world, pivotPos, light);
 

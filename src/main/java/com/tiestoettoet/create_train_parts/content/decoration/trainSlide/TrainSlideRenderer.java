@@ -13,6 +13,7 @@ import com.tiestoettoet.create_train_parts.AllPartialModels;
 //import com.simibubi.create.foundation.render.
 import com.tiestoettoet.create_train_parts.CreateTrainParts;
 import com.tiestoettoet.create_train_parts.content.decoration.encasing.EncasedCTBehaviour;
+import com.tiestoettoet.create_train_parts.foundation.render.CTPartialModels;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.data.Iterate;
 import net.createmod.catnip.render.SuperByteBuffer;
@@ -133,16 +134,11 @@ public class TrainSlideRenderer extends SafeBlockEntityRenderer<TrainSlideBlockE
             if (facing == Direction.WEST && face != Direction.UP && face != Direction.DOWN)
                 face = face.getClockWise();
 
-            ResourceLocation resourceLocation = CreateTrainParts.asResource(
-                    blockTexturePath + "/" + facing.getSerializedName() + "_" + connectedState.getSerializedName()
-                            + "_" + face.getSerializedName());
-
-
-            PartialModel top = AllPartialModels.TRAIN_SLIDE_TOP.get(resourceLocation);
-            PartialModel centre = AllPartialModels.TRAIN_SLIDE_CENTRE.get(resourceLocation);
-            PartialModel block = AllPartialModels.TRAIN_SLIDE.get(resourceLocation);
-
-            PartialModel bottom = AllPartialModels.TRAIN_SLIDE_BOTTOM.get(resourceLocation);
+            int variant = CTPartialModels.variantCode(facing, connectedState, face);
+            SuperByteBuffer partial_top = CTPartialModels.get(AllPartialModels.TRAIN_SLIDE_TOP.get(blockTexture), state, variant);
+            SuperByteBuffer partial_centre = CTPartialModels.get(AllPartialModels.TRAIN_SLIDE_CENTRE.get(blockTexture), state, variant);
+            SuperByteBuffer partial_block = CTPartialModels.get(AllPartialModels.TRAIN_SLIDE.get(blockTexture), state, variant);
+            SuperByteBuffer partial_bottom = CTPartialModels.get(AllPartialModels.TRAIN_SLIDE_BOTTOM.get(blockTexture), state, variant);
 
             CTSpriteShiftEntry spriteShift;
             switch (blockTexturePath) {
@@ -171,8 +167,7 @@ public class TrainSlideRenderer extends SafeBlockEntityRenderer<TrainSlideBlockE
             float u = (column) / 8f;
             float v = (row) / 8f;
 
-			if (block != null) {
-				SuperByteBuffer partial_block = CachedBuffers.partial(block, state);
+			if (partial_block != null) {
 				BlockPos blockPos = pos;
 				int blockLight = getSafeLight(world, blockPos, light);
 
@@ -193,8 +188,7 @@ public class TrainSlideRenderer extends SafeBlockEntityRenderer<TrainSlideBlockE
 				}
 			}
 
-			if (centre != null) {
-				SuperByteBuffer partial_centre = CachedBuffers.partial(centre, state);
+			if (partial_centre != null) {
 				BlockPos centrePos = pos.offset((int) Math.round(moveOffsetC.x), (int) Math.round(moveOffsetC.y),
 					(int) Math.round(moveOffsetC.z));
 				int centreLight = getSafeLight(world, centrePos, light);
@@ -217,8 +211,7 @@ public class TrainSlideRenderer extends SafeBlockEntityRenderer<TrainSlideBlockE
 				}
 			}
 
-			if (top != null) {
-				SuperByteBuffer partial_top = CachedBuffers.partial(top, state);
+			if (partial_top != null) {
 				BlockPos topPos = pos.offset((int) Math.round(moveOffsetT.x), (int) Math.round(moveOffsetT.y),
 					(int) Math.round(moveOffsetT.z));
 				int topLight = getSafeLight(world, topPos, light);
@@ -241,8 +234,7 @@ public class TrainSlideRenderer extends SafeBlockEntityRenderer<TrainSlideBlockE
 				}
 			}
 
-			if (bottom != null) {
-				SuperByteBuffer partial_bottom = CachedBuffers.partial(bottom, state);
+			if (partial_bottom != null) {
 				BlockPos bottomPos = pos.offset((int) Math.round(moveOffsetB.x), (int) Math.round(moveOffsetB.y),
 					(int) Math.round(moveOffsetB.z));
 				int bottomLight = getSafeLight(world, bottomPos, light);
