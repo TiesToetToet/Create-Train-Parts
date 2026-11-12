@@ -23,6 +23,7 @@ import com.simibubi.create.foundation.ponder.CreatePonderPlugin;
 import com.simibubi.create.foundation.render.AllInstanceTypes;
 
 import com.tiestoettoet.create_train_parts.foundation.ponder.CreateTrainPartsPonderPlugin;
+import com.tiestoettoet.create_train_parts.foundation.render.CTPartialModels;
 import net.createmod.catnip.render.CachedBuffers;
 import net.createmod.catnip.render.SuperByteBufferCache;
 import net.createmod.ponder.foundation.PonderIndex;
@@ -52,6 +53,7 @@ public class CreateTrainPartsClient {
 
     public static void clientInit(final FMLClientSetupEvent event) {
         SuperByteBufferCache.getInstance().registerCompartment(CachedBuffers.PARTIAL);
+        SuperByteBufferCache.getInstance().registerCompartment(CTPartialModels.CT_PARTIAL);
 
         System.out.println("Create Train Parts Client Init");
         AllPartialModels.init();
