@@ -13,6 +13,7 @@ import com.tiestoettoet.create_train_parts.AllPartialModels;
 //import com.simibubi.create.foundation.render.
 import com.tiestoettoet.create_train_parts.CreateTrainParts;
 import com.tiestoettoet.create_train_parts.content.decoration.encasing.EncasedCTBehaviour;
+import com.tiestoettoet.create_train_parts.foundation.render.CTPartialModels;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.data.Iterate;
 import net.createmod.catnip.render.SuperByteBuffer;
@@ -133,18 +134,12 @@ public class TrainSlideRenderer extends SafeBlockEntityRenderer<TrainSlideBlockE
             if (facing == Direction.WEST && face != Direction.UP && face != Direction.DOWN)
                 face = face.getClockWise();
 
-            ResourceLocation resourceLocation = CreateTrainParts.asResource(
-                    blockTexturePath + "/" + facing.getSerializedName() + "_" + connectedState.getSerializedName()
-                            + "_" + face.getSerializedName());
+            int variant = CTPartialModels.variantCode(facing, connectedState, face);
+            SuperByteBuffer partial_top = CTPartialModels.get(AllPartialModels.TRAIN_SLIDE_TOP.get(blockTexture), state, variant);
+            SuperByteBuffer partial_centre = CTPartialModels.get(AllPartialModels.TRAIN_SLIDE_CENTRE.get(blockTexture), state, variant);
+            SuperByteBuffer partial_block = CTPartialModels.get(AllPartialModels.TRAIN_SLIDE.get(blockTexture), state, variant);
+            SuperByteBuffer partial_bottom = CTPartialModels.get(AllPartialModels.TRAIN_SLIDE_BOTTOM.get(blockTexture), state, variant);
 
-
-            PartialModel top = AllPartialModels.TRAIN_SLIDE_TOP.get(resourceLocation);
-            PartialModel centre = AllPartialModels.TRAIN_SLIDE_CENTRE.get(resourceLocation);
-            PartialModel block = AllPartialModels.TRAIN_SLIDE.get(resourceLocation);
-
-            PartialModel bottom = AllPartialModels.TRAIN_SLIDE_BOTTOM.get(resourceLocation);
-
-            SuperByteBuffer partial_block = CachedBuffers.partial(block, state);
             CTSpriteShiftEntry spriteShift;
             switch (blockTexturePath) {
                 case "train_slide_andesite" -> spriteShift = AllSpriteShifts.ANDESITE_CASING;
@@ -166,94 +161,101 @@ public class TrainSlideRenderer extends SafeBlockEntityRenderer<TrainSlideBlockE
                 return;
             }
 
-            SuperByteBuffer partial_bottom = CachedBuffers.partial(bottom, state);
-            SuperByteBuffer partial_top = CachedBuffers.partial(top, state);
-            SuperByteBuffer partial_centre = CachedBuffers.partial(centre, state);
+
             float row = Math.floorDiv(textureIndex, 8);
             float column = textureIndex % 8;
             float u = (column) / 8f;
             float v = (row) / 8f;
 
-            int blockLight = getSafeLight(world, pos, light);
+			if (partial_block != null) {
+				BlockPos blockPos = pos;
+				int blockLight = getSafeLight(world, blockPos, light);
 
-            if (world instanceof ContraptionWorld) {
-                partial_block
-                        .transform(ms)
-                        .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
-                        .shiftUVtoSheet(spriteShift, u, v, 8)
-                        .light(blockLight)
-                        .useLevelLight(world, matrices.getWorld())
-                        .renderInto(matrices.getViewProjection(), vb);
-            } else {
-                partial_block
-                        .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
-                        .shiftUVtoSheet(spriteShift, u, v, 8)
-                        .light(blockLight)
-                        .renderInto(ms, vb);
-            }
+				if (world instanceof ContraptionWorld) {
+					partial_block
+						.transform(ms)
+						.rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+						.shiftUVtoSheet(spriteShift, u, v, 8)
+						.light(blockLight)
+						.useLevelLight(world, matrices.getWorld())
+						.renderInto(matrices.getViewProjection(), vb);
+				} else {
+					partial_block
+						.rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+						.shiftUVtoSheet(spriteShift, u, v, 8)
+						.light(blockLight)
+						.renderInto(ms, vb);
+				}
+			}
 
-            BlockPos centrePos = pos.offset((int) Math.round(moveOffsetC.x), (int) Math.round(moveOffsetC.y),
-                    (int) Math.round(moveOffsetC.z));
-            int centreLight = getSafeLight(world, centrePos, light);
+			if (partial_centre != null) {
+				BlockPos centrePos = pos.offset((int) Math.round(moveOffsetC.x), (int) Math.round(moveOffsetC.y),
+					(int) Math.round(moveOffsetC.z));
+				int centreLight = getSafeLight(world, centrePos, light);
 
-            if (world instanceof ContraptionWorld) {
-                partial_centre
-                        .transform(ms)
-                        .translate(moveOffsetC.x, moveOffsetC.y, moveOffsetC.z)
-                        .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
-                        .shiftUVtoSheet(spriteShift, u, v, 8)
-                        .light(centreLight)
-                        .useLevelLight(world, matrices.getWorld())
-                        .renderInto(matrices.getViewProjection(), vb);
-            } else {
-                partial_centre.translate(moveOffsetC.x, moveOffsetC.y, moveOffsetC.z)
-                        .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
-                        .shiftUVtoSheet(spriteShift, u, v, 8)
-                        .light(centreLight)
-                        .renderInto(ms, vb);
-            }
+				if (world instanceof ContraptionWorld) {
+					partial_centre
+						.transform(ms)
+						.translate(moveOffsetC.x, moveOffsetC.y, moveOffsetC.z)
+						.rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+						.shiftUVtoSheet(spriteShift, u, v, 8)
+						.light(centreLight)
+						.useLevelLight(world, matrices.getWorld())
+						.renderInto(matrices.getViewProjection(), vb);
+				} else {
+					partial_centre.translate(moveOffsetC.x, moveOffsetC.y, moveOffsetC.z)
+						.rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+						.shiftUVtoSheet(spriteShift, u, v, 8)
+						.light(centreLight)
+						.renderInto(ms, vb);
+				}
+			}
 
-            BlockPos topPos = pos.offset((int) Math.round(moveOffsetT.x), (int) Math.round(moveOffsetT.y),
-                    (int) Math.round(moveOffsetT.z));
-            int topLight = getSafeLight(world, topPos, light);
+			if (partial_top != null) {
+				BlockPos topPos = pos.offset((int) Math.round(moveOffsetT.x), (int) Math.round(moveOffsetT.y),
+					(int) Math.round(moveOffsetT.z));
+				int topLight = getSafeLight(world, topPos, light);
 
-            if (world instanceof ContraptionWorld) {
-                partial_top
-                        .transform(ms)
-                        .translate(moveOffsetT.x, moveOffsetT.y, moveOffsetT.z)
-                        .shiftUVtoSheet(spriteShift, u, v, 8)
-                        .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
-                        .light(topLight)
-                        .useLevelLight(world, matrices.getWorld())
-                        .renderInto(matrices.getViewProjection(), vb);
-            } else {
-                partial_top.translate(moveOffsetT.x, moveOffsetT.y, moveOffsetT.z)
-                        .shiftUVtoSheet(spriteShift, u, v, 8)
-                        .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
-                        .light(topLight)
-                        .renderInto(ms, vb);
-            }
+				if (world instanceof ContraptionWorld) {
+					partial_top
+						.transform(ms)
+						.translate(moveOffsetT.x, moveOffsetT.y, moveOffsetT.z)
+						.shiftUVtoSheet(spriteShift, u, v, 8)
+						.rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+						.light(topLight)
+						.useLevelLight(world, matrices.getWorld())
+						.renderInto(matrices.getViewProjection(), vb);
+				} else {
+					partial_top.translate(moveOffsetT.x, moveOffsetT.y, moveOffsetT.z)
+						.shiftUVtoSheet(spriteShift, u, v, 8)
+						.rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+						.light(topLight)
+						.renderInto(ms, vb);
+				}
+			}
 
-            BlockPos bottomPos = pos.offset((int) Math.round(moveOffsetB.x), (int) Math.round(moveOffsetB.y),
-                    (int) Math.round(moveOffsetB.z));
-            int bottomLight = getSafeLight(world, bottomPos, light);
+			if (partial_bottom != null) {
+				BlockPos bottomPos = pos.offset((int) Math.round(moveOffsetB.x), (int) Math.round(moveOffsetB.y),
+					(int) Math.round(moveOffsetB.z));
+				int bottomLight = getSafeLight(world, bottomPos, light);
 
-            if (world instanceof ContraptionWorld) {
-                partial_bottom
-                        .transform(ms)
-                        .translate(moveOffsetB.x, moveOffsetB.y, moveOffsetB.z)
-                        .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
-                        .shiftUVtoSheet(spriteShift, u, v, 8)
-                        .light(bottomLight)
-                        .useLevelLight(world, matrices.getWorld())
-                        .renderInto(matrices.getViewProjection(), vb);
-            } else {
-                partial_bottom.translate(moveOffsetB.x, moveOffsetB.y, moveOffsetB.z)
-                        .rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
-                        .shiftUVtoSheet(spriteShift, u, v, 8)
-                        .light(bottomLight)
-                        .renderInto(ms, vb);
-            }
+				if (world instanceof ContraptionWorld) {
+					partial_bottom
+						.transform(ms)
+						.translate(moveOffsetB.x, moveOffsetB.y, moveOffsetB.z)
+						.rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+						.shiftUVtoSheet(spriteShift, u, v, 8)
+						.light(bottomLight)
+						.useLevelLight(world, matrices.getWorld())
+						.renderInto(matrices.getViewProjection(), vb);
+				} else {
+					partial_bottom.translate(moveOffsetB.x, moveOffsetB.y, moveOffsetB.z)
+						.rotateCentered(Mth.DEG_TO_RAD * rotationAngle, Direction.Axis.Y)
+						.shiftUVtoSheet(spriteShift, u, v, 8)
+						.light(bottomLight)
+						.renderInto(ms, vb);
+				}
+			}
 
         }
     }

@@ -1,397 +1,211 @@
+"""
+Generates the train step / train slide block models.
+
+Per block this writes:
+  - the static models (north/east/south/west/steps/slide) used by blockstates and items
+  - one merged model per animated part in `partial/<part>.json`
+
+Each merged model contains every facing/connected-state/CT-face variant of that part.
+Every face carries a `tintindex` encoding which variant it belongs to:
+
+    tintindex = FACING * 100 + CONNECTED_STATE * 10 + CT_FACE
+
+FACING and CT_FACE use Direction.get3DDataValue(), CONNECTED_STATE the ConnectedState ordinal.
+CTPartialModels (Java) splits the baked quads back up by this code at runtime.
+"""
 import json
 import shutil
 from pathlib import Path
 
-
-# Base folder paths
 ROOT = Path(__file__).resolve().parent
+SOURCE = ROOT / "src" / "main" / "resources" / "assets" / "create_train_parts" / "models" / "block"
+OUTPUT = ROOT / "src" / "generated" / "resources" / "assets" / "create_train_parts" / "models" / "block"
 
-# Base folder paths
-step_models_folder = ROOT / "src" / "main" / "resources" / "assets" / \
-                     "create_train_parts" / "models" / "block" / "step_models"
+BASE_TEXTURE = "create:block/andesite_casing"
 
-step_models_train_folder = ROOT / "src" / "main" / "resources" / "assets" / \
-                           "create_train_parts" / "models" / "block" / "step_models_train"
-
-slide_models_input_folder = ROOT / "src" / "main" / "resources" / "assets" / \
-                            "create_train_parts" / "models" / "block" / "slide_models"
-
-slide_models_train_input_folder = ROOT / "src" / "main" / "resources" / "assets" / \
-                                  "create_train_parts" / "models" / "block" / "slide_models_train"
-
-base_folder_path = ROOT / "src" / "generated" / "resources" / "assets" / \
-                   "create_train_parts" / "models" / "block"
-
-# Block types and their respective textures
-block_types = {
-    "train_step_andesite": "create:block/andesite_casing",
-    "train_step_brass": "create:block/brass_casing",
-    "train_step_copper": "create:block/copper_casing",
-    "train_step_train": "create:block/railway_casing"  # No texture replacement for train_step_train
+MATERIALS = {
+    "andesite": "create:block/andesite_casing",
+    "brass": "create:block/brass_casing",
+    "copper": "create:block/copper_casing",
+    "train": "create:block/railway_casing",
 }
 
-# Directions to process
-directions = ["north", "east", "south", "west", "up", "down"]
-
-# Input for generating or removing models
-actions = ["r", "g"]
-
-# if user
-
-# Copy files from step_models to each block type folder
-for user_input in actions:
-    for block_type, texture_replacement in block_types.items():
-        generated_count = 0
-        removed_count = 0
-        target_folder = base_folder_path / block_type
-        target_folder.mkdir(parents=True, exist_ok=True)
-
-        if user_input == "g":
-
-            # Copy all files from step_models to the target folder
-            source_folder = step_models_train_folder if block_type == "train_step_train" else step_models_folder
-
-            for source_file in source_folder.iterdir():
-                target_file = target_folder / source_file.name
-
-                if source_file.is_file():
-                    shutil.copy(source_file, target_file)
-
-                    # Modify the textures and particles in the copied file
-                    if source_file.suffix == '.json':
-                        with open(target_file, 'r') as file:
-                            model_data = json.load(file)
-
-                        # Update the textures and particles
-                        if "textures" in model_data:
-                            model_data["textures"] = {
-                                key: (texture_replacement if value == "create:block/andesite_casing" else value)
-                                for key, value in model_data["textures"].items()
-                            }
-
-                        # Save the updated file
-                        with open(target_file, 'w') as file:
-                            json.dump(model_data, file, indent=4)
-
-                        generated_count += 1
-
-        if user_input == "r":
-            # Remove all files once
-            for file_path in target_folder.iterdir():
-                if file_path.is_file():
-                    file_path.unlink()
-                    removed_count += 1
-        # Process each JSON file in the target folder
-        else:
-            for filename in target_folder.iterdir():
-                if filename.suffix == '.json' and len(filename.stem.split("_")) > 1:
-                    file_path = filename
-
-                        # Read the original model file
-                    with open(file_path, 'r') as file:
-                        model_data = json.load(file)
-
-                    # Update the textures for the current block type
-                    if "textures" in model_data:
-                        model_data["textures"] = {
-                            key: (texture_replacement if value == "create:block/andesite_casing" else value)
-                            for key, value in model_data["textures"].items()
-                        }
-
-                    # Process each direction
-                    for direction in directions:
-                        # Create a copy of the model data
-                        new_model = {
-                            "credit": model_data.get("credit", ""),
-                            "textures": model_data.get("textures", {}),
-                            "elements": [],
-                            "groups": model_data.get("groups", [])
-                        }
-
-                        # Filter elements to include only the specified direction
-                        for element in model_data.get("elements", []):
-                            new_faces = {}
-                            if "faces" in element and direction in element["faces"]:
-                                # Handle exceptions for slide_east/slide_west
-                                if filename.stem.startswith("slide"):
-                                    if block_type == "train_step_train":
-                                        if direction == "north":
-                                            # Include both north and up sides in the same file
-                                            if "north" in element["faces"]:
-                                                new_faces["north"] = element["faces"]["north"]
-                                            if "up" in element["faces"]:
-                                                new_faces["up"] = element["faces"]["up"]
-                                            if "south" in element["faces"]:
-                                                new_faces["south"] = element["faces"]["south"]
-                                            # if "down" in element["faces"]:
-                                            #     new_faces["down"] = element["faces"]["down"]
-                                            if "east" in element["faces"]:
-                                                new_faces["east"] = element["faces"]["east"]
-                                            if "west" in element["faces"]:
-                                                new_faces["west"] = element["faces"]["west"]
-                                        elif direction == "up":
-                                            # Make the up side empty
-                                            continue
-                                        elif direction == "south":
-                                            # Make the south side empty
-                                            continue
-                                        # elif direction == "down":
-                                        #     # Make the down side empty
-                                        #     continue
-                                        elif direction == "east":
-                                            continue
-                                        elif direction == "west":
-                                            continue
-                                        else:
-                                            # Default behavior for other directions
-                                            new_faces[direction] = element["faces"][direction]
-
-                                    else:
-                                        if direction == "north":
-                                            # Include both north and up sides in the same file
-                                            if "north" in element["faces"]:
-                                                new_faces["north"] = element["faces"]["north"]
-                                            if "up" in element["faces"]:
-                                                new_faces["up"] = element["faces"]["up"]
-                                            if "south" in element["faces"]:
-                                                new_faces["south"] = element["faces"]["south"]
-                                            # if "down" in element["faces"]:
-                                            #     new_faces["down"] = element["faces"]["down"]
-                                        elif direction == "up":
-                                            # Make the up side empty
-                                            continue
-                                        elif direction == "south":
-                                            # Make the south side empty
-                                            continue
-                                        # elif direction == "down":
-                                        #     # Make the down side empty
-                                        #     continue
-                                        else:
-                                            # Default behavior for other directions
-                                            new_faces[direction] = element["faces"][direction]
-                                # Handle exceptions for pivot_east/pivot_west
-                                elif filename.stem.startswith("pivot"):
-                                    if direction == "up":
-                                        # Include both up and south sides in the same file
-                                        if "up" in element["faces"]:
-                                            new_faces["up"] = element["faces"]["up"]
-                                        if "south" in element["faces"]:
-                                            new_faces["south"] = element["faces"]["south"]
-                                    elif direction == "south":
-                                        # Make the south side empty
-                                        continue
-                                    else:
-                                        # Default behavior for other directions
-                                        new_faces[direction] = element["faces"][direction]
-
-                                elif filename.stem.startswith("flap"):
-                                    if direction == "north":
-                                        # Include both north and up sides in the same file
-                                        if "north" in element["faces"]:
-                                            new_faces["north"] = element["faces"]["north"]
-                                        if "up" in element["faces"]:
-                                            new_faces["up"] = element["faces"]["up"]
-                                    elif direction == "up":
-                                        # Make the up side empty
-                                        continue
-                                    else:
-                                        # Default behavior for other directions
-                                        new_faces[direction] = element["faces"][direction]
-
-                                elif filename.stem.startswith("steps"):
-                                    # Check if the element belongs to the Bottom2 group
-                                    bottom2_elements = []
-                                    if "groups" in model_data:
-                                        for group in model_data["groups"]:
-                                            if isinstance(group, dict) and group.get("name") == "stairs":
-                                                for child in group.get("children", []):
-                                                    if isinstance(child, dict) and child.get("name") == "Bottom":
-                                                        for child2 in child.get("children", []):
-                                                            if isinstance(child2, dict) and child2.get("name") == "Bottom2":
-                                                                # Collect elements in the Bottom2 group
-                                                                for child_index in child2.get("children", []):
-                                                                    if isinstance(child_index, int) and child_index < len(model_data["elements"]):
-                                                                        bottom2_elements.append(model_data["elements"][child_index])
-
-                                    # Process all elements, including Bottom2 and Flat
-                                    for element in model_data.get("elements", []):
-                                        new_faces = {}
-                                        if element in bottom2_elements:
-                                            # Special handling for Bottom2 elements
-                                            if "faces" in element:
-                                                if direction == "north":
-                                                    # Include both north and up sides in the same file
-                                                    if "north" in element["faces"]:
-                                                        new_faces["north"] = element["faces"]["north"]
-                                                    if "up" in element["faces"]:
-                                                        new_faces["up"] = element["faces"]["up"]
-                                                elif direction == "up":
-                                                    # Make the up side empty
-                                                    continue
-                                                else:
-                                                    # Default behavior for other directions
-                                                    if direction in element["faces"]:
-                                                        new_faces[direction] = element["faces"][direction]
-                                        elif element.get("name") == "Flat":
-                                            # Special handling for Flat elements
-                                            if "faces" in element:
-                                                if direction == "down":
-                                                    if "north" in element["faces"]:
-                                                        new_faces["north"] = element["faces"]["north"]
-                                                    if "down" in element["faces"]:
-                                                        new_faces["down"] = element["faces"]["down"]
-                                                elif direction == "north":
-                                                    continue
-                                                else:
-                                                    # Default behavior for other directions
-                                                    if direction in element["faces"]:
-                                                        new_faces[direction] = element["faces"][direction]
+# Must match Direction.get3DDataValue()
+DIRECTIONS = {"down": 0, "up": 1, "north": 2, "south": 3, "west": 4, "east": 5}
+# Must match TrainStepBlock/TrainSlideBlock.ConnectedState ordinals
+CONNECTED_STATES = {"none": 0, "right": 1, "left": 2, "both": 3}
 
 
-                                        else:
-                                            # Default behavior for other elements
-                                            if "faces" in element and direction in element["faces"]:
-                                                new_faces[direction] = element["faces"][direction]
-
-                                        if new_faces:
-                                            new_element = element.copy()
-                                            new_element["faces"] = new_faces
-                                            new_model["elements"].append(new_element)
+def variant_code(facing, state, ct_face):
+    return DIRECTIONS[facing] * 100 + CONNECTED_STATES[state] * 10 + DIRECTIONS[ct_face]
 
 
-                                # Default behavior for other cases
-                                else:
-                                    new_faces[direction] = element["faces"][direction]
+def pick(faces, *names):
+    return {name: faces[name] for name in names if name in faces}
 
-                            if new_faces:
-                                new_element = element.copy()
-                                new_element["faces"] = new_faces
-                                new_model["elements"].append(new_element)
 
-                        # If no elements are left, create an empty model
-                        if not new_model["elements"]:
-                            new_model["elements"] = []
+def step_bucket(part, is_train, element, bucket, is_bottom2):
+    """Faces of `element` that use the connected texture of `bucket` (model-local face)."""
+    faces = element.get("faces", {})
 
-                        # Save the new model to a file
-                        output_file = target_folder / f"{filename.stem}_{direction}.json"
-                        with open(output_file, 'w') as out_file:
-                            json.dump(new_model, out_file, indent=4)
+    if part == "steps":
+        if is_bottom2:
+            if bucket == "north":
+                return pick(faces, "north", "up")
+            if bucket == "up":
+                return {}
+        elif element.get("name") == "Flat":
+            if bucket == "down":
+                return pick(faces, "north", "down")
+            if bucket == "north":
+                return {}
+        return pick(faces, bucket)
 
-                        generated_count += 1
+    if bucket not in faces:
+        return {}
 
-        friendly_name = block_type.replace("train_step_", "")
+    if part == "slide":
+        if bucket == "north":
+            if is_train:
+                return pick(faces, "north", "up", "south", "east", "west")
+            return pick(faces, "north", "up", "south")
+        if bucket in ("up", "south") or (is_train and bucket in ("east", "west")):
+            return {}
+    elif part == "pivot":
+        if bucket == "up":
+            return pick(faces, "up", "south")
+        if bucket == "south":
+            return {}
+    elif part == "flap":
+        if bucket == "north":
+            return pick(faces, "north", "up")
+        if bucket == "up":
+            return {}
 
-        if user_input == "g":
-            print(f"Generated {friendly_name} steps: {generated_count} files")
-        else:
-            print(f"Removed {friendly_name} steps: {removed_count} files")
-    #
+    return pick(faces, bucket)
 
-    for block_type, texture_replacement in block_types.items():
-        generated_count = 0
-        removed_count = 0
-        # if block_type == "train_step_train":
-        #     continue  # Skip train casing for now
 
-        output_folder_path = (
-                base_folder_path /
-                f'train_slide_{block_type.split("_")[-1]}'
-        )
+def slide_bucket(part, is_train, element, bucket, is_bottom2):
+    faces = element.get("faces", {})
+    if part in ("bottom", "centre", "top"):
+        if bucket == "north":
+            return pick(faces, "north", "south", "up")
+        if bucket in ("south", "up"):
+            return {}
+    return pick(faces, bucket)
 
-        output_folder_path.mkdir(parents=True, exist_ok=True)
 
-        source_folder = slide_models_train_input_folder if block_type == "train_step_train" else slide_models_input_folder
+def bottom2_indices(model):
+    indices = set()
+    for group in model.get("groups", []):
+        if not (isinstance(group, dict) and group.get("name") == "stairs"):
+            continue
+        for child in group.get("children", []):
+            if not (isinstance(child, dict) and child.get("name") == "Bottom"):
+                continue
+            for child2 in child.get("children", []):
+                if isinstance(child2, dict) and child2.get("name") == "Bottom2":
+                    indices.update(i for i in child2.get("children", []) if isinstance(i, int))
+    return indices
 
-        if source_folder.exists():
-            for filename in source_folder.iterdir():
-                if filename.suffix == '.json':
-                    input_file = filename
-                    if user_input == "g":
-                        if len(filename.stem.split("_")) > 1:
-                            with open(input_file, 'r') as file:
-                                model_data = json.load(file)
 
-                            if "textures" in model_data:
-                                model_data["textures"] = {
-                                    key: (texture_replacement if value == "create:block/andesite_casing" else value)
-                                    for key, value in model_data["textures"].items()
-                                }
+def retexture(textures, material_texture):
+    return {key: (material_texture if value == BASE_TEXTURE else value) for key, value in textures.items()}
 
-                            for direction in directions:
-                                new_model = {
-                                    "credit": model_data.get("credit", ""),
-                                    "textures": model_data.get("textures", {}),
-                                    "elements": [],
-                                    "groups": model_data.get("groups", [])
-                                }
 
-                                for element in model_data.get("elements", []):
-                                    new_faces = {}
-                                    if "faces" in element:
-                                        #for train variant top needs own up
-                                        # if block_type == "train_step_train":
+def write_json(path, data):
+    with open(path, "w") as file:
+        json.dump(data, file, separators=(",", ":"))
 
-                                        # else:
-                                        if filename.stem.startswith("bottom") or filename.stem.startswith("centre") or filename.stem.startswith("top"):
-                                            if direction == "north":
-                                                if "north" in element["faces"]:
-                                                    new_faces["north"] = element["faces"]["north"]
-                                                if "south" in element["faces"]:
-                                                    new_faces["south"] = element["faces"]["south"]
-                                                if "up" in element["faces"]:
-                                                    new_faces["up"] = element["faces"]["up"]
-                                            elif direction == "south" or direction == "up":
-                                                continue
-                                            else:
-                                                if direction in element["faces"]:
-                                                    new_faces[direction] = element["faces"][direction]
-                                        else:
-                                            if direction in element["faces"]:
-                                                new_faces[direction] = element["faces"][direction]
 
-                                    if new_faces:
-                                        new_element = element.copy()
-                                        new_element["faces"] = new_faces
-                                        new_model["elements"].append(new_element)
+def clean_element(element, faces):
+    cleaned = {"from": element["from"], "to": element["to"], "faces": faces}
+    if "rotation" in element:
+        cleaned["rotation"] = element["rotation"]
+    if element.get("shade") is False:
+        cleaned["shade"] = False
+    return cleaned
 
-                                if not new_model["elements"]:
-                                    new_model["elements"] = []
 
-                                output_file = output_folder_path / f"{filename.stem}_{direction}.json"
-                                with open(output_file, 'w') as out_file:
-                                    json.dump(new_model, out_file, indent=4)
-                                generated_count += 1
-                        else:
-                            # just copy the exact files with names to the folder
-                            output_file = output_folder_path / filename.name
-                            with open(input_file, 'r') as file:
-                                model_data = json.load(file)
-                            if "textures" in model_data:
-                                model_data["textures"] = {
-                                    key: (texture_replacement if value == "create:block/andesite_casing" else value)
-                                    for key, value in model_data["textures"].items()
-                                }
+class MergedModel:
+    def __init__(self, particle):
+        self.particle = particle
+        self.texture_keys = {}
+        self.elements = []
 
-                            with open(output_file, 'w') as out_file:
-                                json.dump(model_data, out_file, indent=4)
-                            generated_count += 1
+    def texture_key(self, texture_path):
+        if texture_path not in self.texture_keys:
+            self.texture_keys[texture_path] = str(len(self.texture_keys))
+        return "#" + self.texture_keys[texture_path]
 
-                    elif user_input == "r":
-                        # Remove the generated models
-                        for direction in directions:
-                            output_file = output_folder_path / f"{filename.stem}_{direction}.json"
-                            if output_file.exists():
-                                output_file.unlink()
-                                removed_count += 1
-                        # Also remove the direct copy if it exists
-                        output_file = output_folder_path / filename.name
-                        if output_file.exists():
-                            output_file.unlink()
-                            removed_count += 1
+    def add(self, model, textures, facing, state, bucket_fn, part, is_train):
+        bottom2 = bottom2_indices(model) if part == "steps" else set()
+        for index, element in enumerate(model.get("elements", [])):
+            tagged = []
+            for bucket in DIRECTIONS:
+                faces = bucket_fn(part, is_train, element, bucket, index in bottom2)
+                for face_name, face in faces.items():
+                    face = dict(face)
+                    texture_path = textures.get(face.get("texture", "").lstrip("#"))
+                    # Unresolved refs (e.g. Blockbench "#missing") are kept so they still resolve to missingno.
+                    if texture_path is not None:
+                        face["texture"] = self.texture_key(texture_path)
+                    face["tintindex"] = variant_code(facing, state, bucket)
+                    tagged.append((face_name, face))
 
-        friendly_name = block_type.replace("train_step_", "")
+            # A face direction can only occur once per element, so overflow goes into a copy.
+            copies = []
+            for face_name, face in tagged:
+                target = next((c for c in copies if face_name not in c), None)
+                if target is None:
+                    target = {}
+                    copies.append(target)
+                target[face_name] = face
+            self.elements.extend(clean_element(element, faces) for faces in copies)
 
-        if user_input == "g":
-            print(f"Generated {friendly_name} slides: {generated_count} files")
-        else:
-            print(f"Removed {friendly_name} slides: {removed_count} files")
+    def to_json(self):
+        textures = {key: path for path, key in self.texture_keys.items()}
+        textures["particle"] = self.particle
+        return {"render_type": "minecraft:cutout_mipped", "textures": textures, "elements": self.elements}
+
+
+def build(block_name, source_folder, material_texture, bucket_fn, is_train):
+    target = OUTPUT / block_name
+    if target.exists():
+        shutil.rmtree(target)
+    (target / "partial").mkdir(parents=True)
+
+    merged = {}
+    count = 0
+    for source_file in sorted(source_folder.glob("*.json")):
+        with open(source_file) as file:
+            model = json.load(file)
+        textures = retexture(model.get("textures", {}), material_texture)
+
+        name_parts = source_file.stem.split("_")
+        if len(name_parts) == 1:
+            model["textures"] = textures
+            model.pop("credit", None)
+            model.pop("groups", None)
+            write_json(target / source_file.name, model)
+            count += 1
+            continue
+
+        part, facing, state = name_parts
+        if part not in merged:
+            merged[part] = MergedModel(material_texture)
+        merged[part].add(model, textures, facing, state, bucket_fn, part, is_train)
+
+    for part, model in merged.items():
+        write_json(target / "partial" / f"{part}.json", model.to_json())
+        count += 1
+
+    print(f"Generated {block_name}: {count} files")
+
+
+for material, texture in MATERIALS.items():
+    is_train = material == "train"
+    build(f"train_step_{material}", SOURCE / ("step_models_train" if is_train else "step_models"),
+          texture, step_bucket, is_train)
+    build(f"train_slide_{material}", SOURCE / ("slide_models_train" if is_train else "slide_models"),
+          texture, slide_bucket, is_train)
