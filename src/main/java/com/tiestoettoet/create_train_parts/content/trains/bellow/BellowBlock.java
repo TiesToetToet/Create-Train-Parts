@@ -91,12 +91,12 @@ public class BellowBlock extends HorizontalDirectionalBlock implements IHaveBigO
                 .isVertical())
             return Shapes.block();
 
-        VoxelShape shape = shapes[facing.get2DDataValue()];
+		int index = facing.get2DDataValue();
+		if (index < 0 || index >= shapes.length || shapes[index] == null) {
+			return Shapes.block(); // Safety fallback so it never returns null or empty
+		}
 
-		if (!(level instanceof ContraptionWorld cw))
-			return shape;
-
-		return shape;
+		return shapes[index];
     }
 
     @Override
@@ -115,16 +115,17 @@ public class BellowBlock extends HorizontalDirectionalBlock implements IHaveBigO
         return getShape(state, level, pos, CollisionContext.empty());
     }
 
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        BlockPos pos = pContext.getClickedPos(); // Retrieve the BlockPos
-        BlockState state = pContext.getLevel().getBlockState(pos);
-        Direction facing = pContext.getHorizontalDirection().getOpposite();
-        Level level = pContext.getLevel();
-        BlockState stateForPlacement = super.getStateForPlacement(pContext);
+	@Override
+	public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+		Direction facing = pContext.getHorizontalDirection().getOpposite();
+		BlockState stateForPlacement = super.getStateForPlacement(pContext);
 
-        return stateForPlacement.setValue(FACING, facing).setValue(VISIBLE, true);
-    }
+		return stateForPlacement
+			.setValue(FACING, facing)
+			.setValue(VISIBLE, true)
+			.setValue(WIDTH, size.width())
+			.setValue(HEIGHT, size.height());
+	}
 
     @Override
     protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
