@@ -7,9 +7,9 @@ import com.simibubi.create.content.trains.entity.CarriageBogey;
 
 import net.createmod.catnip.animation.LerpedFloat;
 
-@Mixin(CarriageBogey.class)
+@Mixin(value = CarriageBogey.class, remap = false)
 public interface CarriageBogeyAccessor {
 
-    @Accessor("yaw")
-    LerpedFloat createTrainParts$getYaw();
+	@Accessor("yaw")
+	LerpedFloat createTrainParts$getYaw();
 }

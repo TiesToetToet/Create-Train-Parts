@@ -7,6 +7,7 @@ import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tiestoettoet.create_train_parts.content.decoration.slidingWindow.SlidingWindowBlockEntity;
 import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSlideBlockEntity;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlockEntity;
+import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlockEntity;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.*;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 

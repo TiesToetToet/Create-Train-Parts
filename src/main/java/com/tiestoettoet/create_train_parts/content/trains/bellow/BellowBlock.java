@@ -58,11 +58,6 @@ public class BellowBlock extends HorizontalDirectionalBlock implements IHaveBigO
     /** Outline of this bellow, indexed by horizontal facing. */
     private final VoxelShape[] shapes;
 
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return null;
-    }
-
     public BellowBlock(Properties properties, BellowSize size) {
         super(properties);
         this.size = size;
@@ -85,7 +80,7 @@ public class BellowBlock extends HorizontalDirectionalBlock implements IHaveBigO
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         Direction facing = state.getValue(FACING);
         if (facing.getAxis()
                 .isVertical())
@@ -100,7 +95,7 @@ public class BellowBlock extends HorizontalDirectionalBlock implements IHaveBigO
     }
 
     @Override
-    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
             CollisionContext context) {
         return getShape(state, level, pos, context);
     }
@@ -126,16 +121,11 @@ public class BellowBlock extends HorizontalDirectionalBlock implements IHaveBigO
         return stateForPlacement.setValue(FACING, facing).setValue(VISIBLE, true);
     }
 
-    @Override
-    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
-        return false;
-    }
-
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, VISIBLE, WIDTH, HEIGHT);
     }
 
-    protected BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level,
+    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level,
             BlockPos currentPos, BlockPos facingPos) {
 
         return super.updateShape(state, facing, facingState, level, currentPos, facingPos);

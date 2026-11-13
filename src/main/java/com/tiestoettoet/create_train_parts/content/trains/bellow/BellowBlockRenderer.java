@@ -90,12 +90,4 @@ public class BellowBlockRenderer implements BlockEntityRenderer<BellowBlockEntit
         // cull the whole bellow as soon as that section leaves the frustum.
         return true;
     }
-
-    @Override
-    public AABB getRenderBoundingBox(BellowBlockEntity be) {
-        // Culling uses this box, not the one on the block entity, and it
-        // defaults to a single block. Without the frame's real size the bellow
-        // vanishes as soon as its own block leaves the view.
-        return be.getRenderBoundingBox();
-    }
 }

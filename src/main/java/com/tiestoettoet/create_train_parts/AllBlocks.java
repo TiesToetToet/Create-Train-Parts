@@ -4,6 +4,7 @@ import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tiestoettoet.create_train_parts.content.decoration.slidingWindow.SlidingWindowBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSlideBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
+import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlock;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.PoleBlock;
 import com.tiestoettoet.create_train_parts.foundation.data.BuilderTransformers;
 import com.tiestoettoet.create_train_parts.content.trains.crossing.ArmExtenderBlock;
@@ -151,13 +152,6 @@ public class AllBlocks {
 						.lang("Bellow " + size.format())
 						.register();
 	}
-
-
-    public static final BlockEntry<PoleBlock> POLE = REGISTRATE.block("pole", PoleBlock::new)
-            .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY)
-                    .sound(SoundType.NETHERITE_BLOCK))
-            .transform(BuilderTransformers.pole())
-            .register();
 
 //
 //    public static final BlockEntry<TrainStepBlock> TRAIN_STEP_BRASS = REGISTRATE.block("train_step_brass", TrainStepBlock::new)

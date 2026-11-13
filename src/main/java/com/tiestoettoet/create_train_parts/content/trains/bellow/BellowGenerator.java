@@ -7,7 +7,7 @@ import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.ModelFile;
 
 /**
  * Emits the facing variants for every bellow size. The frame itself is drawn by
