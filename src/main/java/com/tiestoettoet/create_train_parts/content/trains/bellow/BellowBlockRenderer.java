@@ -46,7 +46,7 @@ public class BellowBlockRenderer implements BlockEntityRenderer<BellowBlockEntit
 		// The arrow only guides placement, so it is left out of contraptions,
 		// which render their block entities against a virtual level.
 		if (!(be.getLevel() instanceof VirtualRenderWorld))
-			part(AllPartialModels.BELLOW_ARROW, state, facing, 0, 1/16f, 1, 1, light, ms, vb);
+			part(AllPartialModels.BELLOW_ARROW, state, facing, 0, 1/16f, 1, 1, 1, light, ms, vb);
 
 		float innerBarScale = (width > 1) ? (16.0f / 15.95f) : 1.0f;
 		float outerBarScale = (width > 1) ? (15.975f / 15.95f) : 1.0f;
