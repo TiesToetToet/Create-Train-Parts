@@ -397,6 +397,10 @@ public class ArmExtenderBlock extends HorizontalDirectionalBlock implements IWre
         // RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
+    @Override
+    public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
+        return false;
+    }
 
 	@Override
 	public Class<ArmExtenderBlockEntity> getBlockEntityClass() {

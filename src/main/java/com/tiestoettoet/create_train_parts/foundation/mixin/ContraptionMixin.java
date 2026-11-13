@@ -6,6 +6,7 @@ import com.simibubi.create.content.decoration.slidingDoor.SlidingDoorBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.slidingWindow.SlidingWindowBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainSlide.TrainSlideBlock;
 import com.tiestoettoet.create_train_parts.content.decoration.trainStep.TrainStepBlock;
+import com.tiestoettoet.create_train_parts.content.trains.bellow.BellowBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -91,6 +92,9 @@ public abstract class ContraptionMixin {
             cir.setReturnValue(false);
         }
         if (info.state().getBlock() instanceof SlidingWindowBlock) {
+            cir.setReturnValue(false);
+        }
+        if (info.state().getBlock() instanceof BellowBlock) {
             cir.setReturnValue(false);
         }
     }

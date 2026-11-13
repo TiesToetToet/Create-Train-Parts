@@ -121,6 +121,11 @@ public class BellowBlock extends HorizontalDirectionalBlock implements IHaveBigO
         return stateForPlacement.setValue(FACING, facing).setValue(VISIBLE, true);
     }
 
+    @Override
+    public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
+        return false;
+    }
+
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, VISIBLE, WIDTH, HEIGHT);
     }

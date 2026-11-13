@@ -16,7 +16,7 @@ import com.simibubi.create.content.schematics.client.ClientSchematicLoader;
 import com.simibubi.create.content.schematics.client.SchematicAndQuillHandler;
 import com.simibubi.create.content.schematics.client.SchematicHandler;
 import com.simibubi.create.content.trains.GlobalRailwayManager;
-import com.simibubi.create.foundation.ClientResourceReloadListener;
+import com.tiestoettoet.create_train_parts.foundation.ClientResourceReloadListener;
 import com.simibubi.create.foundation.blockEntity.behaviour.ValueSettingsClient;
 import com.simibubi.create.foundation.model.ModelSwapper;
 import com.simibubi.create.foundation.ponder.CreatePonderPlugin;
