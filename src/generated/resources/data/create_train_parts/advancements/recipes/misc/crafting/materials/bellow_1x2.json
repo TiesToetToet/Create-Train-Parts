@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "create:belt_connector"
+            "items": [
+              "create:belt_connector"
+            ]
           }
         ]
       },
@@ -20,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_item"
+      "has_item",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "create_train_parts:crafting/materials/bellow_1x2"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

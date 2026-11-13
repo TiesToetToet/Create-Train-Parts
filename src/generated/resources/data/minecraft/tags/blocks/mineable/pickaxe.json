@@ -12,6 +12,11 @@
     "create_train_parts:andesite_sliding_window",
     "create_train_parts:brass_sliding_window",
     "create_train_parts:copper_sliding_window",
-    "create_train_parts:train_sliding_window"
+    "create_train_parts:train_sliding_window",
+    "create_train_parts:bellow_1x2",
+    "create_train_parts:bellow_2x2",
+    "create_train_parts:bellow_2x3",
+    "create_train_parts:bellow_3x2",
+    "create_train_parts:bellow_3x3"
   ]
 }

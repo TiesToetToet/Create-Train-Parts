@@ -11,7 +11,7 @@
     "BBB"
   ],
   "result": {
-    "count": 1,
-    "id": "create_train_parts:bellow_3x2"
-  }
+    "item": "create_train_parts:bellow_3x2"
+  },
+  "show_notification": true
 }

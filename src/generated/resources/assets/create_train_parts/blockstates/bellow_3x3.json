@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=east": {
-      "model": "create_train_parts:block/bellow/bellow_end",
+      "model": "create_train_parts:block/bellow/bellow_end_bottom",
       "y": 90
     },
     "facing=north": {
-      "model": "create_train_parts:block/bellow/bellow_end"
+      "model": "create_train_parts:block/bellow/bellow_end_bottom"
     },
     "facing=south": {
-      "model": "create_train_parts:block/bellow/bellow_end",
+      "model": "create_train_parts:block/bellow/bellow_end_bottom",
       "y": 180
     },
     "facing=west": {
-      "model": "create_train_parts:block/bellow/bellow_end",
+      "model": "create_train_parts:block/bellow/bellow_end_bottom",
       "y": 270
     }
   }
