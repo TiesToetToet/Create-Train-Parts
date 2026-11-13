@@ -48,10 +48,24 @@ public class BellowBlockRenderer implements BlockEntityRenderer<BellowBlockEntit
 		if (!(be.getLevel() instanceof VirtualRenderWorld))
 			part(AllPartialModels.BELLOW_ARROW, state, facing, 0, 1/16f, 1, 1, light, ms, vb);
 
+		float innerBarScale = (width > 1) ? (16.0f / 15.95f) : 1.0f;
+		float outerBarScale = (width > 1) ? (15.975f / 15.95f) : 1.0f;
+
         for (int column = 0; column < width; column++) {
             double x = frameLeft + column;
-            part(AllPartialModels.BELLOW_END_BOTTOM, state, facing, x, 0, 1, light, ms, vb);
-            part(AllPartialModels.BELLOW_END_TOP, state, facing, x, topBar, 1, light, ms, vb);
+//			float currentBarScale = (column == 0 || column == width - 1) ? 1.0f : innerBarScale;
+			float currentBarScale;
+			if (width == 1) currentBarScale = 1;
+			else if (column == 0) {
+				currentBarScale = innerBarScale;
+			} else if (column == width - 1) {
+				currentBarScale = outerBarScale;
+				x = x - 0.025/16f;
+			}
+			else currentBarScale = innerBarScale;
+
+			part(AllPartialModels.BELLOW_END_BOTTOM, state, facing, x, 0, 1, currentBarScale, light, ms, vb);
+			part(AllPartialModels.BELLOW_END_TOP, state, facing, x, topBar, 1, currentBarScale, light, ms, vb);
         }
 
         // Posts fill the gap between both bars exactly, which needs a slight
@@ -62,24 +76,26 @@ public class BellowBlockRenderer implements BlockEntityRenderer<BellowBlockEntit
 
         for (int row = 0; row < height; row++) {
             double y = BAR_HEIGHT + row * postStep;
-            part(AllPartialModels.BELLOW_END_LEFT, state, facing, frameRight, y, postScale, light, ms, vb);
-            part(AllPartialModels.BELLOW_END_RIGHT, state, facing, frameLeft, y, postScale, light, ms, vb);
+            part(AllPartialModels.BELLOW_END_LEFT, state, facing, frameRight, y, postScale, 1, light, ms, vb);
+            part(AllPartialModels.BELLOW_END_RIGHT, state, facing, frameLeft, y, postScale, 1, light, ms, vb);
         }
     }
 
     private static void part(PartialModel model, BlockState state, Direction facing, double x, double y,
-            float verticalScale, int light, PoseStack ms, VertexConsumer vb) {
-        part(model, state, facing, x, y, 0, verticalScale, light, ms, vb);
+            float verticalScale, float horizontalScale, int light, PoseStack ms, VertexConsumer vb) {
+        part(model, state, facing, x, y, 0, verticalScale, horizontalScale, light, ms, vb);
     }
 
 	private static void part(PartialModel model, BlockState state, Direction facing, double x, double y, double z,
-							 float verticalScale, int light, PoseStack ms, VertexConsumer vb) {
+							 float verticalScale, float horizontalScale, int light, PoseStack ms, VertexConsumer vb) {
+		float xScale = facing == Direction.EAST || facing == Direction.WEST ? horizontalScale : 1;
+		float zScale = facing == Direction.NORTH || facing == Direction.SOUTH ? horizontalScale : 1;
 		CachedBuffers.partial(model, state)
 			.translate(0.5, 0, 0.5)
 			.rotateYDegrees(-(facing.toYRot() + 180))
 			.translate(-0.5, 0, -0.5)
 			.translate(x, y, z)
-			.scale(1, verticalScale, 1)
+			.scale(xScale, verticalScale, zScale)
 			.light(light)
 			.renderInto(ms, vb);
 	}
