@@ -55,25 +55,7 @@ public class TrainSlideBlock extends HorizontalDirectionalBlock implements IBE<T
     // public static final BooleanProperty VISIBLE =
     // BooleanProperty.create("visible");
 
-    protected static final VoxelShape NORTH_OPEN_NONE;
-    protected static final VoxelShape NORTH_OPEN_RIGHT;
-    protected static final VoxelShape NORTH_OPEN_LEFT;
-    protected static final VoxelShape NORTH_OPEN_BOTH;
-    protected static final VoxelShape SOUTH_OPEN_NONE;
-    protected static final VoxelShape SOUTH_OPEN_RIGHT;
-    protected static final VoxelShape SOUTH_OPEN_LEFT;
-    protected static final VoxelShape SOUTH_OPEN_BOTH;
-    protected static final VoxelShape WEST_OPEN_NONE;
-    protected static final VoxelShape WEST_OPEN_RIGHT;
-    protected static final VoxelShape WEST_OPEN_LEFT;
-    protected static final VoxelShape WEST_OPEN_BOTH;
-    protected static final VoxelShape EAST_OPEN_NONE;
-    protected static final VoxelShape EAST_OPEN_RIGHT;
-    protected static final VoxelShape EAST_OPEN_LEFT;
-    protected static final VoxelShape EAST_OPEN_BOTH;
-    protected static final VoxelShape CLOSED;
-
-
+	private static final VoxelShape CLOSED = Block.box(0, 0, 0, 16, 16, 16);
 
     private final BlockSetType type = BlockSetType.OAK;
 
@@ -88,43 +70,19 @@ public class TrainSlideBlock extends HorizontalDirectionalBlock implements IBE<T
         super(properties);
     }
 
-    @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        TrainSlideBlockEntity trainSlideBlockEntity = (TrainSlideBlockEntity) level.getBlockEntity(pos);
-//        if (trainSlideBlockEntity != null) {
-//            float value = trainSlideBlockEntity.animation.getValue(partialTicks);
-//        }
-        if (!(Boolean) state.getValue(OPEN)) {
-            return CLOSED;
-        } else {
-            return switch (state.getValue(CONNECTED)) {
-                case NONE -> switch (state.getValue(FACING)) {
-                    default -> NORTH_OPEN_NONE;
-                    case SOUTH -> SOUTH_OPEN_NONE;
-                    case WEST -> WEST_OPEN_NONE;
-                    case EAST -> EAST_OPEN_NONE;
-                };
-                case LEFT -> switch (state.getValue(FACING)) {
-                    default -> NORTH_OPEN_LEFT;
-                    case SOUTH -> SOUTH_OPEN_LEFT;
-                    case WEST -> WEST_OPEN_LEFT;
-                    case EAST -> EAST_OPEN_LEFT;
-                };
-                case RIGHT -> switch (state.getValue(FACING)) {
-                    default -> NORTH_OPEN_RIGHT;
-                    case SOUTH -> SOUTH_OPEN_RIGHT;
-                    case WEST -> WEST_OPEN_RIGHT;
-                    case EAST -> EAST_OPEN_RIGHT;
-                };
-                case BOTH -> switch (state.getValue(FACING)) {
-                    default -> NORTH_OPEN_BOTH;
-                    case SOUTH -> SOUTH_OPEN_BOTH;
-                    case WEST -> WEST_OPEN_BOTH;
-                    case EAST -> EAST_OPEN_BOTH;
-                };
-            };
-        }
-    }
+	@Override
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		if (!state.getValue(OPEN))
+			return CLOSED;
+
+		Direction facing = state.getValue(FACING);
+		ConnectedState connected = state.getValue(CONNECTED);
+
+		return union(
+			housing(facing, connected),
+			slideSteps(facing, connected)
+		);
+	}
 
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
@@ -601,218 +559,75 @@ public class TrainSlideBlock extends HorizontalDirectionalBlock implements IBE<T
         return this.type;
     }
 
-    static {
-        CLOSED = Block.box(0, 0, 0, 16, 16, 16);
+	private static VoxelShape housing(Direction facing, ConnectedState connected) {
+		int minX = (connected == ConnectedState.RIGHT || connected == ConnectedState.BOTH) ? 0 : 1;
+		int maxX = (connected == ConnectedState.LEFT || connected == ConnectedState.BOTH) ? 16 : 15;
 
-        NORTH_OPEN_NONE = Stream.of(
-                Stream.of(
-                        Block.box(0, 0, 0, 1, 16, 16),
-                        Block.box(15, 0, 0, 16, 16, 16),
-                        Block.box(1, 0, 15, 15, 16, 16),
-                        Block.box(1, 15, 0, 15, 16, 15),
-                        Block.box(1, 0, 14, 15, 1, 15)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(1, 10, -4, 15, 15, 1),
-                Block.box(1, 5, -9, 15, 10, 1),
-                Block.box(1, 0, -13, 15, 5, 1)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+		boolean hasLeftSide = connected == ConnectedState.NONE || connected == ConnectedState.LEFT;
+		boolean hasRightSide = connected == ConnectedState.NONE || connected == ConnectedState.RIGHT;
 
-        NORTH_OPEN_RIGHT = Stream.of(
-                Stream.of(
-//                        Block.box(0, 0, 0, 1, 16, 16),
-                        Block.box(15, 0, 0, 16, 16, 16),
-                        Block.box(0, 0, 15, 15, 16, 16),
-                        Block.box(0, 15, 0, 15, 16, 15),
-                        Block.box(0, 0, 14, 15, 1, 15)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(0, 10, -4, 15, 15, 1),
-                Block.box(0, 5, -9, 15, 10, 1),
-                Block.box(0, 0, -13, 15, 5, 1)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+		VoxelShape north = Shapes.empty();
+		if (hasLeftSide)
+			north = Shapes.or(north, Block.box(0, 0, 0, 1, 16, 16));
+		if (hasRightSide)
+			north = Shapes.or(north, Block.box(15, 0, 0, 16, 16, 16));
 
-        NORTH_OPEN_LEFT = Stream.of(
-                Stream.of(
-                        Block.box(0, 0, 0, 1, 16, 16),
-//                        Block.box(15, 0, 0, 16, 16, 16),
-                        Block.box(1, 0, 15, 16, 16, 16),
-                        Block.box(1, 15, 0, 16, 16, 15),
-                        Block.box(1, 0, 14, 16, 1, 15)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(1, 10, -4, 16, 15, 1),
-                Block.box(1, 5, -9, 16, 10, 1),
-                Block.box(1, 0, -13, 16, 5, 1)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+		north = union(
+			north,
+			Block.box(minX, 0, 15, maxX, 16, 16),
+			Block.box(minX, 15, 0, maxX, 16, 15),
+			Block.box(minX, 0, 14, maxX, 1, 15)
+		);
 
-        NORTH_OPEN_BOTH = Stream.of(
-                Stream.of(
-//                        Block.box(0, 0, 0, 1, 16, 16),
-//                        Block.box(15, 0, 0, 16, 16, 16),
-                        Block.box(0, 0, 15, 16, 16, 16),
-                        Block.box(0, 15, 0, 16, 16, 15),
-                        Block.box(0, 0, 14, 16, 1, 15)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(0, 10, -4, 16, 15, 1),
-                Block.box(0, 5, -9, 16, 10, 1),
-                Block.box(0, 0, -13, 16, 5, 1)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+		return rotateNorthTo(north, facing);
+	}
 
-        EAST_OPEN_NONE = Stream.of(
-                Stream.of(
-                        Block.box(0, 0, 0, 16, 16, 1),
-                        Block.box(0, 0, 15, 16, 16, 16),
-                        Block.box(0, 0, 1, 1, 16, 16),
-                        Block.box(1, 15, 1, 16, 16, 16),
-                        Block.box(1, 0, 1, 2, 1, 16)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(15, 10, 1, 20, 15, 15),
-                Block.box(15, 5, 1, 25, 10, 15),
-                Block.box(15, 0, 1, 29, 5, 15)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+	private static VoxelShape slideSteps(Direction facing, ConnectedState connected) {
+		int minX = (connected == ConnectedState.RIGHT || connected == ConnectedState.BOTH) ? 0 : 1;
+		int maxX = (connected == ConnectedState.LEFT || connected == ConnectedState.BOTH) ? 16 : 15;
 
-        EAST_OPEN_RIGHT = Stream.of(
-                Stream.of(
-//                        Block.box(0, 0, 0, 16, 16, 1),
-                        Block.box(0, 0, 15, 16, 16, 16),
-                        Block.box(0, 0, 0, 1, 16, 15),
-                        Block.box(1, 15, 0, 16, 16, 15),
-                        Block.box(1, 0, 0, 2, 1, 15)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(15, 10, 0, 20, 15, 15),
-                Block.box(15, 5, 0, 25, 10, 15),
-                Block.box(15, 0, 0, 29, 5, 15)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+		VoxelShape north = union(
+			Block.box(minX, 10, -4, maxX, 15, 1),
+			Block.box(minX, 5, -9, maxX, 10, 1),
+			Block.box(minX, 0, -13, maxX, 5, 1)
+		);
 
-        EAST_OPEN_LEFT = Stream.of(
-                Stream.of(
-                        Block.box(0, 0, 0, 16, 16, 1),
-//                        Block.box(0, 0, 15, 16, 16, 16),
-                        Block.box(0, 0, 1, 1, 16, 16),
-                        Block.box(1, 15, 1, 16, 16, 16),
-                        Block.box(1, 0, 1, 2, 1, 16)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(15, 10, 1, 20, 15, 16),
-                Block.box(15, 5, 1, 25, 10, 16),
-                Block.box(15, 0, 1, 29, 5, 16)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+		return rotateNorthTo(north, facing);
+	}
 
-        EAST_OPEN_BOTH = Stream.of(
-                Stream.of(
-//                        Block.box(0, 0, 0, 16, 16, 1),
-//                        Block.box(0, 0, 15, 16, 16, 16),
-                        Block.box(0, 0, 0, 1, 16, 16),
-                        Block.box(1, 15, 0, 16, 16, 16),
-                        Block.box(1, 0, 0, 2, 1, 16)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(15, 10, 0, 20, 15, 16),
-                Block.box(15, 5, 0, 25, 10, 16),
-                Block.box(15, 0, 0, 29, 5, 16)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+	private static VoxelShape rotateNorthTo(VoxelShape northShape, Direction facing) {
+		if (northShape.isEmpty() || facing == Direction.NORTH)
+			return northShape;
 
-        SOUTH_OPEN_NONE = Stream.of(
-                Stream.of(
-                        Block.box(15, 0, 0, 16, 16, 16),
-                        Block.box(0, 0, 0, 1, 16, 16),
-                        Block.box(1, 0, 0, 15, 16, 1),
-                        Block.box(1, 15, 1, 15, 16, 16),
-                        Block.box(1, 0, 1, 15, 1, 2)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(1, 10, 15, 15, 15, 20),
-                Block.box(1, 5, 15, 15, 10, 25),
-                Block.box(1, 0, 15, 15, 5, 29)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+		int clockwiseSteps = switch (facing) {
+			case EAST -> 1;
+			case SOUTH -> 2;
+			case WEST -> 3;
+			default -> 0;
+		};
 
-        SOUTH_OPEN_RIGHT = Stream.of(
-                Stream.of(
-//                        Block.box(15, 0, 0, 16, 16, 16),
-                        Block.box(0, 0, 0, 1, 16, 16),
-                        Block.box(1, 0, 0, 16, 16, 1),
-                        Block.box(1, 15, 1, 16, 16, 16),
-                        Block.box(1, 0, 1, 16, 1, 2)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(1, 10, 15, 16, 15, 20),
-                Block.box(1, 5, 15, 16, 10, 25),
-                Block.box(1, 0, 15, 16, 5, 29)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+		VoxelShape current = northShape;
+		for (int i = 0; i < clockwiseSteps; i++) {
+			VoxelShape[] rotated = { Shapes.empty() };
+			current.forAllBoxes((x1, y1, z1, x2, y2, z2) -> {
+				double nx1 = 1.0 - z2;
+				double nz1 = x1;
+				double nx2 = 1.0 - z1;
+				double nz2 = x2;
+				rotated[0] = Shapes.or(rotated[0], Shapes.box(nx1, y1, nz1, nx2, y2, nz2));
+			});
+			current = rotated[0];
+		}
+		return current;
+	}
 
-        SOUTH_OPEN_LEFT = Stream.of(
-                Stream.of(
-                        Block.box(15, 0, 0, 16, 16, 16),
-//                        Block.box(0, 0, 0, 1, 16, 16),
-                        Block.box(0, 0, 0, 15, 16, 1),
-                        Block.box(0,15, 1, 15, 16, 16),
-                        Block.box(0, 0, 1, 15, 1, 2)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(0, 10, 15, 15, 15, 20),
-                Block.box(0, 5, 15, 15, 10, 25),
-                Block.box(0, 0, 15, 15, 5, 29)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-
-        SOUTH_OPEN_BOTH = Stream.of(
-                Stream.of(
-//                        Block.box(15, 0, 0, 16, 16, 16),
-//                        Block.box(0, 0, 0, 1, 16, 16),
-                        Block.box(0, 0, 0, 16, 16, 1),
-                        Block.box(0, 15, 1, 16, 16, 16),
-                        Block.box(0, 0, 1, 16, 1, 2)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(0, 10, 15, 16, 15, 20),
-                Block.box(0, 5, 15, 16, 10, 25),
-                Block.box(0, 0, 15, 16, 5, 29)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-
-        WEST_OPEN_NONE = Stream.of(
-                Stream.of(
-                        Block.box(0, 0, 15, 16, 16, 16),
-                        Block.box(0, 0, 0, 16, 16, 1),
-                        Block.box(15, 0, 1, 16, 16, 15),
-                        Block.box(0, 15, 1, 15, 16, 15),
-                        Block.box(14, 0, 1, 15, 1, 15)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(-4, 10, 1, 1, 15, 15),
-                Block.box(-9, 5, 1, 1, 10, 15),
-                Block.box(-13, 0, 1, 1, 5, 15)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-
-        WEST_OPEN_RIGHT = Stream.of(
-                Stream.of(
-//                        Block.box(0, 0, 15, 16, 16, 16),
-                        Block.box(0, 0, 0, 16, 16, 1),
-                        Block.box(15, 0, 1, 16, 16, 16),
-                        Block.box(0, 15, 1, 15, 16, 16),
-                        Block.box(14, 0, 1, 15, 1, 16)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(-4, 10, 1, 1, 15, 16),
-                Block.box(-9, 5, 1, 1, 10, 16),
-                Block.box(-13, 0, 1, 1, 5, 16)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-
-        WEST_OPEN_LEFT = Stream.of(
-                Stream.of(
-                        Block.box(0, 0, 15, 16, 16, 16),
-//                        Block.box(0, 0, 0, 16, 16, 1),
-                        Block.box(15, 0, 0, 16, 16, 15),
-                        Block.box(0, 15, 0, 15, 16, 15),
-                        Block.box(14, 0, 0, 15, 1, 15)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(-4, 10, 0, 1, 15, 15),
-                Block.box(-9, 5, 0, 1, 10, 15),
-                Block.box(-13, 0, 0, 1, 5, 15)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-
-        WEST_OPEN_BOTH = Stream.of(
-                Stream.of(
-//                        Block.box(0, 0, 15, 16, 16, 16),
-//                        Block.box(0, 0, 0, 16, 16, 1),
-                        Block.box(15, 0, 0, 16, 16, 16),
-                        Block.box(0, 15, 0, 15, 16, 16),
-                        Block.box(14, 0, 0, 15, 1, 16)
-                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(),
-                Block.box(-4, 10, 0, 1, 15, 16),
-                Block.box(-9, 5, 0, 1, 10, 16),
-                Block.box(-13, 0, 0, 1, 5, 16)
-        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-
-    }
+	private static VoxelShape union(VoxelShape... shapes) {
+		VoxelShape result = Shapes.empty();
+		for (VoxelShape shape : shapes) {
+			result = Shapes.or(result, shape);
+		}
+		return result;
+	}
 
     @Nullable
     @Override
