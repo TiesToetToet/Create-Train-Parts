@@ -5,9 +5,14 @@
     "#": {
       "item": "create:railway_casing"
     },
-    "X": {
-      "tag": "minecraft:stairs"
-    }
+    "X": [
+      {
+        "tag": "minecraft:stairs"
+      },
+      {
+        "tag": "minecraft:wooden_stairs"
+      }
+    ]
   },
   "pattern": [
     "X#"
