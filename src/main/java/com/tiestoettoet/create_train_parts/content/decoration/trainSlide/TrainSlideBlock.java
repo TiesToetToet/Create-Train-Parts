@@ -69,7 +69,7 @@ public class TrainSlideBlock extends WrenchableHorizontalDirectionalBlock
 
 
 	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		if (!state.getValue(OPEN))
 			return CLOSED;
 
@@ -541,6 +541,14 @@ public class TrainSlideBlock extends WrenchableHorizontalDirectionalBlock
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, OPEN, POWERED, CONNECTED, VISIBLE, TYPE);
     }
+
+	@Override
+	protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
+		return switch (pathComputationType) {
+			case LAND, AIR -> (Boolean) state.getValue(OPEN);
+			default -> false;
+		};
+	}
 
     public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level,
             BlockPos currentPos, BlockPos facingPos) {

@@ -65,7 +65,7 @@ public class TrainStepBlock extends WrenchableHorizontalDirectionalBlock impleme
 
 
 	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		if (!state.getValue(OPEN))
 			return CLOSED;
 
