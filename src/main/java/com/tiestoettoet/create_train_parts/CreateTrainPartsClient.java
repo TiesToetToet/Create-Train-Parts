@@ -55,7 +55,6 @@ public class CreateTrainPartsClient {
         SuperByteBufferCache.getInstance().registerCompartment(CachedBuffers.PARTIAL);
         SuperByteBufferCache.getInstance().registerCompartment(CTPartialModels.CT_PARTIAL);
 
-        System.out.println("Create Train Parts Client Init");
         AllPartialModels.init();
         PonderIndex.addPlugin(new CreateTrainPartsPonderPlugin());
     }

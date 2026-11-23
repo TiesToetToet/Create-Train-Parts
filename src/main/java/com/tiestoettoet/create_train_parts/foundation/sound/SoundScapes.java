@@ -69,7 +69,6 @@ public class SoundScapes {
             Pair<AmbienceGroup, PitchGroup> key = entry.getKey();
             SoundScape value = entry.getValue();
 
-            System.out.println(getSoundCount(key.getFirst(), key.getSecond()));
             if (disable || getSoundCount(key.getFirst(), key.getSecond()) == 0) {
                 value.remove();
                 iterator.remove();

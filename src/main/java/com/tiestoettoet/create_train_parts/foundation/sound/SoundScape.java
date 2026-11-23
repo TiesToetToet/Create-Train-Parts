@@ -50,9 +50,9 @@ public class SoundScape {
     }
 
     public void play() {
-		System.out.println("Playing soundscape");
+		// System.out.println("Playing soundscape");
 		continuous.forEach(sound -> {
-			System.out.println("Playing " + sound);
+			// System.out.println("Playing " + sound);
 			Minecraft.getInstance().getSoundManager().play(sound);
 		});
     }
