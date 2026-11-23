@@ -381,9 +381,11 @@ public class BellowRenderer {
                     curvePosition.y - origin.y,
                     curvePosition.z - origin.z);
 
+            // The model runs along +Z, which a positive X rotation tips
+            // downwards, so climbing segments need the negated pitch.
             CachedBuffers.partial(AllPartialModels.BELLOW_CABLE, air)
                     .rotateYDegrees(-segmentYRot)
-                    .rotateXDegrees(segmentXRot)
+                    .rotateXDegrees(-segmentXRot)
                     .scale(segmentSize.widthScale(), segmentSize.heightScale(), segmentStretch)
                     .translate(0, segmentSize.localVerticalOffset(), 0)
                     .light(light)

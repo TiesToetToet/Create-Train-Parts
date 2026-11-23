@@ -22,14 +22,22 @@ import net.minecraft.world.phys.Vec3;
  */
 public final class BellowCollisionGeometry {
 
+    /** Short pieces keep the drawn curve smooth. */
+    private static final double RENDER_SEGMENT_LENGTH = 0.1;
+    /**
+     * Longer than an entity sinks into a member in one tick, while still
+     * short enough that boxes on a curve stay close to the drawn frame.
+     */
+    private static final double COLLISION_SEGMENT_LENGTH = 0.75;
+
     private BellowCollisionGeometry() {
     }
 
-    private record BellowInfo(Vec3 position, Vec3 outward, Direction facing, BellowSize size) {
+    private record BellowInfo(Vec3 position, Vec3 outward, Vec3 up, Direction facing, BellowSize size) {
     }
 
-    private record BellowPair(Vec3 first, Vec3 firstOutward, Vec3 second, Vec3 secondOutward, double distance,
-            BellowSize size) {
+    private record BellowPair(Vec3 first, Vec3 firstOutward, Vec3 firstUp, Vec3 second, Vec3 secondOutward,
+            Vec3 secondUp, double distance, BellowSize size) {
     }
 
     /**
@@ -37,6 +45,22 @@ public final class BellowCollisionGeometry {
      * connection is owned only by its first carriage so it is never added twice.
      */
     public static List<BellowSegment> buildSegments(CarriageContraptionEntity entity, float partialTicks) {
+        return buildSegments(entity, partialTicks, RENDER_SEGMENT_LENGTH);
+    }
+
+    /**
+     * The same connection split into far fewer, longer pieces for collision.
+     * Create resolves each overlap along whichever axis needs the smallest
+     * push. Against a box shorter than an entity's penetration that axis runs
+     * along the passage, and every following box repeats the push, carrying
+     * the entity along to the far end of the bellow.
+     */
+    public static List<BellowSegment> buildCollisionSegments(CarriageContraptionEntity entity) {
+        return buildSegments(entity, 1.0f, COLLISION_SEGMENT_LENGTH);
+    }
+
+    private static List<BellowSegment> buildSegments(CarriageContraptionEntity entity, float partialTicks,
+            double segmentLength) {
         Carriage carriage = entity.getCarriage();
         if (carriage == null || carriage.train == null)
             return List.of();
@@ -48,7 +72,7 @@ public final class BellowCollisionGeometry {
         Level level = entity.level();
         Carriage nextCarriage = carriage.train.carriages.get(carriageIndex + 1);
         CarriageContraptionEntity nextEntity = nextCarriage.getDimensional(level).entity.get();
-        if (nextEntity == null)
+        if (!isPositioned(entity) || !isPositioned(nextEntity))
             return List.of();
 
         BellowPair pair = findClosestPair(
@@ -57,7 +81,22 @@ public final class BellowCollisionGeometry {
         if (pair == null)
             return List.of();
 
-        return buildSegments(pair.first(), pair.firstOutward(), pair.second(), pair.secondOutward(), pair.size());
+        return buildSegments(pair.first(), pair.firstOutward(), pair.firstUp(),
+                pair.second(), pair.secondOutward(), pair.secondUp(), pair.size(), segmentLength);
+    }
+
+    /**
+     * A client carriage has no valid position or rotation until its first
+     * alignment, and gets reset again once removed, which is why Create skips
+     * rendering it then too. Connecting to it in that state stretches the
+     * bellow off towards wherever the entity happens to be.
+     */
+    private static boolean isPositioned(CarriageContraptionEntity entity) {
+        if (entity == null || !entity.isAlive())
+            return false;
+        if (!entity.level().isClientSide())
+            return true;
+        return entity.validForRender && !entity.firstPositionUpdate;
     }
 
     /**
@@ -73,18 +112,32 @@ public final class BellowCollisionGeometry {
      */
     public static List<BellowSegment> buildSegments(Vec3 first, Vec3 firstOutward, Vec3 second, Vec3 secondOutward,
             BellowSize size) {
+        Vec3 up = new Vec3(0, 1, 0);
+        return buildSegments(first, firstOutward, up, second, secondOutward, up, size, RENDER_SEGMENT_LENGTH);
+    }
+
+    /**
+     * @param firstUp       unit vector pointing up in the first carriage's
+     *                      frame, so the curve drops below the frame along the
+     *                      carriage's own vertical and stays attached to it on
+     *                      slopes
+     * @param secondUp      the same for the second carriage
+     * @param segmentLength rough length of each piece along the curve
+     */
+    private static List<BellowSegment> buildSegments(Vec3 first, Vec3 firstOutward, Vec3 firstUp,
+            Vec3 second, Vec3 secondOutward, Vec3 secondUp, BellowSize size, double segmentLength) {
         double distance = first.distanceTo(second);
         float gapFromAnchor = 5 / 16f;
         Vec3 adjustedAnchor = first.add(firstOutward.scale(gapFromAnchor))
-                .add(0, -20 / 16f, 0);
+                .add(firstUp.scale(-20 / 16f));
         Vec3 adjustedAnchor2 = second.add(secondOutward.scale(gapFromAnchor))
-                .add(0, -20 / 16f, 0);
+                .add(secondUp.scale(-20 / 16f));
 
         double controlDistance = distance * 0.375;
         Vec3 control = adjustedAnchor.add(firstOutward.scale(controlDistance));
         Vec3 control2 = adjustedAnchor2.add(secondOutward.scale(controlDistance));
 
-        int segmentCount = Math.max(2, (int) Math.round(distance * 10) + 1);
+        int segmentCount = Math.max(2, (int) Math.round(distance / segmentLength) + 1);
         return BellowBezier.buildSegments(
                 segmentCount, adjustedAnchor, control, control2, adjustedAnchor2, size);
     }
@@ -116,8 +169,12 @@ public final class BellowCollisionGeometry {
                     .add(anchorCorrection)
                     .subtract(worldPosition)
                     .normalize();
+            Vec3 up = entity.toGlobalVector(localCenter.add(0, 1, 0), partialTicks)
+                    .add(anchorCorrection)
+                    .subtract(worldPosition)
+                    .normalize();
 
-            bellows.add(new BellowInfo(worldPosition, outward, facing, BellowBlock.getSize(info.state())));
+            bellows.add(new BellowInfo(worldPosition, outward, up, facing, BellowBlock.getSize(info.state())));
         }
         return bellows;
     }
@@ -141,8 +198,10 @@ public final class BellowCollisionGeometry {
                 closest = new BellowPair(
                         firstBellow.position(),
                         firstBellow.outward(),
+                        firstBellow.up(),
                         secondBellow.position(),
                         secondBellow.outward(),
+                        secondBellow.up(),
                         Math.sqrt(distanceSqr),
                         firstBellow.size());
             }
