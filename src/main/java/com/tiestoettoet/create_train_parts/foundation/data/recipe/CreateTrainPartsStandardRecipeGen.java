@@ -66,6 +66,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 import static com.simibubi.create.foundation.data.recipe.CommonMetal.*;
 
@@ -114,22 +115,22 @@ public final class CreateTrainPartsStandardRecipeGen extends BaseRecipeProvider 
 
 	TRAIN_STEP_ANDESITE = create(AllBlocks.TRAIN_STEP_ANDESITE).returns(1)
 			.unlockedBy(com.simibubi.create.AllBlocks.ANDESITE_CASING::get)
-			.viaShaped(b -> b.define('X', ItemTags.STAIRS)
+			.viaShaped(b -> b.define('X', anyStairs())
 					.define('#', com.simibubi.create.AllBlocks.ANDESITE_CASING.get())
 					.pattern("X#")),
 	TRAIN_STEP_BRASS = create(AllBlocks.TRAIN_STEP_BRASS).returns(1)
 			.unlockedBy(com.simibubi.create.AllBlocks.BRASS_CASING::get)
-			.viaShaped(b -> b.define('X', ItemTags.STAIRS)
+			.viaShaped(b -> b.define('X', anyStairs())
 					.define('#', com.simibubi.create.AllBlocks.BRASS_CASING.get())
 					.pattern("X#")),
 	TRAIN_STEP_COPPER = create(AllBlocks.TRAIN_STEP_COPPER).returns(1)
 			.unlockedBy(com.simibubi.create.AllBlocks.COPPER_CASING::get)
-			.viaShaped(b -> b.define('X', ItemTags.STAIRS)
+			.viaShaped(b -> b.define('X', anyStairs())
 					.define('#', com.simibubi.create.AllBlocks.COPPER_CASING.get())
 					.pattern("X#")),
 	TRAIN_STEP_TRAIN = create(AllBlocks.TRAIN_STEP_TRAIN).returns(1)
 			.unlockedBy(com.simibubi.create.AllBlocks.RAILWAY_CASING::get)
-			.viaShaped(b -> b.define('X', ItemTags.STAIRS)
+			.viaShaped(b -> b.define('X', anyStairs())
 					.define('#', com.simibubi.create.AllBlocks.RAILWAY_CASING.get())
 					.pattern("X#")),
 
@@ -219,6 +220,17 @@ public final class CreateTrainPartsStandardRecipeGen extends BaseRecipeProvider 
 	Marker enterFolder(String folder) {
 		currentFolder = folder;
 		return new Marker();
+	}
+
+	/**
+	 * Any stairs, also listing the wooden stairs tag on its own. Some mods ship
+	 * a broken minecraft:stairs tag that fails to load and ends up empty, and
+	 * the train steps would otherwise become uncraftable alongside them.
+	 */
+	private static Ingredient anyStairs() {
+		return Ingredient.fromValues(Stream.of(
+			new Ingredient.TagValue(ItemTags.STAIRS),
+			new Ingredient.TagValue(ItemTags.WOODEN_STAIRS)));
 	}
 
 	GeneratedRecipeBuilder create(Supplier<ItemLike> result) {

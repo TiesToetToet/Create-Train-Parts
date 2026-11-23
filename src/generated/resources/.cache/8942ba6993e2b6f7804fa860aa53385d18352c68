@@ -1,4 +1,4 @@
-// 1.20.1	2026-11-13T01:47:20.0987315	Create Train Parts' Standard Recipes
+// 1.20.1	2026-11-23T17:59:23.3362684	Create Train Parts' Standard Recipes
 dcd50363c4fb1cf80bd160fe4f99633db0e45cfa data/create_train_parts/advancements/recipes/misc/crafting/materials/andesite_sliding_window.json
 0485309205ffbc76807c13ecd457c4878f3417f4 data/create_train_parts/advancements/recipes/misc/crafting/materials/arm_extender.json
 32e8e15e59b0f2e448ecaf207e0dfea148664b71 data/create_train_parts/advancements/recipes/misc/crafting/materials/bellow_1x2.json
@@ -37,7 +37,7 @@ ea2cfb1a1683a201b9dc6750a0d38bff4602c465 data/create_train_parts/recipes/craftin
 212f906a8babf62b75a6f00814558da3da145b80 data/create_train_parts/recipes/crafting/materials/train_slide_copper.json
 d610f1af694f771bf720973e6640dae2ce74b8c2 data/create_train_parts/recipes/crafting/materials/train_slide_train.json
 e6db8844f7ae4cce12ba228ccb92cb50f467d2f5 data/create_train_parts/recipes/crafting/materials/train_sliding_window.json
-d7372488408f944c278ab5d3144493eaba3aa4e0 data/create_train_parts/recipes/crafting/materials/train_step_andesite.json
-8536ddf96847cd5c6fa381e375220b0c97f859f5 data/create_train_parts/recipes/crafting/materials/train_step_brass.json
-df430ca1db20ef87a8b06c48c0db8321d516f459 data/create_train_parts/recipes/crafting/materials/train_step_copper.json
-31619cd2f5087c4be2af647dbfe00c1b500bb7ca data/create_train_parts/recipes/crafting/materials/train_step_train.json
+4513eed28347185b028ff73f097921ebc5e64f1d data/create_train_parts/recipes/crafting/materials/train_step_andesite.json
+582a87c71270802ab758770b8066dba60f4184ab data/create_train_parts/recipes/crafting/materials/train_step_brass.json
+eb74836e28b47ed6ac53d41ec363206df38bf093 data/create_train_parts/recipes/crafting/materials/train_step_copper.json
+2e39f35ef4643de4c02bceed35da219d7a665004 data/create_train_parts/recipes/crafting/materials/train_step_train.json
